@@ -6,8 +6,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Quarry Sim" />
+  <meta name="application-name" content="Quarry Sim" />
   <meta name="theme-color" content="#14171a" />
-  <title>Quarry Sim — Heavy Iron 3D Simulator</title>
+  <title>Quarry Sim</title>
 
   <!-- Google Fonts: Chakra Petch & Inter for Industrial Telemetry UI -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -222,11 +223,11 @@
     }
 
     .hud-btn {
-      background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
-      color: var(--text-main);
+      background: rgba(14, 18, 24, 0.94);
+      border: 1.5px solid rgba(255, 255, 255, 0.24);
+      color: #f9fafb;
       border-radius: 11px;
-      padding: 8px 10px;
+      padding: 8px 11px;
       font-family: 'Chakra Petch', sans-serif;
       font-weight: 700;
       font-size: 12px;
@@ -236,7 +237,8 @@
       align-items: center;
       justify-content: center;
       gap: 5px;
-      transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
+      transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
       transform: translateZ(0);
     }
 
@@ -245,13 +247,22 @@
     }
 
     .hud-btn.active {
-      background: rgba(245, 184, 0, 0.22);
+      background: linear-gradient(180deg, rgba(42, 34, 14, 0.96), rgba(24, 20, 10, 0.96));
       border-color: var(--accent-yellow);
       color: var(--accent-yellow);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(245, 184, 0, 0.22);
+    }
+
+    .hud-btn.aeb-off {
+      background: linear-gradient(180deg, rgba(64, 16, 16, 0.96), rgba(38, 10, 10, 0.96));
+      border-color: #ef4444;
+      color: #fca5a5;
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
     }
 
     .hud-btn.upgrade-pill {
-      border-color: rgba(56, 189, 248, 0.45);
+      background: linear-gradient(180deg, rgba(16, 34, 48, 0.96), rgba(11, 22, 32, 0.96));
+      border-color: rgba(56, 189, 248, 0.65);
       color: #7dd3fc;
     }
 
@@ -291,13 +302,13 @@
     #cab-monitor-frame {
       position: fixed;
       right: calc(var(--safe-right) + 14px);
-      top: calc(var(--safe-top) + 202px);
-      width: 122px;
-      height: 178px;
+      top: calc(var(--safe-top) + 196px);
+      width: 146px;
+      height: 214px;
       background: #14171c;
-      border: 3px solid #2b313a;
-      border-radius: 14px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.65), inset 0 0 0 1px rgba(255,255,255,0.1);
+      border: 3px solid #333a45;
+      border-radius: 15px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255,255,255,0.12);
       z-index: 12;
       overflow: hidden;
       display: flex;
@@ -307,18 +318,18 @@
     }
 
     .monitor-bezel-top {
-      height: 17px;
+      height: 19px;
       background: #0d1014;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 6px;
+      padding: 0 7px;
       font-family: 'Chakra Petch', sans-serif;
-      font-size: 8px;
+      font-size: 9px;
       font-weight: 700;
       color: #e5e7eb;
       letter-spacing: 0.4px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
     .rec-dot {
@@ -1026,6 +1037,15 @@
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
+    .modal-footer-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
     /* CONTROLS HELP POPUP CARD */
     .controls-help-card {
       max-width: 480px;
@@ -1077,9 +1097,9 @@
         height: 100px;
       }
       #cab-monitor-frame {
-        width: 98px;
-        height: 146px;
-        top: calc(var(--safe-top) + 178px);
+        width: 118px;
+        height: 174px;
+        top: calc(var(--safe-top) + 174px);
         right: calc(var(--safe-right) + 12px);
       }
       .drive-pad {
@@ -1287,17 +1307,15 @@
   <!-- FLEET GARAGE, UPGRADES & SAVE SLOTS MODAL -->
   <div class="modal-backdrop" id="main-modal">
     <div class="modal-card">
-      <div class="modal-header-row">
-        <span class="brand-badge">HEAVY IRON QUARRY OPS • v<span id="app-version-label">1.3.0</span></span>
+      <div class="modal-header-row" style="margin-bottom:4px;">
+        <h1 class="modal-title" style="margin:0;">QUARRY SIM</h1>
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
           <span style="font-family:'Chakra Petch'; font-weight:700; color:#22c55e; font-size:16px;" id="modal-money">$1,250</span>
           <button class="update-status-badge" id="btn-check-update" title="Tap to check server & reload latest version without recreating home screen icon">
-            <span id="update-badge-text">✓ LATEST v1.3.0 • CHECK</span>
+            <span id="update-badge-text">✓ LATEST v1.4.0 • CHECK</span>
           </button>
         </div>
       </div>
-
-      <h1 class="modal-title">QUARRY SIM</h1>
       <p class="modal-subtitle">
         Choose your challenge mode &amp; heavy machine below. Visit the glowing <b>Mission Station</b> on site for procedural contracts!
       </p>
@@ -1402,7 +1420,7 @@
           </div>
         </div>
 
-        <!-- HD-45 Articulated Dumper -->
+        <!-- HD-45 Articulated Hauler -->
         <div class="machine-card" data-machine="dumper">
           <div>
             <div class="machine-card-top">
@@ -1410,7 +1428,7 @@
               <span class="active-machine-pill">SELECTED</span>
             </div>
             <div class="machine-art-box">
-              <!-- Detailed 6x6 Articulated Dumper SVG -->
+              <!-- Detailed 6x6 Articulated Hauler SVG -->
               <svg viewBox="0 0 200 95" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <!-- Heavy Articulated Dump Body -->
                 <path d="M18 28 L98 32 L106 60 L24 60 Z" fill="#f5b800" stroke="#111" stroke-width="2"/>
@@ -1429,7 +1447,7 @@
                 <circle cx="152" cy="70" r="8" fill="#f5b800"/>
               </svg>
             </div>
-            <div class="machine-name">Articulated Dumper</div>
+            <div class="machine-name">Articulated Hauler</div>
             <div class="machine-mode-tag">MODE: EXPRESS HAULER • REAR CAM</div>
           </div>
           <div class="machine-desc">
@@ -1474,11 +1492,11 @@
       </div>
 
       <div class="modal-footer">
-        <div style="font-size:11px; color:#9ca3af; line-height:1.4;">
+        <div style="font-size:11px; color:#9ca3af; line-height:1.4; flex:1; min-width:220px;">
           <b>Desktop:</b> WASD/Arrows Drive • R/F Boom • Q/E Bucket/Bed • <b>Right/Middle Drag</b> Look Around<br/>
-          <b>iPhone/iPad:</b> Left Pad Drive • <b>Drag Screen</b> Look Around • Right Buttons Hydraulics
+          <b>iPhone/iPad:</b> Left Pad Drive • <b>Drag Screen</b> Look Around • Right Buttons Hydraulics • <span style="color:#6b7280;">v<span id="app-version-label">1.4.0</span></span>
         </div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <div class="modal-footer-right">
           <button class="btn-action" id="btn-start-shift">
             ▶ ENTER CAB &amp; START SHIFT
           </button>
@@ -1549,7 +1567,7 @@
      * ============================================================================
      */
 
-    const APP_VERSION = "1.3.0";
+    const APP_VERSION = "1.4.0";
     const STORAGE_KEY = "quarry_sim_3d_saves_v1";
 
     // --------------------------------------------------------------------------
@@ -1562,51 +1580,46 @@
         iconCanvas.height = 512;
         const ctx = iconCanvas.getContext("2d");
 
-        // Rich industrial slate & amber radial backdrop
-        const bgGrad = ctx.createRadialGradient(256, 190, 30, 256, 256, 360);
-        bgGrad.addColorStop(0, "#2c3440");
-        bgGrad.addColorStop(0.58, "#161b22");
-        bgGrad.addColorStop(1, "#090c10");
+        // Rich industrial slate & amber radial backdrop (full bleed for iPadOS rounded mask)
+        const bgGrad = ctx.createRadialGradient(256, 195, 30, 256, 256, 360);
+        bgGrad.addColorStop(0, "#333d4b");
+        bgGrad.addColorStop(0.58, "#181e26");
+        bgGrad.addColorStop(1, "#0b0e13");
         ctx.fillStyle = bgGrad;
         ctx.fillRect(0, 0, 512, 512);
 
-        // Subtle golden quarry horizon glow
-        const glowGrad = ctx.createRadialGradient(256, 245, 10, 256, 245, 210);
-        glowGrad.addColorStop(0, "rgba(245, 184, 0, 0.34)");
+        // Warm golden quarry spotlight glow behind loader
+        const glowGrad = ctx.createRadialGradient(256, 250, 12, 256, 250, 220);
+        glowGrad.addColorStop(0, "rgba(245, 184, 0, 0.38)");
         glowGrad.addColorStop(1, "rgba(245, 184, 0, 0)");
         ctx.fillStyle = glowGrad;
         ctx.fillRect(0, 0, 512, 512);
 
         // Stylized Quarry Mountain Peaks Silhouette
-        ctx.fillStyle = "rgba(255, 255, 255, 0.06)";
+        ctx.fillStyle = "rgba(255, 255, 255, 0.07)";
         ctx.beginPath();
-        ctx.moveTo(0, 340);
-        ctx.lineTo(130, 185);
-        ctx.lineTo(255, 290);
-        ctx.lineTo(385, 165);
-        ctx.lineTo(512, 310);
-        ctx.lineTo(512, 425);
-        ctx.lineTo(0, 425);
+        ctx.moveTo(0, 345);
+        ctx.lineTo(130, 180);
+        ctx.lineTo(255, 288);
+        ctx.lineTo(385, 160);
+        ctx.lineTo(512, 305);
+        ctx.lineTo(512, 430);
+        ctx.lineTo(0, 430);
         ctx.closePath();
         ctx.fill();
-
-        // Precision Rim Border
-        ctx.strokeStyle = "rgba(245, 184, 0, 0.45)";
-        ctx.lineWidth = 10;
-        ctx.strokeRect(14, 14, 484, 484);
 
         // Bottom Industrial Hazard Stripe Bar
         ctx.save();
         ctx.beginPath();
-        ctx.rect(0, 426, 512, 86);
+        ctx.rect(0, 430, 512, 82);
         ctx.clip();
         ctx.fillStyle = "#f5b800";
-        ctx.fillRect(0, 426, 512, 86);
+        ctx.fillRect(0, 430, 512, 82);
         ctx.fillStyle = "#111418";
         for (let x = -80; x < 600; x += 56) {
           ctx.beginPath();
-          ctx.moveTo(x, 426);
-          ctx.lineTo(x + 28, 426);
+          ctx.moveTo(x, 430);
+          ctx.lineTo(x + 28, 430);
           ctx.lineTo(x - 14, 512);
           ctx.lineTo(x - 42, 512);
           ctx.closePath();
@@ -1614,28 +1627,28 @@
         }
         ctx.restore();
 
-        // "QUARRY SIM" Crisp Top Badge
-        ctx.fillStyle = "rgba(15, 20, 26, 0.85)";
+        // Crisp "QUARRY SIM" Header Pill (safe inside iPadOS icon corner radius)
+        ctx.fillStyle = "rgba(15, 20, 26, 0.88)";
         ctx.beginPath();
-        ctx.roundRect(116, 44, 280, 46, 23);
+        ctx.roundRect(126, 52, 260, 44, 22);
         ctx.fill();
         ctx.strokeStyle = "#f5b800";
         ctx.lineWidth = 3;
         ctx.stroke();
 
         ctx.fillStyle = "#f5b800";
-        ctx.font = "900 25px 'Chakra Petch', -apple-system, sans-serif";
+        ctx.font = "900 24px -apple-system, BlinkMacSystemFont, sans-serif";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText("QUARRY SIM", 256, 68);
+        ctx.fillText("QUARRY SIM", 256, 75);
 
         // Detailed Heavy Wheel Loader Emblem (Centered)
         ctx.save();
-        ctx.translate(12, 16);
+        ctx.translate(12, 22);
 
         // Rear Engine Hood & Body
         const bodyGrad = ctx.createLinearGradient(0, 175, 0, 290);
-        bodyGrad.addColorStop(0, "#ffd026");
+        bodyGrad.addColorStop(0, "#ffd43b");
         bodyGrad.addColorStop(1, "#d98a00");
         ctx.fillStyle = bodyGrad;
         ctx.beginPath();
@@ -1711,7 +1724,6 @@
 
         // Heavy Off-Road Tires with Golden Rims
         [136, 276].forEach((wx) => {
-          // Outer tire tread
           ctx.fillStyle = "#0b0d10";
           ctx.beginPath();
           ctx.arc(wx, 296, 54, 0, Math.PI * 2);
@@ -1721,13 +1733,11 @@
           ctx.lineWidth = 6;
           ctx.stroke();
 
-          // Yellow heavy-duty rim
           ctx.fillStyle = "#f5b800";
           ctx.beginPath();
           ctx.arc(wx, 296, 26, 0, Math.PI * 2);
           ctx.fill();
 
-          // Center hub bolts
           ctx.fillStyle = "#181c22";
           ctx.beginPath();
           ctx.arc(wx, 296, 10, 0, Math.PI * 2);
@@ -1738,14 +1748,16 @@
 
         const pngDataUrl = iconCanvas.toDataURL("image/png");
 
-        // Remove any stale icon tags first, then inject fresh PNG icons
-        document.querySelectorAll('link[rel="apple-touch-icon"], link[rel="icon"]').forEach((el) => el.remove());
+        // Remove any stale icon tags first, then inject fresh PNG icons for iPad/iOS Dock & Home Screen
+        document.querySelectorAll('link[rel="apple-touch-icon"], link[rel="apple-touch-icon-precomposed"], link[rel="icon"]').forEach((el) => el.remove());
 
-        const appleIcon = document.createElement("link");
-        appleIcon.rel = "apple-touch-icon";
-        appleIcon.sizes = "512x512";
-        appleIcon.href = pngDataUrl;
-        document.head.appendChild(appleIcon);
+        ["apple-touch-icon", "apple-touch-icon-precomposed"].forEach((relName) => {
+          const appleIcon = document.createElement("link");
+          appleIcon.rel = relName;
+          appleIcon.sizes = "512x512";
+          appleIcon.href = pngDataUrl;
+          document.head.appendChild(appleIcon);
+        });
 
         const favIcon = document.createElement("link");
         favIcon.rel = "icon";
@@ -2840,10 +2852,10 @@
 
       if (mType === "loader") {
         titleEl.textContent = "MODE: CRUSHER FEEDER";
-        descEl.textContent = "Scoop crushed granite or ore piles and load waiting autonomous dump trucks.";
+        descEl.textContent = "Scoop crushed granite or ore piles and load waiting autonomous haulers.";
       } else if (mType === "excavator") {
         titleEl.textContent = "MODE: DEEP VEIN MINING";
-        descEl.textContent = "Dig rich Iron & Gold veins and slew 360° over haul trucks to unload.";
+        descEl.textContent = "Dig rich Iron & Gold veins and slew 360° over articulated haulers to unload.";
       } else {
         titleEl.textContent = "MODE: EXPRESS HAULER";
         descEl.textContent = "Fill bed under the SW Yellow Hopper and dump into the North Crusher!";
@@ -3158,7 +3170,7 @@
           playerState.payload = 0;
           playerState.bucketAngle = 0.85;
           spawnMaterialBurst(truck.root.position.clone().add(new THREE.Vector3(0, 2.5, 0)), MATERIALS[truck.materialType].color, 18);
-          showToast(`LOADED HAUL TRUCK +$${payout}!`);
+          showToast(`LOADED ARTICULATED HAULER +$${payout}!`);
           return true;
         }
       }
@@ -3205,14 +3217,14 @@
               spawnMaterialBurst(new THREE.Vector3(pile.x, 2, pile.z), MATERIALS[pile.type].color, 16);
               showToast(`SCOOPED ${cap.toFixed(1)}t ${MATERIALS[pile.type].name}!`);
             } else {
-              showToast("BUCKET FULL! Drive to a Haul Truck or Crusher.");
+              showToast("BUCKET FULL! Drive to an Articulated Hauler or Crusher.");
             }
             return;
           }
         }
 
         if (unloadToTruckOrCrusher()) return;
-        showToast("Move closer to a Rock Pile to scoop, or a Haul Truck to unload!");
+        showToast("Move closer to a Rock Pile to scoop, or an Articulated Hauler to unload!");
       } else if (mType === "dumper") {
         const dHopper = Math.hypot(playerState.pos.x - siteObjects.hopperZone.x, playerState.pos.z - siteObjects.hopperZone.z);
         if (dHopper < 11.0) {
@@ -3762,9 +3774,8 @@
       const activeYaw = playerState.heading + (m.type === "excavator" ? playerState.slewAngle : m.type === "loader" ? playerState.steerAngle * 0.72 : 0);
 
       if (playerState.cameraMode === "cab") {
-        const cabAnchor = m.cab ? m.cab.cabGroup : m.root;
         m.root.updateMatrixWorld(true);
-        const eyeWorld = playerState.cabEyeLocal ? m.cabEyeLocal.clone() : new THREE.Vector3(0, 2.8, 0.6);
+        const eyeWorld = m.cabEyeLocal ? m.cabEyeLocal.clone() : new THREE.Vector3(0, 2.8, 0.6);
         if (m.type === "loader") {
           m.frontPivot.localToWorld(eyeWorld);
         } else if (m.type === "excavator") {
@@ -3996,7 +4007,7 @@
         btn.textContent = "▶ RESUME SHIFT & APPLY UPGRADES";
         btn.classList.add("resume-style");
       } else if (currentType && currentType !== slot.selectedMachine) {
-        const names = { loader: "WHEEL LOADER", excavator: "EXCAVATOR", dumper: "DUMPER" };
+        const names = { loader: "WHEEL LOADER", excavator: "EXCAVATOR", dumper: "ARTICULATED HAULER" };
         btn.textContent = `🔄 DEPLOY ${names[slot.selectedMachine]}`;
         btn.classList.remove("resume-style");
       } else {
@@ -4005,24 +4016,33 @@
       }
     }
 
+    function resetCameraViewOnModeChange() {
+      playerState.lookYaw = 0;
+      playerState.lookPitch = 0;
+      playerState.auxCamAltMode = false;
+    }
+
     function renderModalLists() {
       const slot = getActiveSlot();
+
+      // Sync Mode Record Subtitles
       recalculateOverallHighScores();
-      document.getElementById("modal-money").textContent = "$" + slot.money.toLocaleString();
+      const oh = saveState.overallHighScores;
+      const recCareerEl = document.getElementById("rec-career");
+      const recRush1El = document.getElementById("rec-rush1");
+      const recRush3El = document.getElementById("rec-rush3");
+      const recRaceEl = document.getElementById("rec-race");
+      if (recCareerEl) recCareerEl.textContent = `Best: $${oh.career.score.toLocaleString()} (${oh.career.name})`;
+      if (recRush1El) recRush1El.textContent = `Best: ${oh.rush1.score.toFixed(1)}t (${oh.rush1.name})`;
+      if (recRush3El) recRush3El.textContent = `Best: ${oh.rush3.score.toFixed(1)}t (${oh.rush3.name})`;
+      if (recRaceEl) recRaceEl.textContent = oh.race.time ? `Best: ${oh.race.time.toFixed(1)}s (${oh.race.name})` : "Best: --.-s • Follow 3D Arrows";
 
-      // Update Mode Cards with Overall Best Records
-      const hs = saveState.overallHighScores;
-      document.getElementById("rec-career").textContent = `Record: $${(hs.career.score || 0).toLocaleString()} (${hs.career.name})`;
-      document.getElementById("rec-rush1").textContent = `Record: ${(hs.rush1.score || 0).toFixed(1)}t (${hs.rush1.name})`;
-      document.getElementById("rec-rush3").textContent = `Record: ${(hs.rush3.score || 0).toFixed(1)}t (${hs.rush3.name})`;
-      document.getElementById("rec-race").textContent = hs.race.time
-        ? `Record: ${hs.race.time.toFixed(1)}s (${hs.race.name})`
-        : "Record: --.-s • Follow 3D Arrows";
-
+      // Highlight selected machine card
       document.querySelectorAll(".machine-card").forEach((card) => {
         card.classList.toggle("selected", card.dataset.machine === slot.selectedMachine);
       });
 
+      // Render Upgrades with Visual Level Pips
       const upgContainer = document.getElementById("upgrades-list");
       upgContainer.innerHTML = "";
       UPGRADE_DEFS.forEach((u) => {
@@ -4032,8 +4052,8 @@
         const canAfford = !isMax && slot.money >= cost;
 
         let pipsHtml = `<div class="lvl-pips">`;
-        for (let p = 1; p <= u.max; p++) {
-          pipsHtml += `<span class="lvl-pip ${p <= lvl ? "filled" : ""}"></span>`;
+        for (let i = 1; i <= u.max; i++) {
+          pipsHtml += `<div class="lvl-pip ${i <= lvl ? "filled" : ""}"></div>`;
         }
         pipsHtml += `</div>`;
 
@@ -4315,6 +4335,7 @@
         playerState.machine.type === slot.selectedMachine;
 
       if (!isCareerResume) {
+        resetCameraViewOnModeChange();
         spawnPlayerMachine(slot.selectedMachine, false);
       }
       playerState.hasStartedFirstShift = true;
@@ -4351,6 +4372,7 @@
       const txt = document.getElementById("aeb-btn-text");
       if (txt) txt.textContent = enabled ? "AEB ON" : "AEB OFF";
       aebBtn.classList.toggle("active", enabled);
+      aebBtn.classList.toggle("aeb-off", !enabled);
     }
     syncAebBtn();
     aebBtn.addEventListener("click", () => {

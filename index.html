@@ -1324,11 +1324,11 @@
 
       <!-- MACHINE & GAME MODE SELECTOR WITH LARGE CUSTOM SVG ICONS -->
       <div class="machine-grid" id="machine-cards-container">
-        <!-- L150H Wheel Loader -->
+        <!-- HL-480 Wheel Loader -->
         <div class="machine-card selected" data-machine="loader">
           <div>
             <div class="machine-card-top">
-              <span class="machine-code">L150H LOADER</span>
+              <span class="machine-code">HL-480 LOADER</span>
               <span class="active-machine-pill">SELECTED</span>
             </div>
             <div class="machine-art-box">
@@ -1363,11 +1363,11 @@
           </div>
         </div>
 
-        <!-- EC210D Crawler Excavator -->
+        <!-- EX-320 Crawler Excavator -->
         <div class="machine-card" data-machine="excavator">
           <div>
             <div class="machine-card-top">
-              <span class="machine-code">EC210D CRAWLER</span>
+              <span class="machine-code">EX-320 CRAWLER</span>
               <span class="active-machine-pill">SELECTED</span>
             </div>
             <div class="machine-art-box">
@@ -1402,11 +1402,11 @@
           </div>
         </div>
 
-        <!-- A45G Articulated Dumper -->
+        <!-- HD-45 Articulated Dumper -->
         <div class="machine-card" data-machine="dumper">
           <div>
             <div class="machine-card-top">
-              <span class="machine-code">A45G 6x6 HAULER</span>
+              <span class="machine-code">HD-45 6x6 HAULER</span>
               <span class="active-machine-pill">SELECTED</span>
             </div>
             <div class="machine-art-box">
@@ -1464,10 +1464,12 @@
           </div>
 
           <div class="sub-panel-title" style="margin-top:8px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.08);">
-            <span>🏆 OVERALL HIGH SCORES</span>
-            <span style="font-size:10px; color:#9ca3af;">ALL PLAYERS</span>
+            <span id="leaderboard-mode-heading">🏆 TOP 3 • CAREER SHIFT</span>
+            <button type="button" class="btn-secondary" id="btn-open-top10" style="padding:3px 9px; font-size:10px; border-color:rgba(245,184,0,0.45); color:#f5b800;">
+              📋 FULL TOP 10 ↗
+            </button>
           </div>
-          <div id="overall-leaderboard-list"></div>
+          <div id="overall-leaderboard-list" style="cursor:pointer;" title="Tap to view full Top 10 ranking"></div>
         </div>
       </div>
 
@@ -1516,6 +1518,29 @@
     </div>
   </div>
 
+  <!-- FULL TOP 10 LEADERBOARD POPUP DIALOG -->
+  <div class="modal-backdrop hidden" id="top10-modal">
+    <div class="modal-card" style="max-width:540px;">
+      <div class="modal-header-row">
+        <span class="brand-badge">QUARRY HALL OF FAME • TOP 10</span>
+        <button type="button" class="btn-secondary" id="btn-close-top10">✕ CLOSE</button>
+      </div>
+      <h2 class="modal-title" id="top10-modal-title" style="font-size:22px; margin-top:8px;">🏆 TOP 10 • CAREER SHIFT</h2>
+      <p class="modal-subtitle" style="margin-bottom:10px;">
+        Switch modes below to inspect the top 10 operators across all saved profiles on this device.
+      </p>
+
+      <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; margin-bottom:12px;" id="top10-mode-tabs">
+        <button type="button" class="btn-secondary top10-tab-btn" data-tmode="career">🏗️ CAREER</button>
+        <button type="button" class="btn-secondary top10-tab-btn" data-tmode="rush1">⏱️ 1-MIN</button>
+        <button type="button" class="btn-secondary top10-tab-btn" data-tmode="rush3">🔥 3-MIN</button>
+        <button type="button" class="btn-secondary top10-tab-btn" data-tmode="race">🏁 RACE</button>
+      </div>
+
+      <div id="top10-full-list" style="display:flex; flex-direction:column; gap:5px; max-height:52vh; overflow-y:auto;"></div>
+    </div>
+  </div>
+
   <script>
     /**
      * ============================================================================
@@ -1537,75 +1562,195 @@
         iconCanvas.height = 512;
         const ctx = iconCanvas.getContext("2d");
 
-        const bgGrad = ctx.createLinearGradient(0, 0, 512, 512);
-        bgGrad.addColorStop(0, "#1e242b");
-        bgGrad.addColorStop(1, "#0d1014");
+        // Rich industrial slate & amber radial backdrop
+        const bgGrad = ctx.createRadialGradient(256, 190, 30, 256, 256, 360);
+        bgGrad.addColorStop(0, "#2c3440");
+        bgGrad.addColorStop(0.58, "#161b22");
+        bgGrad.addColorStop(1, "#090c10");
         ctx.fillStyle = bgGrad;
         ctx.fillRect(0, 0, 512, 512);
 
-        // Hazard diagonal stripes at bottom
-        ctx.fillStyle = "#f5b800";
-        ctx.fillRect(0, 420, 512, 92);
-        ctx.fillStyle = "#14171a";
-        for (let x = -100; x < 600; x += 64) {
-          ctx.beginPath();
-          ctx.moveTo(x, 420);
-          ctx.lineTo(x + 32, 420);
-          ctx.lineTo(x - 16, 512);
-          ctx.lineTo(x - 48, 512);
-          ctx.closePath();
-          ctx.fill();
-        }
+        // Subtle golden quarry horizon glow
+        const glowGrad = ctx.createRadialGradient(256, 245, 10, 256, 245, 210);
+        glowGrad.addColorStop(0, "rgba(245, 184, 0, 0.34)");
+        glowGrad.addColorStop(1, "rgba(245, 184, 0, 0)");
+        ctx.fillStyle = glowGrad;
+        ctx.fillRect(0, 0, 512, 512);
 
-        // Heavy Machine Emblem
-        ctx.fillStyle = "#f5b800";
+        // Stylized Quarry Mountain Peaks Silhouette
+        ctx.fillStyle = "rgba(255, 255, 255, 0.06)";
         ctx.beginPath();
-        ctx.roundRect(96, 130, 210, 145, 26);
-        ctx.fill();
-
-        ctx.fillStyle = "#11161d";
-        ctx.beginPath();
-        ctx.roundRect(124, 152, 120, 78, 12);
-        ctx.fill();
-
-        ctx.strokeStyle = "#f5b800";
-        ctx.lineWidth = 28;
-        ctx.lineCap = "round";
-        ctx.beginPath();
-        ctx.moveTo(285, 220);
-        ctx.lineTo(395, 275);
-        ctx.stroke();
-
-        ctx.fillStyle = "#374151";
-        ctx.beginPath();
-        ctx.moveTo(375, 210);
-        ctx.lineTo(445, 260);
-        ctx.lineTo(425, 345);
-        ctx.lineTo(355, 325);
+        ctx.moveTo(0, 340);
+        ctx.lineTo(130, 185);
+        ctx.lineTo(255, 290);
+        ctx.lineTo(385, 165);
+        ctx.lineTo(512, 310);
+        ctx.lineTo(512, 425);
+        ctx.lineTo(0, 425);
         ctx.closePath();
         ctx.fill();
 
-        [150, 275].forEach((cx) => {
-          ctx.fillStyle = "#090b0d";
+        // Precision Rim Border
+        ctx.strokeStyle = "rgba(245, 184, 0, 0.45)";
+        ctx.lineWidth = 10;
+        ctx.strokeRect(14, 14, 484, 484);
+
+        // Bottom Industrial Hazard Stripe Bar
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(0, 426, 512, 86);
+        ctx.clip();
+        ctx.fillStyle = "#f5b800";
+        ctx.fillRect(0, 426, 512, 86);
+        ctx.fillStyle = "#111418";
+        for (let x = -80; x < 600; x += 56) {
           ctx.beginPath();
-          ctx.arc(cx, 325, 56, 0, Math.PI * 2);
+          ctx.moveTo(x, 426);
+          ctx.lineTo(x + 28, 426);
+          ctx.lineTo(x - 14, 512);
+          ctx.lineTo(x - 42, 512);
+          ctx.closePath();
           ctx.fill();
+        }
+        ctx.restore();
+
+        // "QUARRY SIM" Crisp Top Badge
+        ctx.fillStyle = "rgba(15, 20, 26, 0.85)";
+        ctx.beginPath();
+        ctx.roundRect(116, 44, 280, 46, 23);
+        ctx.fill();
+        ctx.strokeStyle = "#f5b800";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        ctx.fillStyle = "#f5b800";
+        ctx.font = "900 25px 'Chakra Petch', -apple-system, sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("QUARRY SIM", 256, 68);
+
+        // Detailed Heavy Wheel Loader Emblem (Centered)
+        ctx.save();
+        ctx.translate(12, 16);
+
+        // Rear Engine Hood & Body
+        const bodyGrad = ctx.createLinearGradient(0, 175, 0, 290);
+        bodyGrad.addColorStop(0, "#ffd026");
+        bodyGrad.addColorStop(1, "#d98a00");
+        ctx.fillStyle = bodyGrad;
+        ctx.beginPath();
+        ctx.roundRect(72, 195, 136, 86, 16);
+        ctx.fill();
+
+        // Dark Grille & Counterweight
+        ctx.fillStyle = "#1e232a";
+        ctx.beginPath();
+        ctx.roundRect(62, 204, 24, 72, 8);
+        ctx.fill();
+
+        // Operator Cab Frame & Tinted Glass
+        ctx.fillStyle = "#11161d";
+        ctx.beginPath();
+        ctx.moveTo(165, 132);
+        ctx.lineTo(246, 132);
+        ctx.lineTo(264, 200);
+        ctx.lineTo(165, 200);
+        ctx.closePath();
+        ctx.fill();
+        ctx.lineWidth = 8;
+        ctx.strokeStyle = "#f5b800";
+        ctx.stroke();
+
+        // Cab Roof Visor
+        ctx.fillStyle = "#f5b800";
+        ctx.beginPath();
+        ctx.roundRect(156, 122, 98, 13, 6);
+        ctx.fill();
+
+        // Front Chassis Frame
+        ctx.fillStyle = "#262b33";
+        ctx.fillRect(204, 232, 92, 46);
+
+        // Hydraulic Lift Boom Arm
+        ctx.strokeStyle = "#f5b800";
+        ctx.lineWidth = 24;
+        ctx.lineCap = "round";
+        ctx.beginPath();
+        ctx.moveTo(256, 214);
+        ctx.lineTo(358, 248);
+        ctx.stroke();
+
+        // Chrome Hydraulic Piston
+        ctx.strokeStyle = "#cbd5e1";
+        ctx.lineWidth = 10;
+        ctx.beginPath();
+        ctx.moveTo(252, 184);
+        ctx.lineTo(334, 212);
+        ctx.stroke();
+
+        // Rock Mound inside Bucket
+        ctx.fillStyle = "#9ca3af";
+        ctx.beginPath();
+        ctx.moveTo(352, 216);
+        ctx.quadraticCurveTo(395, 174, 434, 226);
+        ctx.closePath();
+        ctx.fill();
+
+        // Heavy Steel Rock Bucket with Teeth
+        ctx.fillStyle = "#374151";
+        ctx.strokeStyle = "#111418";
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.moveTo(348, 210);
+        ctx.lineTo(438, 226);
+        ctx.lineTo(426, 304);
+        ctx.lineTo(344, 294);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // Heavy Off-Road Tires with Golden Rims
+        [136, 276].forEach((wx) => {
+          // Outer tire tread
+          ctx.fillStyle = "#0b0d10";
+          ctx.beginPath();
+          ctx.arc(wx, 296, 54, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.strokeStyle = "#2d333b";
+          ctx.lineWidth = 6;
+          ctx.stroke();
+
+          // Yellow heavy-duty rim
           ctx.fillStyle = "#f5b800";
           ctx.beginPath();
-          ctx.arc(cx, 325, 26, 0, Math.PI * 2);
+          ctx.arc(wx, 296, 26, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Center hub bolts
+          ctx.fillStyle = "#181c22";
+          ctx.beginPath();
+          ctx.arc(wx, 296, 10, 0, Math.PI * 2);
           ctx.fill();
         });
 
+        ctx.restore();
+
         const pngDataUrl = iconCanvas.toDataURL("image/png");
+
+        // Remove any stale icon tags first, then inject fresh PNG icons
+        document.querySelectorAll('link[rel="apple-touch-icon"], link[rel="icon"]').forEach((el) => el.remove());
 
         const appleIcon = document.createElement("link");
         appleIcon.rel = "apple-touch-icon";
+        appleIcon.sizes = "512x512";
         appleIcon.href = pngDataUrl;
         document.head.appendChild(appleIcon);
 
         const favIcon = document.createElement("link");
         favIcon.rel = "icon";
         favIcon.type = "image/png";
+        favIcon.sizes = "512x512";
         favIcon.href = pngDataUrl;
         document.head.appendChild(favIcon);
       } catch (err) {
@@ -3982,35 +4127,143 @@
         slotsContainer.appendChild(row);
       });
 
-      // Render Shared Overall High Scores Across All Players
+      // Render Top 3 Ranking Dynamically Linked to Selected Gameplay Mode
+      const lbHeading = document.getElementById("leaderboard-mode-heading");
       const lbContainer = document.getElementById("overall-leaderboard-list");
+      const modeNames = {
+        career: "🏆 TOP 3 • CAREER SHIFT",
+        rush1: "⏱️ TOP 3 • 1-MIN RUSH",
+        rush3: "🔥 TOP 3 • 3-MIN BLITZ",
+        race: "🏁 TOP 3 • RALLY RACE"
+      };
+      if (lbHeading) {
+        lbHeading.textContent = modeNames[playerState.playMode] || "🏆 MODE TOP 3";
+      }
+
       if (lbContainer) {
-        lbContainer.innerHTML = `
-          <div class="leaderboard-row">
-            <span class="lb-mode">🏗️ Career Top</span>
-            <span>${hs.career.name}</span>
-            <span class="lb-val">$${(hs.career.score || 0).toLocaleString()}</span>
-          </div>
-          <div class="leaderboard-row">
-            <span class="lb-mode">⏱️ 1-Min Rush</span>
-            <span>${hs.rush1.name}</span>
-            <span class="lb-val">${(hs.rush1.score || 0).toFixed(1)}t</span>
-          </div>
-          <div class="leaderboard-row">
-            <span class="lb-mode">🔥 3-Min Blitz</span>
-            <span>${hs.rush3.name}</span>
-            <span class="lb-val">${(hs.rush3.score || 0).toFixed(1)}t</span>
-          </div>
-          <div class="leaderboard-row">
-            <span class="lb-mode">🏁 Rally Race</span>
-            <span>${hs.race.name}</span>
-            <span class="lb-val">${hs.race.time ? hs.race.time.toFixed(1) + "s" : "--.-s"}</span>
+        const ranked = getRankedEntriesForMode(playerState.playMode, 3);
+        const medals = ["🥇 #1", "🥈 #2", "🥉 #3"];
+        let rowsHtml = "";
+        for (let i = 0; i < 3; i++) {
+          const entry = ranked[i];
+          rowsHtml += `
+            <div class="leaderboard-row">
+              <span class="lb-mode">${medals[i]}</span>
+              <span style="flex:1; margin:0 8px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${entry ? entry.name : "—"}</span>
+              <span class="lb-val">${entry ? entry.val : "—"}</span>
+            </div>
+          `;
+        }
+        rowsHtml += `
+          <div style="text-align:center; font-size:10px; color:#f5b800; font-family:'Chakra Petch',sans-serif; font-weight:700; margin-top:4px; letter-spacing:0.4px;">
+            TAP TO VIEW FULL TOP 10 LIST →
           </div>
         `;
+        lbContainer.innerHTML = rowsHtml;
       }
 
       syncStartShiftButtonLabel();
     }
+
+    function getRankedEntriesForMode(modeKey, limit = 10) {
+      if (modeKey === "career") {
+        return [...saveState.slots]
+          .sort((a, b) => (b.money || 0) - (a.money || 0))
+          .slice(0, limit)
+          .map((s) => ({ id: s.id, name: s.name, val: `$${(s.money || 0).toLocaleString()}` }));
+      }
+      if (modeKey === "rush1") {
+        return [...saveState.slots]
+          .filter((s) => (s.bestRush1Tons || 0) > 0)
+          .sort((a, b) => (b.bestRush1Tons || 0) - (a.bestRush1Tons || 0))
+          .slice(0, limit)
+          .map((s) => ({ id: s.id, name: s.name, val: `${s.bestRush1Tons.toFixed(1)}t` }));
+      }
+      if (modeKey === "rush3") {
+        return [...saveState.slots]
+          .filter((s) => (s.bestRush3Tons || 0) > 0)
+          .sort((a, b) => (b.bestRush3Tons || 0) - (a.bestRush3Tons || 0))
+          .slice(0, limit)
+          .map((s) => ({ id: s.id, name: s.name, val: `${s.bestRush3Tons.toFixed(1)}t` }));
+      }
+      if (modeKey === "race") {
+        return [...saveState.slots]
+          .filter((s) => typeof s.bestRaceTime === "number" && s.bestRaceTime > 0)
+          .sort((a, b) => a.bestRaceTime - b.bestRaceTime)
+          .slice(0, limit)
+          .map((s) => ({ id: s.id, name: s.name, val: `${s.bestRaceTime.toFixed(1)}s` }));
+      }
+      return [];
+    }
+
+    function openTop10Modal(initialMode = playerState.playMode) {
+      const modal = document.getElementById("top10-modal");
+      const titleEl = document.getElementById("top10-modal-title");
+      const listEl = document.getElementById("top10-full-list");
+      const fullModeTitles = {
+        career: "🏗️ TOP 10 • CAREER SHIFT",
+        rush1: "⏱️ TOP 10 • 1-MIN TONNAGE RUSH",
+        rush3: "🔥 TOP 10 • 3-MIN SHIFT BLITZ",
+        race: "🏁 TOP 10 • QUARRY RALLY RACE"
+      };
+
+      titleEl.textContent = fullModeTitles[initialMode] || "🏆 TOP 10 LEADERBOARD";
+
+      document.querySelectorAll(".top10-tab-btn").forEach((btn) => {
+        const active = btn.dataset.tmode === initialMode;
+        btn.style.borderColor = active ? "#f5b800" : "rgba(255,255,255,0.18)";
+        btn.style.background = active ? "rgba(245,184,0,0.22)" : "rgba(255,255,255,0.09)";
+        btn.style.color = active ? "#f5b800" : "#ffffff";
+      });
+
+      const entries = getRankedEntriesForMode(initialMode, 10);
+      const activeSlotId = saveState.activeSlotId;
+      let html = "";
+      for (let i = 0; i < 10; i++) {
+        const item = entries[i];
+        const rankBadge = i === 0 ? "🥇 #1" : i === 1 ? "🥈 #2" : i === 2 ? "🥉 #3" : `#${i + 1}`;
+        const isCurrentPlayer = item && item.id === activeSlotId;
+        html += `
+          <div class="leaderboard-row" style="padding:7px 10px; ${isCurrentPlayer ? "border:1px solid #22c55e; background:rgba(34,197,94,0.12);" : ""}">
+            <span class="lb-mode" style="min-width:46px; color:${i < 3 ? "#f5b800" : "#9ca3af"};">${rankBadge}</span>
+            <span style="flex:1; margin:0 8px; font-weight:${isCurrentPlayer ? "700" : "500"}; color:${item ? "#fff" : "#6b7280"}; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+              ${item ? item.name + (isCurrentPlayer ? " (YOU)" : "") : "Open Slot"}
+            </span>
+            <span class="lb-val" style="font-size:12px;">${item ? item.val : "—"}</span>
+          </div>
+        `;
+      }
+      listEl.innerHTML = html;
+      modal.classList.remove("hidden");
+    }
+
+    document.getElementById("btn-open-top10").addEventListener("click", () => openTop10Modal(playerState.playMode));
+    document.getElementById("overall-leaderboard-list").addEventListener("click", () => openTop10Modal(playerState.playMode));
+    document.getElementById("btn-close-top10").addEventListener("click", () => {
+      document.getElementById("top10-modal").classList.add("hidden");
+    });
+    document.querySelectorAll(".top10-tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => openTop10Modal(btn.dataset.tmode));
+    });
+
+    // Close any popup dialog when clicking outside its card on the dark backdrop
+    document.getElementById("controls-modal").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) {
+        document.getElementById("controls-modal").classList.add("hidden");
+      }
+    });
+
+    document.getElementById("top10-modal").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) {
+        document.getElementById("top10-modal").classList.add("hidden");
+      }
+    });
+
+    document.getElementById("main-modal").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) {
+        document.getElementById("btn-start-shift").click();
+      }
+    });
 
     document.querySelectorAll(".machine-card").forEach((card) => {
       card.addEventListener("click", () => {
@@ -4028,7 +4281,7 @@
         document.querySelectorAll(".playmode-pill").forEach((p) => p.classList.remove("selected"));
         pill.classList.add("selected");
         playerState.playMode = pill.dataset.playmode;
-        syncStartShiftButtonLabel();
+        renderModalLists();
       });
     });
 

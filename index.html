@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Quarry Master" />
+  <meta name="apple-mobile-web-app-title" content="Quarry Sim" />
   <meta name="theme-color" content="#14171a" />
-  <title>QUARRY MASTER 3D — Heavy Iron Simulator</title>
+  <title>Quarry Sim — Heavy Iron 3D Simulator</title>
 
   <!-- Google Fonts: Chakra Petch & Inter for Industrial Telemetry UI -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,7 +20,7 @@
   <style>
     :root {
       --bg-dark: #0f1215;
-      --panel-bg: rgba(18, 22, 27, 0.86);
+      --panel-bg: rgba(16, 20, 26, 0.88);
       --panel-border: rgba(255, 255, 255, 0.14);
       --accent-yellow: #f5b800;
       --accent-amber: #ff8c00;
@@ -101,8 +101,8 @@
       align-items: center;
       gap: 8px;
       background: var(--panel-bg);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--panel-border);
       border-radius: 14px;
       padding: 7px 12px;
@@ -143,7 +143,7 @@
 
     /* MISSION OBJECTIVE BANNER */
     .mission-box {
-      background: linear-gradient(135deg, rgba(20, 25, 31, 0.92), rgba(32, 38, 46, 0.88));
+      background: linear-gradient(135deg, rgba(18, 23, 30, 0.92), rgba(28, 35, 44, 0.88));
       border-left: 4px solid var(--accent-yellow);
       border-top: 1px solid var(--panel-border);
       border-right: 1px solid var(--panel-border);
@@ -167,11 +167,11 @@
     }
 
     .mission-text {
-      font-size: 13px;
-      font-weight: 600;
-      color: #fff;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #f9fafb;
       margin-top: 2px;
-      line-height: 1.3;
+      line-height: 1.32;
     }
 
     .progress-track {
@@ -218,7 +218,7 @@
       align-items: center;
       justify-content: center;
       gap: 5px;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
       transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
     }
 
@@ -232,11 +232,16 @@
       color: var(--accent-yellow);
     }
 
+    .hud-btn.upgrade-pill {
+      border-color: rgba(56, 189, 248, 0.45);
+      color: #7dd3fc;
+    }
+
     /* MINIMAP CARD */
     .minimap-wrap {
       position: relative;
-      width: 132px;
-      height: 132px;
+      width: 128px;
+      height: 128px;
       border-radius: 16px;
       overflow: hidden;
       background: rgba(12, 16, 20, 0.92);
@@ -264,13 +269,13 @@
       letter-spacing: 0.6px;
     }
 
-    /* PORTRAIT CAB MONITOR (REAR / WORK CAMERA OVERLAY) */
+    /* PORTRAIT CAB MONITOR (REAR CAM OR STITCHED 360° CAM FOR EXCAVATOR) */
     #cab-monitor-frame {
       position: fixed;
       right: calc(var(--safe-right) + 14px);
-      top: calc(var(--safe-top) + 196px);
-      width: 118px;
-      height: 174px;
+      top: calc(var(--safe-top) + 192px);
+      width: 122px;
+      height: 178px;
       background: #14171c;
       border: 3px solid #2b313a;
       border-radius: 14px;
@@ -284,7 +289,7 @@
     }
 
     .monitor-bezel-top {
-      height: 16px;
+      height: 17px;
       background: #0d1014;
       display: flex;
       align-items: center;
@@ -293,8 +298,8 @@
       font-family: 'Chakra Petch', sans-serif;
       font-size: 8px;
       font-weight: 700;
-      color: #9ca3af;
-      letter-spacing: 0.5px;
+      color: #e5e7eb;
+      letter-spacing: 0.4px;
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
@@ -340,7 +345,7 @@
       left: 0;
       right: 0;
       padding: 3px 5px;
-      background: rgba(0, 0, 0, 0.72);
+      background: rgba(0, 0, 0, 0.76);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -392,16 +397,16 @@
     }
 
     .toast-msg {
-      background: rgba(17, 24, 39, 0.92);
+      background: rgba(15, 21, 30, 0.94);
       border: 1px solid var(--accent-yellow);
       color: #fff;
       padding: 6px 14px;
       border-radius: 999px;
       font-family: 'Chakra Petch', sans-serif;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
-      animation: toastPop 2.4s forwards;
+      animation: toastPop 2.5s forwards;
     }
 
     @keyframes toastPop {
@@ -426,7 +431,7 @@
       width: 132px;
       height: 132px;
       border-radius: 50%;
-      background: rgba(18, 22, 27, 0.72);
+      background: rgba(18, 22, 27, 0.74);
       border: 2px solid rgba(255, 255, 255, 0.16);
       backdrop-filter: blur(8px);
       display: flex;
@@ -530,7 +535,7 @@
 
     .hyd-grid {
       display: grid;
-      grid-template-columns: repeat(2, 62px);
+      grid-template-columns: repeat(2, 64px);
       gap: 7px;
     }
 
@@ -567,8 +572,8 @@
       background: linear-gradient(135deg, #f5b800, #d97706);
       color: #111;
       border: none;
-      font-size: 13px;
-      letter-spacing: 0.5px;
+      font-size: 12.5px;
+      letter-spacing: 0.4px;
     }
 
     .hyd-btn.primary-action:active {
@@ -580,13 +585,13 @@
       position: fixed;
       inset: 0;
       z-index: 50;
-      background: rgba(9, 12, 16, 0.86);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(8, 11, 15, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: calc(var(--safe-top) + 16px) calc(var(--safe-right) + 16px) calc(var(--safe-bottom) + 16px) calc(var(--safe-left) + 16px);
+      padding: calc(var(--safe-top) + 12px) calc(var(--safe-right) + 12px) calc(var(--safe-bottom) + 12px) calc(var(--safe-left) + 12px);
       overflow-y: auto;
     }
 
@@ -596,83 +601,97 @@
 
     .modal-card {
       width: 100%;
-      max-width: 780px;
-      max-height: 92vh;
+      max-width: 840px;
+      max-height: 94vh;
       overflow-y: auto;
-      background: linear-gradient(160deg, #161b22 0%, #0f1318 100%);
+      background: linear-gradient(165deg, #171d26 0%, #0d1117 100%);
       border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 22px;
-      padding: 22px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+      padding: 18px 20px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
     }
 
     .brand-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(245, 184, 0, 0.15);
-      border: 1px solid rgba(245, 184, 0, 0.4);
+      background: rgba(245, 184, 0, 0.14);
+      border: 1px solid rgba(245, 184, 0, 0.38);
       color: var(--accent-yellow);
-      padding: 4px 10px;
+      padding: 3px 10px;
       border-radius: 999px;
       font-family: 'Chakra Petch', sans-serif;
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0.9px;
       text-transform: uppercase;
+    }
+
+    .modal-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .modal-title {
       font-family: 'Chakra Petch', sans-serif;
-      font-size: clamp(24px, 4.5vw, 34px);
+      font-size: clamp(24px, 4.2vw, 32px);
       font-weight: 700;
-      margin: 8px 0 4px;
-      letter-spacing: 0.5px;
+      margin: 6px 0 2px;
+      letter-spacing: 0.6px;
       color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .modal-subtitle {
       color: var(--text-muted);
-      font-size: 13px;
-      margin: 0 0 18px;
-      line-height: 1.45;
+      font-size: 12.5px;
+      margin: 0 0 14px;
+      line-height: 1.4;
     }
 
-    /* MACHINE SELECTION CARDS */
+    /* MACHINE SELECTION CARDS WITH LARGE CUSTOM VECTOR ICONS */
     .machine-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
-      gap: 12px;
-      margin-bottom: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 11px;
+      margin-bottom: 14px;
     }
 
     .machine-card {
-      background: rgba(255, 255, 255, 0.04);
+      position: relative;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
       border: 2px solid rgba(255, 255, 255, 0.1);
       border-radius: 16px;
-      padding: 14px;
+      padding: 12px 14px;
       cursor: pointer;
-      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 8px;
+      gap: 6px;
     }
 
     .machine-card:hover {
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.075);
+      transform: translateY(-2px);
     }
 
     .machine-card.selected {
       border-color: var(--accent-yellow);
-      background: rgba(245, 184, 0, 0.11);
-      box-shadow: 0 0 24px rgba(245, 184, 0, 0.18);
+      background: linear-gradient(180deg, rgba(245, 184, 0, 0.15) 0%, rgba(245, 184, 0, 0.05) 100%);
+      box-shadow: 0 8px 28px rgba(245, 184, 0, 0.18);
     }
 
     .machine-card-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 6px;
     }
 
     .machine-code {
@@ -680,9 +699,46 @@
       font-size: 11px;
       font-weight: 700;
       color: var(--accent-yellow);
-      background: rgba(245, 184, 0, 0.15);
-      padding: 2px 7px;
+      background: rgba(245, 184, 0, 0.16);
+      padding: 2px 8px;
       border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .active-machine-pill {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      color: #111;
+      background: var(--accent-green);
+      padding: 2px 7px;
+      border-radius: 999px;
+      display: none;
+    }
+
+    .machine-card.selected .active-machine-pill {
+      display: inline-block;
+    }
+
+    /* LARGE MACHINE SVG ARTWORK CONTAINER */
+    .machine-art-box {
+      width: 100%;
+      height: 76px;
+      background: radial-gradient(circle at 50% 65%, rgba(245, 184, 0, 0.14), rgba(0, 0, 0, 0.25));
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px;
+      margin: 4px 0;
+    }
+
+    .machine-art-box svg {
+      width: 100%;
+      height: 100%;
+      max-width: 170px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
     }
 
     .machine-name {
@@ -690,10 +746,11 @@
       font-size: 17px;
       font-weight: 700;
       color: #fff;
-      margin: 4px 0 2px;
+      margin: 0;
     }
 
     .machine-mode-tag {
+      font-family: 'Chakra Petch', sans-serif;
       font-size: 11px;
       font-weight: 700;
       color: var(--accent-cyan);
@@ -702,34 +759,34 @@
     }
 
     .machine-desc {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-muted);
-      line-height: 1.4;
+      line-height: 1.38;
     }
 
     /* UPGRADE & SAVE SLOTS GRID */
     .two-col-section {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 14px;
-      margin-bottom: 18px;
+      gap: 12px;
+      margin-bottom: 14px;
     }
 
     .sub-panel {
-      background: rgba(0, 0, 0, 0.32);
+      background: rgba(0, 0, 0, 0.36);
       border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: 14px;
-      padding: 12px;
+      padding: 11px 12px;
     }
 
     .sub-panel-title {
       font-family: 'Chakra Petch', sans-serif;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.7px;
       color: var(--accent-yellow);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -740,10 +797,10 @@
       justify-content: space-between;
       align-items: center;
       gap: 8px;
-      padding: 8px 10px;
+      padding: 7px 9px;
       border-radius: 10px;
       background: rgba(255, 255, 255, 0.04);
-      margin-bottom: 7px;
+      margin-bottom: 6px;
       border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
@@ -753,7 +810,25 @@
 
     .slot-item.active-slot {
       border-color: var(--accent-green);
-      background: rgba(34, 197, 94, 0.09);
+      background: rgba(34, 197, 94, 0.1);
+    }
+
+    /* LEVEL PIP DOTS FOR UPGRADES */
+    .lvl-pips {
+      display: flex;
+      gap: 3px;
+      margin-top: 3px;
+    }
+
+    .lvl-pip {
+      width: 14px;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .lvl-pip.filled {
+      background: var(--accent-yellow);
     }
 
     .btn-action {
@@ -761,18 +836,24 @@
       color: #111;
       border: none;
       border-radius: 12px;
-      padding: 12px 20px;
+      padding: 11px 18px;
       font-family: 'Chakra Petch', sans-serif;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 14.5px;
       letter-spacing: 0.6px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 8px 22px rgba(245, 184, 0, 0.3);
+      box-shadow: 0 8px 22px rgba(245, 184, 0, 0.32);
       transition: transform 0.12s ease, filter 0.15s ease;
+    }
+
+    .btn-action.resume-style {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #fff;
+      box-shadow: 0 8px 22px rgba(34, 197, 94, 0.32);
     }
 
     .btn-action:active {
@@ -780,19 +861,26 @@
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.09);
       color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 9px;
       padding: 6px 11px;
       font-family: 'Chakra Petch', sans-serif;
       font-weight: 700;
       font-size: 11px;
       cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .btn-secondary.buy-ready {
+      background: rgba(245, 184, 0, 0.2);
+      border-color: var(--accent-yellow);
+      color: var(--accent-yellow);
     }
 
     .btn-secondary:disabled {
-      opacity: 0.45;
+      opacity: 0.42;
       cursor: not-allowed;
     }
 
@@ -802,7 +890,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      padding-top: 12px;
+      padding-top: 10px;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
@@ -822,13 +910,13 @@
         font-size: 14px;
       }
       .minimap-wrap {
-        width: 104px;
-        height: 104px;
+        width: 102px;
+        height: 102px;
       }
       #cab-monitor-frame {
-        width: 96px;
-        height: 144px;
-        top: calc(var(--safe-top) + 162px);
+        width: 98px;
+        height: 146px;
+        top: calc(var(--safe-top) + 160px);
         right: calc(var(--safe-right) + 10px);
       }
       .drive-pad {
@@ -855,7 +943,10 @@
         font-size: 10px;
       }
       .mission-text {
-        font-size: 11.5px;
+        font-size: 11px;
+      }
+      .machine-art-box {
+        height: 62px;
       }
     }
   </style>
@@ -889,7 +980,7 @@
           </div>
           <div class="divider-v"></div>
           <div class="stat-pill">
-            <span class="label">STREAK</span>
+            <span class="label">COMBO</span>
             <span id="hud-streak" style="color:#38bdf8;">x1.0</span>
           </div>
         </div>
@@ -914,7 +1005,7 @@
         <div class="icon-btn-row pointer-auto">
           <button class="hud-btn active" id="btn-cam-toggle" title="Switch Cab / Chase Camera">🎥 CAB</button>
           <button class="hud-btn" id="btn-mute" title="Toggle Audio">🔊</button>
-          <button class="hud-btn" id="btn-menu" title="Fleet, Upgrades & Saves">☰ FLEET</button>
+          <button class="hud-btn upgrade-pill" id="btn-menu" title="Fleet, Upgrades & Saves">⚙️ GARAGE</button>
         </div>
 
         <div class="minimap-wrap pointer-auto">
@@ -924,26 +1015,44 @@
       </div>
     </div>
 
-    <!-- PORTRAIT CAB DISPLAY SCREEN (LIVE REAR / BOOM CAMERA + PROXIMITY OVERLAY) -->
-    <div id="cab-monitor-frame" title="Tap to toggle Rear / Boom Camera">
+    <!-- PORTRAIT CAB DISPLAY SCREEN (REAR CAM FOR LOADER/DUMPER, STITCHED 360° VIEW FOR EXCAVATOR) -->
+    <div id="cab-monitor-frame" title="Tap to toggle camera feed mode">
       <div class="monitor-bezel-top">
         <span id="cam-feed-label">REAR CAM</span>
         <span class="rec-dot"></span>
       </div>
       <div id="rear-cam-screen">
         <canvas id="rear-cam-canvas" width="180" height="260"></canvas>
-        <!-- DYNAMIC SVG SAFETY & TRAJECTORY OVERLAY -->
+
+        <!-- OVERLAY FOR STANDARD REAR CAMERA (LOADER & DUMPER) -->
         <svg id="cam-overlay-svg" viewBox="0 0 100 140" preserveAspectRatio="none">
-          <!-- Reverse Guide Lines -->
           <path d="M 18 135 L 34 78" stroke="#ef4444" stroke-width="1.6" stroke-dasharray="3,2" fill="none" opacity="0.85"/>
           <path d="M 82 135 L 66 78" stroke="#ef4444" stroke-width="1.6" stroke-dasharray="3,2" fill="none" opacity="0.85"/>
           <path d="M 34 78 L 42 48" stroke="#f5b800" stroke-width="1.4" fill="none" opacity="0.8"/>
           <path d="M 66 78 L 58 48" stroke="#f5b800" stroke-width="1.4" fill="none" opacity="0.8"/>
           <line x1="34" y1="78" x2="66" y2="78" stroke="#ef4444" stroke-width="1.2" opacity="0.8"/>
           <line x1="42" y1="48" x2="58" y2="48" stroke="#22c55e" stroke-width="1.2" opacity="0.8"/>
-          <!-- Proximity Arc -->
           <path id="radar-arc" d="M 22 124 Q 50 108 78 124" stroke="#22c55e" stroke-width="3" fill="none" />
         </svg>
+
+        <!-- OVERLAY FOR STITCHED 360° SURROUND CAMERA (EXCAVATOR) -->
+        <svg id="cam-360-overlay-svg" viewBox="0 0 100 140" preserveAspectRatio="none" style="display:none;">
+          <!-- 4-Camera Stitch Seam Lines -->
+          <line x1="0" y1="0" x2="100" y2="140" stroke="rgba(56,189,248,0.32)" stroke-width="0.9" stroke-dasharray="2,2"/>
+          <line x1="100" y1="0" x2="0" y2="140" stroke="rgba(56,189,248,0.32)" stroke-width="0.9" stroke-dasharray="2,2"/>
+          <!-- Swing Radius Clearance Rings -->
+          <circle id="ring-360-outer" cx="50" cy="70" r="42" stroke="#22c55e" stroke-width="1.3" stroke-dasharray="4,2" fill="none" opacity="0.85"/>
+          <circle id="ring-360-inner" cx="50" cy="70" r="26" stroke="#f5b800" stroke-width="1.2" fill="none" opacity="0.75"/>
+          <!-- Top-down Excavator Silhouette Center -->
+          <rect x="43" y="59" width="14" height="22" rx="2" fill="#f5b800" stroke="#111" stroke-width="1.2"/>
+          <rect x="47" y="42" width="6" height="19" rx="1" fill="#374151" stroke="#f5b800" stroke-width="0.9"/>
+          <!-- Cardinal Stitch Labels -->
+          <text x="50" y="9" fill="#38bdf8" font-size="6.5" font-family="monospace" font-weight="bold" text-anchor="middle">FRONT</text>
+          <text x="50" y="126" fill="#38bdf8" font-size="6.5" font-family="monospace" font-weight="bold" text-anchor="middle">REAR</text>
+          <text x="8" y="72" fill="#38bdf8" font-size="6" font-family="monospace" font-weight="bold">L</text>
+          <text x="92" y="72" fill="#38bdf8" font-size="6" font-family="monospace" font-weight="bold" text-anchor="end">R</text>
+        </svg>
+
         <div class="cam-status-bar">
           <span id="cam-dist-readout" style="color:#22c55e;">CLR &gt;8m</span>
           <span id="cam-assist-tag" style="color:#9ca3af;">AEB ON</span>
@@ -990,66 +1099,134 @@
     </div>
   </div>
 
-  <!-- FLEET, UPGRADES & SAVE SLOTS MODAL -->
+  <!-- FLEET GARAGE, UPGRADES & SAVE SLOTS MODAL -->
   <div class="modal-backdrop" id="main-modal">
     <div class="modal-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-        <span class="brand-badge">HEAVY IRON QUARRY OPS • v<span id="app-version-label">1.0.4</span></span>
-        <div style="display:flex; gap:6px; align-items:center;">
-          <span style="font-family:'Chakra Petch'; font-weight:700; color:#22c55e; font-size:15px;" id="modal-money">$1,250</span>
+      <div class="modal-header-row">
+        <span class="brand-badge">HEAVY IRON QUARRY OPS • v<span id="app-version-label">1.1.0</span></span>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <span style="font-family:'Chakra Petch'; font-weight:700; color:#22c55e; font-size:16px;" id="modal-money">$1,250</span>
           <button class="btn-secondary" id="btn-check-update" title="Check for latest version">↻ UPDATE</button>
         </div>
       </div>
 
-      <h1 class="modal-title">QUARRY MASTER 3D</h1>
+      <h1 class="modal-title">QUARRY SIM</h1>
       <p class="modal-subtitle">
-        Operate heavy machinery inside a live 3D quarry. Extract granite, iron ore, and gold veins, load autonomous haul trucks, and watch your crew safely with active AI proximity auto-braking.
+        Select your heavy machine or upgrade your fleet below. Upgrades apply immediately to your current shift without resetting your progress!
       </p>
 
-      <!-- MACHINE & GAME MODE SELECTOR -->
+      <!-- MACHINE & GAME MODE SELECTOR WITH LARGE CUSTOM SVG ICONS -->
       <div class="machine-grid" id="machine-cards-container">
         <!-- L150H Wheel Loader -->
         <div class="machine-card selected" data-machine="loader">
           <div>
             <div class="machine-card-top">
               <span class="machine-code">L150H LOADER</span>
-              <span style="font-size:18px;">🚜</span>
+              <span class="active-machine-pill">SELECTED</span>
+            </div>
+            <div class="machine-art-box">
+              <!-- Detailed Wheel Loader SVG -->
+              <svg viewBox="0 0 200 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Hydraulic Boom & Linkage -->
+                <path d="M112 44 L156 54 L152 64 L108 54 Z" fill="#f5b800" stroke="#111" stroke-width="2"/>
+                <path d="M114 36 L146 42" stroke="#9ca3af" stroke-width="4" stroke-linecap="round"/>
+                <!-- Heavy Rock Bucket -->
+                <path d="M152 44 L182 54 L176 80 L146 76 L148 56 Z" fill="#374151" stroke="#111" stroke-width="2"/>
+                <path d="M154 48 C164 42, 174 46, 179 54" fill="#78716c"/>
+                <!-- Main Body & Engine Hood -->
+                <rect x="28" y="34" width="54" height="32" rx="5" fill="#f5b800" stroke="#111" stroke-width="2"/>
+                <rect x="22" y="38" width="10" height="26" rx="2" fill="#26292e"/>
+                <!-- Operator Cab -->
+                <path d="M74 16 H104 L112 38 H74 Z" fill="#1e293b" stroke="#f5b800" stroke-width="3"/>
+                <rect x="70" y="13" width="38" height="4" rx="2" fill="#f5b800"/>
+                <!-- Front Frame -->
+                <rect x="82" y="46" width="36" height="18" rx="3" fill="#26292e"/>
+                <!-- Giant Tires -->
+                <circle cx="52" cy="70" r="18" fill="#141619" stroke="#374151" stroke-width="2"/>
+                <circle cx="52" cy="70" r="8" fill="#f5b800"/>
+                <circle cx="114" cy="70" r="18" fill="#141619" stroke="#374151" stroke-width="2"/>
+                <circle cx="114" cy="70" r="8" fill="#f5b800"/>
+              </svg>
             </div>
             <div class="machine-name">Wheel Loader</div>
-            <div class="machine-mode-tag">MODE: CRUSHER FEEDER</div>
+            <div class="machine-mode-tag">MODE: CRUSHER FEEDER • REAR CAM</div>
           </div>
           <div class="machine-desc">
-            Fast articulated loader. Scoop granite & ore piles and load waiting autonomous dump trucks before time bonuses expire!
+            Scoop granite &amp; ore piles and load waiting autonomous haul trucks for fast cash combos.
           </div>
         </div>
 
-        <!-- EC210D Excavator -->
+        <!-- EC210D Crawler Excavator -->
         <div class="machine-card" data-machine="excavator">
           <div>
             <div class="machine-card-top">
               <span class="machine-code">EC210D CRAWLER</span>
-              <span style="font-size:18px;">🦾</span>
+              <span class="active-machine-pill">SELECTED</span>
+            </div>
+            <div class="machine-art-box">
+              <!-- Detailed Crawler Excavator SVG -->
+              <svg viewBox="0 0 200 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Main Boom & Dipper Stick -->
+                <path d="M98 44 L132 14 L144 20 L110 50 Z" fill="#374151" stroke="#f5b800" stroke-width="2"/>
+                <path d="M134 16 L166 52 L158 58 L128 24 Z" fill="#374151" stroke="#f5b800" stroke-width="2"/>
+                <!-- Hydraulic Cylinders -->
+                <line x1="104" y1="36" x2="122" y2="20" stroke="#cbd5e1" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="124" y1="22" x2="146" y2="34" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round"/>
+                <!-- Digging Bucket with Teeth -->
+                <path d="M158 54 L176 58 L174 74 L154 70 Z" fill="#1f2937" stroke="#f5b800" stroke-width="1.8"/>
+                <!-- Upper Slewing House & Counterweight -->
+                <rect x="34" y="36" width="66" height="24" rx="5" fill="#f5b800" stroke="#111" stroke-width="2"/>
+                <rect x="30" y="38" width="18" height="22" rx="4" fill="#26292e"/>
+                <!-- Excavator Cab -->
+                <rect x="76" y="18" width="24" height="20" rx="3" fill="#1e293b" stroke="#f5b800" stroke-width="2.5"/>
+                <!-- Continuous Crawler Tracks -->
+                <rect x="36" y="64" width="76" height="18" rx="9" fill="#141619" stroke="#4b5563" stroke-width="2.5"/>
+                <circle cx="46" cy="73" r="5" fill="#f5b800"/>
+                <circle cx="64" cy="73" r="4" fill="#6b7280"/>
+                <circle cx="82" cy="73" r="4" fill="#6b7280"/>
+                <circle cx="102" cy="73" r="5" fill="#f5b800"/>
+              </svg>
             </div>
             <div class="machine-name">Crawler Excavator</div>
-            <div class="machine-mode-tag">MODE: DEEP VEIN MINING</div>
+            <div class="machine-mode-tag">MODE: DEEP VEIN • 360° STITCHED CAM</div>
           </div>
           <div class="machine-desc">
-            360° slewing upper structure. Dig into high-grade Iron & Gold rock faces and swing over haulers for massive combo payouts.
+            360° slewing upper house with Stitched 360° Bird's-Eye Camera. Dig Iron &amp; Gold veins!
           </div>
         </div>
 
-        <!-- A45G Articulated Hauler -->
+        <!-- A45G Articulated Dumper -->
         <div class="machine-card" data-machine="dumper">
           <div>
             <div class="machine-card-top">
               <span class="machine-code">A45G 6x6 HAULER</span>
-              <span style="font-size:18px;">🚛</span>
+              <span class="active-machine-pill">SELECTED</span>
+            </div>
+            <div class="machine-art-box">
+              <!-- Detailed 6x6 Articulated Dumper SVG -->
+              <svg viewBox="0 0 200 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Heavy Dump Bed filled with Ore -->
+                <path d="M22 32 L106 32 L112 58 L28 58 Z" fill="#f5b800" stroke="#111" stroke-width="2"/>
+                <path d="M28 32 Q65 18 102 32 Z" fill="#78716c"/>
+                <!-- Articulated Joint -->
+                <rect x="108" y="42" width="12" height="16" fill="#26292e"/>
+                <!-- Front Cab & Sloped Hood -->
+                <path d="M120 22 H144 L148 42 H120 Z" fill="#1e293b" stroke="#f5b800" stroke-width="2.5"/>
+                <path d="M146 34 L176 40 L176 58 L146 58 Z" fill="#f5b800" stroke="#111" stroke-width="2"/>
+                <!-- 6x6 Heavy Wheels (3 Axles) -->
+                <circle cx="44" cy="70" r="15" fill="#141619" stroke="#374151" stroke-width="2"/>
+                <circle cx="44" cy="70" r="6.5" fill="#f5b800"/>
+                <circle cx="82" cy="70" r="15" fill="#141619" stroke="#374151" stroke-width="2"/>
+                <circle cx="82" cy="70" r="6.5" fill="#f5b800"/>
+                <circle cx="152" cy="70" r="15" fill="#141619" stroke="#374151" stroke-width="2"/>
+                <circle cx="152" cy="70" r="6.5" fill="#f5b800"/>
+              </svg>
             </div>
             <div class="machine-name">Articulated Dumper</div>
-            <div class="machine-mode-tag">MODE: EXPRESS CRUSHER RUN</div>
+            <div class="machine-mode-tag">MODE: EXPRESS RUN • REAR CAM</div>
           </div>
           <div class="machine-desc">
-            Heavy 45-ton off-road hauler. Collect full loads at the quarry hopper, navigate haul roads safely, and tip into the Rock Crusher!
+            45-ton 6x6 hauler. Fill up at the Quarry Silo Hopper and tip your bed into the North Crusher!
           </div>
         </div>
       </div>
@@ -1059,8 +1236,8 @@
         <!-- WORKSHOP UPGRADES -->
         <div class="sub-panel">
           <div class="sub-panel-title">
-            <span>⚙️ FLEET UPGRADES</span>
-            <span style="font-size:11px; color:#9ca3af;">PERSISTENT</span>
+            <span>⚙️ FLEET WORKSHOP UPGRADES</span>
+            <span style="font-size:10px; color:#38bdf8;">APPLIES LIVE</span>
           </div>
           <div id="upgrades-list"></div>
         </div>
@@ -1079,9 +1256,11 @@
         <div style="font-size:11px; color:#9ca3af;">
           Desktop: <b>WASD / Arrows</b> Drive • <b>R/F</b> Boom • <b>Q/E</b> Bucket/Bed • <b>C</b> Camera
         </div>
-        <button class="btn-action" id="btn-start-shift">
-          ▶ ENTER CAB &amp; START SHIFT
-        </button>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn-action" id="btn-start-shift">
+            ▶ ENTER CAB &amp; START SHIFT
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -1089,13 +1268,13 @@
   <script>
     /**
      * ============================================================================
-     * QUARRY MASTER 3D — HEAVY IRON SIMULATOR
-     * Senior Game Design, 3D WebGL Engine, Cab Interior & Safety AI
+     * QUARRY SIM — HEAVY IRON 3D SIMULATOR
+     * Complete 3D WebGL Engine, Cab Interior, Stitched 360° Cam & AI Auto-Braking
      * ============================================================================
      */
 
-    const APP_VERSION = "1.0.4";
-    const STORAGE_KEY = "quarry_master_3d_saves_v1";
+    const APP_VERSION = "1.1.0";
+    const STORAGE_KEY = "quarry_sim_3d_saves_v1";
 
     // --------------------------------------------------------------------------
     // 1. PWA HOME SCREEN ICON GENERATOR (CANVAS -> PNG DATA URL) & UPDATE CHECK
@@ -1107,7 +1286,6 @@
         iconCanvas.height = 512;
         const ctx = iconCanvas.getContext("2d");
 
-        // Industrial dark metallic background
         const bgGrad = ctx.createLinearGradient(0, 0, 512, 512);
         bgGrad.addColorStop(0, "#1e242b");
         bgGrad.addColorStop(1, "#0d1014");
@@ -1128,19 +1306,17 @@
           ctx.fill();
         }
 
-        // Stylized Heavy Loader Bucket & Arm Emblem
+        // Heavy Machine Emblem
         ctx.fillStyle = "#f5b800";
         ctx.beginPath();
         ctx.roundRect(96, 130, 210, 145, 26);
         ctx.fill();
 
-        // Cab window
         ctx.fillStyle = "#11161d";
         ctx.beginPath();
         ctx.roundRect(124, 152, 120, 78, 12);
         ctx.fill();
 
-        // Hydraulic boom & bucket
         ctx.strokeStyle = "#f5b800";
         ctx.lineWidth = 28;
         ctx.lineCap = "round";
@@ -1158,7 +1334,6 @@
         ctx.closePath();
         ctx.fill();
 
-        // Heavy Tires
         [150, 275].forEach((cx) => {
           ctx.fillStyle = "#090b0d";
           ctx.beginPath();
@@ -1195,7 +1370,7 @@
         const htmlText = await res.text();
         const match = htmlText.match(/const APP_VERSION\s*=\s*["']([^"']+)["']/);
         if (match && match[1] && match[1] !== APP_VERSION) {
-          showToast(`Updating to v${match[1]}...`);
+          showToast(`Updating Quarry Sim to v${match[1]}...`);
           if ("caches" in window) {
             const keys = await caches.keys();
             await Promise.all(keys.map((k) => caches.delete(k)));
@@ -1204,10 +1379,10 @@
             window.location.replace(window.location.href.split("?")[0] + "?v=" + match[1] + "&t=" + Date.now());
           }, 700);
         } else if (manual) {
-          showToast(`Latest version active (v${APP_VERSION})`);
+          showToast(`Quarry Sim is up to date (v${APP_VERSION})`);
         }
       } catch (e) {
-        if (manual) showToast(`Offline / Local Mode (v${APP_VERSION})`);
+        if (manual) showToast(`Local Standalone Build (v${APP_VERSION})`);
       }
     }
 
@@ -1224,16 +1399,16 @@
         highScoreStreak: 1,
         selectedMachine: "loader",
         upgrades: {
-          bucketCap: 1,   // Increases load capacity
-          hydraulics: 1,  // Faster boom/bucket/dump speed
-          engine: 1,      // Higher top speed & torque
-          radarRange: 1   // Wider AI safety & ore value bonus
+          bucketCap: 1,
+          hydraulics: 1,
+          engine: 1,
+          radarRange: 1
         }
       };
     }
 
     let saveState = {
-      schemaVersion: 1,
+      schemaVersion: 2,
       muted: false,
       activeSlotId: null,
       slots: []
@@ -1241,7 +1416,7 @@
 
     function loadSaves() {
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("quarry_master_3d_saves_v1");
         if (raw) {
           const parsed = JSON.parse(raw);
           if (parsed && Array.isArray(parsed.slots) && parsed.slots.length > 0) {
@@ -1301,7 +1476,6 @@
         }
         if (!this.initialized && this.ctx) {
           this.initialized = true;
-          // Continuous diesel idle hum
           this.engineOsc = this.ctx.createOscillator();
           this.engineGain = this.ctx.createGain();
           const filter = this.ctx.createBiquadFilter();
@@ -1310,7 +1484,7 @@
 
           this.engineOsc.type = "sawtooth";
           this.engineOsc.frequency.value = 34;
-          this.engineGain.gain.value = 0.035;
+          this.engineGain.gain.value = 0.03;
 
           this.engineOsc.connect(filter);
           filter.connect(this.engineGain);
@@ -1325,7 +1499,7 @@
           return;
         }
         const targetFreq = 32 + Math.abs(speedRatio) * 38 + (working ? 12 : 0);
-        const targetGain = 0.03 + Math.abs(speedRatio) * 0.03 + (working ? 0.015 : 0);
+        const targetGain = 0.028 + Math.abs(speedRatio) * 0.028 + (working ? 0.015 : 0);
         this.engineOsc.frequency.setTargetAtTime(targetFreq, this.ctx.currentTime, 0.08);
         this.engineGain.gain.setTargetAtTime(targetGain, this.ctx.currentTime, 0.08);
       }
@@ -1364,7 +1538,7 @@
     const audio = new QuarryAudio();
 
     // --------------------------------------------------------------------------
-    // 4. THREE.JS 3D QUARRY WORLD, MACHINES, CAB INTERIOR & REAR CAMERA RENDERER
+    // 4. THREE.JS 3D QUARRY WORLD, MACHINES, CAB INTERIOR & 360° / REAR CAM
     // --------------------------------------------------------------------------
     const canvas = document.getElementById("game-canvas");
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
@@ -1375,7 +1549,7 @@
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.08;
 
-    // Secondary WebGLRenderTarget for the Live Portrait Cab Screen (Rear / Work Camera)
+    // Secondary WebGLRenderTarget for the Portrait Cab Monitor
     const rearCamTarget = new THREE.WebGLRenderTarget(180, 260, {
       minFilter: THREE.LinearFilter,
       magFilter: THREE.LinearFilter,
@@ -1388,15 +1562,14 @@
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x9fb4c7);
-    scene.fog = new THREE.FogExp2(0x9fb4c7, 0.0055);
+    scene.fog = new THREE.FogExp2(0x9fb4c7, 0.0052);
 
-    // Main Player Camera (Cab Interior or Chase View)
     const playerCamera = new THREE.PerspectiveCamera(64, window.innerWidth / window.innerHeight, 0.15, 360);
-    // Live Rear / Boom Camera mounted on machine
-    const rearCamera = new THREE.PerspectiveCamera(76, 180 / 260, 0.2, 160);
+    // Auxiliary Camera (acts as Rear Cam for Loader/Dumper, or Top-Down 360° Stitched Camera for Excavator)
+    const auxCamera = new THREE.PerspectiveCamera(76, 180 / 260, 0.2, 160);
 
-    // Lighting: Crisp Nordic/Industrial Quarry Daylight
-    const hemiLight = new THREE.HemisphereLight(0xdbeafe, 0x57534e, 0.85);
+    // Lighting
+    const hemiLight = new THREE.HemisphereLight(0xdbeafe, 0x57534e, 0.88);
     scene.add(hemiLight);
 
     const dirLight = new THREE.DirectionalLight(0xfffbeb, 1.35);
@@ -1414,7 +1587,6 @@
     dirLight.shadow.bias = -0.0005;
     scene.add(dirLight);
 
-    // Procedural Ground Texture (Gravel & Haul Tracks)
     function createQuarryGroundTexture() {
       const c = document.createElement("canvas");
       c.width = 512;
@@ -1456,7 +1628,8 @@
       workers: [],
       aiDumpers: [],
       obstacles: [],
-      particles: []
+      particles: [],
+      beaconRing: null
     };
 
     const MATERIALS = {
@@ -1466,14 +1639,14 @@
     };
 
     function buildQuarryEnvironment() {
-      // 1. Haul Roads (Dark compacted tarmac/gravel loop)
+      // 1. Haul Roads
       const roadMat = new THREE.MeshStandardMaterial({ color: 0x3f3f46, roughness: 0.88 });
       const roadSegments = [
-        { x: 0, z: 0, w: 14, l: 112, rot: 0 },
-        { x: 0, z: -50, w: 96, l: 14, rot: 0 },
-        { x: 0, z: 46, w: 96, l: 14, rot: 0 },
-        { x: -44, z: 0, w: 14, l: 104, rot: 0 },
-        { x: 44, z: 0, w: 14, l: 104, rot: 0 }
+        { x: 0, z: 0, w: 14, l: 112 },
+        { x: 0, z: -50, w: 96, l: 14 },
+        { x: 0, z: 46, w: 96, l: 14 },
+        { x: -44, z: 0, w: 14, l: 104 },
+        { x: 44, z: 0, w: 14, l: 104 }
       ];
       roadSegments.forEach((seg) => {
         const m = new THREE.Mesh(new THREE.PlaneGeometry(seg.w, seg.l), roadMat);
@@ -1507,22 +1680,19 @@
       const yellowSteel = new THREE.MeshStandardMaterial({ color: 0xf5b800, metalness: 0.35, roughness: 0.45 });
       const conveyorMat = new THREE.MeshStandardMaterial({ color: 0x15803d, metalness: 0.4, roughness: 0.5 });
 
-      // Hopper Funnel
       const hopper = new THREE.Mesh(new THREE.BoxGeometry(14, 5.5, 10), steelMat);
       hopper.position.set(0, 2.75, 0);
       hopper.castShadow = true;
       crusherGroup.add(hopper);
 
-      // Glowing Drop Zone Target Ring
       const dropRing = new THREE.Mesh(
-        new THREE.RingGeometry(4.2, 5.2, 32),
+        new THREE.RingGeometry(4.4, 5.6, 32),
         new THREE.MeshBasicMaterial({ color: 0x22c55e, side: THREE.DoubleSide })
       );
       dropRing.rotation.x = -Math.PI / 2;
       dropRing.position.set(0, 0.08, 9.5);
       crusherGroup.add(dropRing);
 
-      // Crusher Tower & Inclined Conveyor Belt
       const tower = new THREE.Mesh(new THREE.BoxGeometry(8, 12, 8), yellowSteel);
       tower.position.set(0, 6, -7);
       tower.castShadow = true;
@@ -1551,7 +1721,7 @@
       siloGroup.add(bin);
 
       const loadRing = new THREE.Mesh(
-        new THREE.RingGeometry(3.8, 4.7, 32),
+        new THREE.RingGeometry(4.2, 5.2, 32),
         new THREE.MeshBasicMaterial({ color: 0xf5b800, side: THREE.DoubleSide })
       );
       loadRing.rotation.x = -Math.PI / 2;
@@ -1572,7 +1742,6 @@
       pileConfigs.forEach((cfg) => {
         const matInfo = MATERIALS[cfg.type];
         const geo = new THREE.ConeGeometry(cfg.r, cfg.h, 18, 3);
-        // Displace vertices slightly for organic crushed rock silhouette
         const pos = geo.attributes.position;
         for (let i = 0; i < pos.count; i++) {
           const vy = pos.getY(i);
@@ -1597,11 +1766,18 @@
         mesh.receiveShadow = true;
         scene.add(mesh);
 
-        siteObjects.stockpiles.push({
-          ...cfg,
-          mesh
-        });
+        siteObjects.stockpiles.push({ ...cfg, mesh });
       });
+
+      // Dynamic Objective Waypoint Beacon Ring in 3D World
+      const beacon = new THREE.Mesh(
+        new THREE.RingGeometry(4.2, 5.2, 32),
+        new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide, transparent: true, opacity: 0.85 })
+      );
+      beacon.rotation.x = -Math.PI / 2;
+      beacon.position.y = 0.12;
+      scene.add(beacon);
+      siteObjects.beaconRing = beacon;
 
       // 6. Site Personnel in High-Visibility Safety Vests
       const vestMat = new THREE.MeshStandardMaterial({ color: 0xccff00, emissive: 0x3f4d00, roughness: 0.5 });
@@ -1633,9 +1809,9 @@
         siteObjects.workers.push({ mesh: worker, ...rt });
       });
 
-      // 7. Autonomous AI Haul Dumpers (Drive loop, receive material, haul to crusher & sell)
+      // 7. Autonomous AI Haul Dumpers
       const aiLoopWaypoints = [
-        new THREE.Vector3(0, 0, 12),    // Loading Staging Zone (Center)
+        new THREE.Vector3(0, 0, 10),    // Loading Staging Zone (Center)
         new THREE.Vector3(0, 0, -34),   // Approach Crusher
         new THREE.Vector3(14, 0, -48),  // Turn East
         new THREE.Vector3(44, 0, -44),  // East Haul Road North
@@ -1656,8 +1832,7 @@
           load: 0,
           maxLoad: 12,
           materialType: "granite",
-          waitTimer: idx === 0 ? 12 : 0, // First truck parks at loading zone ready for player!
-          sellFlash: 0
+          waitTimer: idx === 0 ? 22 : 0
         });
       }
     }
@@ -1671,19 +1846,17 @@
     const glassMat = new THREE.MeshStandardMaterial({
       color: 0xbae6fd,
       transparent: true,
-      opacity: 0.24,
+      opacity: 0.22,
       roughness: 0.1
     });
 
     function createCabInteriorAssembly() {
       const cabGroup = new THREE.Group();
 
-      // Dashboard console
       const dash = new THREE.Mesh(new THREE.BoxGeometry(1.45, 0.36, 0.52), volvoDarkGrey);
       dash.position.set(0, 0.62, 0.55);
       cabGroup.add(dash);
 
-      // Steering Column & Wheel
       const steeringPivot = new THREE.Group();
       steeringPivot.position.set(0, 0.86, 0.38);
       steeringPivot.rotation.x = -0.48;
@@ -1695,7 +1868,6 @@
       steeringPivot.add(wheelRim, wheelHub, spoke);
       cabGroup.add(steeringPivot);
 
-      // Small Instrument HUD Screen right in front of Steering Wheel
       const miniScreen = new THREE.Mesh(
         new THREE.BoxGeometry(0.26, 0.15, 0.02),
         new THREE.MeshBasicMaterial({ color: 0x0ea5e9 })
@@ -1704,7 +1876,6 @@
       miniScreen.rotation.x = -0.35;
       cabGroup.add(miniScreen);
 
-      // A-Pillars & Orange Safety Grab Rails (inspired by your cab photo!)
       const grabRailMat = new THREE.MeshStandardMaterial({ color: 0xea580c, roughness: 0.4 });
       [-0.68, 0.68].forEach((px) => {
         const pillar = new THREE.Mesh(new THREE.BoxGeometry(0.06, 1.25, 0.06), volvoDarkGrey);
@@ -1716,7 +1887,6 @@
         cabGroup.add(rail);
       });
 
-      // Right-hand Hydraulic Control Joystick Lever
       const joystickBase = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.25, 0.35), volvoDarkGrey);
       joystickBase.position.set(0.46, 0.65, 0.15);
       const stick = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.025, 0.22, 8), tireRubber);
@@ -1724,7 +1894,6 @@
       stick.rotation.x = 0.2;
       cabGroup.add(joystickBase, stick);
 
-      // Cab Roof & Glass
       const roof = new THREE.Mesh(new THREE.BoxGeometry(1.56, 0.12, 1.65), volvoYellow);
       roof.position.set(0, 1.9, 0.05);
       cabGroup.add(roof);
@@ -1740,7 +1909,6 @@
     function createWheelLoaderMesh() {
       const root = new THREE.Group();
 
-      // Rear Engine Chassis
       const rearBody = new THREE.Mesh(new THREE.BoxGeometry(2.3, 1.65, 3.2), volvoYellow);
       rearBody.position.set(0, 1.35, -1.3);
       rearBody.castShadow = true;
@@ -1750,7 +1918,6 @@
       counterweight.position.set(0, 1.25, -2.85);
       root.add(counterweight);
 
-      // Front Articulated Frame
       const frontPivot = new THREE.Group();
       frontPivot.position.set(0, 0, 0.35);
       root.add(frontPivot);
@@ -1759,12 +1926,10 @@
       frontFrame.position.set(0, 1.1, 1.1);
       frontPivot.add(frontFrame);
 
-      // Cab mounted on front/mid
       const cab = createCabInteriorAssembly();
       cab.cabGroup.position.set(0, 1.55, 0.35);
       frontPivot.add(cab.cabGroup);
 
-      // Boom Arms Pivot
       const boomPivot = new THREE.Group();
       boomPivot.position.set(0, 1.65, 1.75);
       frontPivot.add(boomPivot);
@@ -1776,7 +1941,6 @@
         boomPivot.add(arm);
       });
 
-      // Bucket Pivot at end of Boom
       const bucketPivot = new THREE.Group();
       bucketPivot.position.set(0, -0.3, 2.95);
       boomPivot.add(bucketPivot);
@@ -1790,7 +1954,6 @@
       const bucketRight = new THREE.Mesh(new THREE.BoxGeometry(0.16, 1.1, 1.2), volvoDarkGrey);
       bucketRight.position.set(1.42, 0.42, 0.62);
 
-      // Material Mound inside Bucket
       const loadMound = new THREE.Mesh(
         new THREE.SphereGeometry(1.15, 12, 10),
         new THREE.MeshStandardMaterial({ color: 0x78716c, roughness: 0.95, flatShading: true })
@@ -1801,7 +1964,6 @@
 
       bucketPivot.add(bucketBack, bucketFloor, bucketLeft, bucketRight, loadMound);
 
-      // 4 Giant Off-Road Tires
       const wheels = [];
       const wheelPositions = [
         { parent: frontPivot, x: -1.32, y: 0.85, z: 1.35 },
@@ -1840,7 +2002,6 @@
     function createExcavatorMesh() {
       const root = new THREE.Group();
 
-      // Tracked Undercarriage
       [-1.25, 1.25].forEach((tx) => {
         const track = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.78, 4.2), tireRubber);
         track.position.set(tx, 0.39, 0);
@@ -1851,7 +2012,6 @@
       centerBase.position.set(0, 0.52, 0);
       root.add(centerBase);
 
-      // 360° Slewing Upper House
       const housePivot = new THREE.Group();
       housePivot.position.set(0, 0.85, 0);
       root.add(housePivot);
@@ -1865,12 +2025,10 @@
       rearCounter.position.set(0, 0.75, -2.15);
       housePivot.add(rearCounter);
 
-      // Left-Side Cab
       const cab = createCabInteriorAssembly();
       cab.cabGroup.position.set(-0.62, 0.1, 0.85);
       housePivot.add(cab.cabGroup);
 
-      // Main Boom Pivot (Right of Cab)
       const boomPivot = new THREE.Group();
       boomPivot.position.set(0.45, 0.95, 1.15);
       housePivot.add(boomPivot);
@@ -1881,7 +2039,6 @@
       mainBoom.castShadow = true;
       boomPivot.add(mainBoom);
 
-      // Stick / Dipper Arm
       const stickPivot = new THREE.Group();
       stickPivot.position.set(0, 2.1, 3.35);
       boomPivot.add(stickPivot);
@@ -1892,7 +2049,6 @@
       stickMesh.castShadow = true;
       stickPivot.add(stickMesh);
 
-      // Excavator Digging Bucket
       const bucketPivot = new THREE.Group();
       bucketPivot.position.set(0, -2.4, 0.7);
       stickPivot.add(bucketPivot);
@@ -1920,15 +2076,14 @@
         wheels: [],
         cab,
         cabEyeLocal: new THREE.Vector3(-0.62, 2.25, 0.95),
-        rearCamLocal: new THREE.Vector3(0, 2.15, -2.7),
-        rearCamLookLocal: new THREE.Vector3(0, 0.8, -10)
+        rearCamLocal: new THREE.Vector3(0, 16.5, 0), // Used for 360 stitched top-down view
+        rearCamLookLocal: new THREE.Vector3(0, 0, 0.01)
       };
     }
 
     function createDumperVisualMesh(isAI = false) {
       const root = new THREE.Group();
 
-      // Front Tractor Unit
       const frontChassis = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.15, 2.8), volvoDarkGrey);
       frontChassis.position.set(0, 1.15, 2.1);
       root.add(frontChassis);
@@ -1947,12 +2102,10 @@
         root.add(aiCabBox);
       }
 
-      // Rear Articulated Dump Bed Chassis
       const rearChassis = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.85, 4.4), volvoDarkGrey);
       rearChassis.position.set(0, 1.05, -1.75);
       root.add(rearChassis);
 
-      // Hydraulic Tipping Dump Bed
       const bedPivot = new THREE.Group();
       bedPivot.position.set(0, 1.5, -3.65);
       root.add(bedPivot);
@@ -1975,7 +2128,6 @@
 
       bedPivot.add(bedFloor, bedLeft, bedRight, bedFront, loadMound);
 
-      // 6x6 Heavy Articulated Hauler Tires
       const wheels = [];
       [-1.32, 1.32].forEach((wx) => {
         [2.25, -0.95, -2.75].forEach((wz) => {
@@ -2013,21 +2165,22 @@
     const playerState = {
       machine: null,
       pos: new THREE.Vector3(0, 0, 24),
-      heading: Math.PI, // Facing North toward center & crusher
+      heading: Math.PI,
       speed: 0,
       steerAngle: 0,
       slewAngle: 0,
-      boomAngle: 0.15,    // 0 = low, 1 = high
-      bucketAngle: 0.2,   // 0 = curled/closed, 1 = dumped/open
+      boomAngle: 0.15,
+      bucketAngle: 0.2,
       payload: 0,
       payloadType: "granite",
-      cameraMode: "cab",  // 'cab' or 'chase'
-      rearCamMode: "rear", // 'rear' or 'work'
+      cameraMode: "cab",
+      auxCamAltMode: false, // Allows toggling alternate view if tapped
       autoBrakeActive: false,
       nearestObstacleDist: 99,
       shiftTimer: 0,
       streak: 1.0,
-      streakTimer: 0
+      streakTimer: 0,
+      autoTipCooldown: 0
     };
 
     function getMaxCapacity() {
@@ -2036,7 +2189,7 @@
       return base + (slot.upgrades.bucketCap - 1) * 3;
     }
 
-    function spawnPlayerMachine(type) {
+    function spawnPlayerMachine(type, preserveShift = false) {
       if (playerState.machine && playerState.machine.root) {
         scene.remove(playerState.machine.root);
       }
@@ -2044,22 +2197,44 @@
       else if (type === "excavator") playerState.machine = createExcavatorMesh();
       else playerState.machine = createDumperVisualMesh(false);
 
-      playerState.pos.set(type === "dumper" ? -34 : 0, 0, type === "dumper" ? 36 : 24);
-      playerState.heading = type === "dumper" ? Math.PI * 0.5 : Math.PI;
-      playerState.speed = 0;
-      playerState.steerAngle = 0;
-      playerState.slewAngle = 0;
-      playerState.boomAngle = 0.12;
-      playerState.bucketAngle = 0.15;
-      playerState.payload = 0;
-      playerState.shiftTimer = 0;
+      if (!preserveShift) {
+        playerState.pos.set(type === "dumper" ? -34 : 0, 0, type === "dumper" ? 36 : 24);
+        playerState.heading = type === "dumper" ? Math.PI * 0.5 : Math.PI;
+        playerState.speed = 0;
+        playerState.steerAngle = 0;
+        playerState.slewAngle = 0;
+        playerState.boomAngle = 0.12;
+        playerState.bucketAngle = 0.15;
+        playerState.payload = 0;
+        playerState.shiftTimer = 0;
+      }
 
+      playerState.auxCamAltMode = false;
       playerState.machine.root.position.copy(playerState.pos);
       playerState.machine.root.rotation.y = playerState.heading;
       scene.add(playerState.machine.root);
 
       updateControlsLabelsForMachine(type);
+      updateCameraMonitorChrome(type);
       updateMissionBanner();
+    }
+
+    function updateCameraMonitorChrome(type) {
+      const label = document.getElementById("cam-feed-label");
+      const rearSvg = document.getElementById("cam-overlay-svg");
+      const cam360Svg = document.getElementById("cam-360-overlay-svg");
+
+      if (type === "excavator" && !playerState.auxCamAltMode) {
+        label.textContent = "360° STITCH";
+        label.style.color = "#38bdf8";
+        rearSvg.style.display = "none";
+        cam360Svg.style.display = "block";
+      } else {
+        label.textContent = playerState.auxCamAltMode ? "BOOM CAM" : "REAR CAM";
+        label.style.color = "#e5e7eb";
+        rearSvg.style.display = "block";
+        cam360Svg.style.display = "none";
+      }
     }
 
     function updateControlsLabelsForMachine(type) {
@@ -2096,13 +2271,13 @@
       const desc = document.getElementById("mission-desc");
       if (m === "loader") {
         title.textContent = "MODE: CRUSHER FEEDER (L150H)";
-        desc.textContent = "Drive into a rock pile & scoop material, then dump into the waiting AI Haul Truck!";
+        desc.textContent = "Drive into any rock stockpile to scoop material, then pull beside a Haul Truck to unload!";
       } else if (m === "excavator") {
         title.textContent = "MODE: DEEP VEIN MINING (EC210D)";
-        desc.textContent = "Position beside Iron/Gold veins, dig with boom, slew 360° & load passing haulers!";
+        desc.textContent = "Dig into Iron/Gold veins using 360° Surround View, then slew over a Haul Truck to load!";
       } else {
         title.textContent = "MODE: EXPRESS CRUSHER RUN (A45G)";
-        desc.textContent = "Load under the Yellow Silo Hopper, haul to the North Rock Crusher & tip the bed!";
+        desc.textContent = "Park under the Yellow Silo Hopper to fill your bed, then haul & tip into the North Crusher!";
       }
     }
 
@@ -2131,8 +2306,8 @@
     // 9. INPUT HANDLING (KEYBOARD + MULTI-TOUCH JOYSTICK & HYDRAULIC BUTTONS)
     // --------------------------------------------------------------------------
     const inputState = {
-      throttle: 0, // -1 to 1
-      steer: 0,    // -1 to 1
+      throttle: 0,
+      steer: 0,
       hydUp: false,
       hydDown: false,
       hydIn: false,
@@ -2150,7 +2325,6 @@
       keysDown[e.code] = false;
     });
 
-    // Touch Analog Joystick for Driving
     const drivePad = document.getElementById("drive-pad");
     const driveKnob = document.getElementById("drive-knob");
     let joyTouchId = null;
@@ -2203,7 +2377,6 @@
     });
     drivePad.addEventListener("touchcancel", resetJoystick);
 
-    // Mouse drag support for joystick on desktop
     let mouseJoyActive = false;
     drivePad.addEventListener("mousedown", (e) => {
       audio.unlock();
@@ -2220,7 +2393,6 @@
       }
     });
 
-    // Holdable Hydraulic Buttons
     function bindHoldButton(btnId, flagName) {
       const el = document.getElementById(btnId);
       const start = (e) => {
@@ -2252,73 +2424,73 @@
       triggerSmartAction();
     });
 
-    // Smart Context Action Button (Makes gameplay immediately intuitive!)
+    function unloadToTruckOrCrusher() {
+      const cap = getMaxCapacity();
+      if (playerState.payload <= 0.1) return false;
+
+      // 1. Check nearby AI Haul Truck
+      for (const truck of siteObjects.aiDumpers) {
+        const dTruck = playerState.pos.distanceTo(truck.root.position);
+        if (dTruck < 12.0) {
+          const transfer = playerState.payload;
+          truck.load = Math.min(truck.maxLoad, truck.load + transfer);
+          truck.materialType = playerState.payloadType;
+          truck.loadMound.visible = true;
+          truck.loadMound.material.color.setHex(MATERIALS[playerState.payloadType].color);
+
+          const payout = Math.round(transfer * MATERIALS[playerState.payloadType].valuePerTon * 0.65 * playerState.streak);
+          awardMoney(payout, transfer);
+          playerState.payload = 0;
+          playerState.bucketAngle = 0.85;
+          spawnMaterialBurst(truck.root.position.clone().add(new THREE.Vector3(0, 2.5, 0)), MATERIALS[truck.materialType].color, 18);
+          showToast(`LOADED HAUL TRUCK +$${payout}!`);
+          return true;
+        }
+      }
+
+      // 2. Check North Rock Crusher Hopper
+      const dCrusher = Math.hypot(playerState.pos.x - siteObjects.crusherZone.x, playerState.pos.z - (siteObjects.crusherZone.z + 9.5));
+      if (dCrusher < 12.5) {
+        const payout = Math.round(playerState.payload * MATERIALS[playerState.payloadType].valuePerTon * playerState.streak);
+        awardMoney(payout, playerState.payload);
+        spawnMaterialBurst(siteObjects.crusherZone.clone().add(new THREE.Vector3(0, 4, 2)), MATERIALS[playerState.payloadType].color, 22);
+        playerState.payload = 0;
+        playerState.bucketAngle = 0.9;
+        showToast(`CRUSHER DELIVERY +$${payout}!`);
+        return true;
+      }
+      return false;
+    }
+
     function triggerSmartAction() {
       const mType = playerState.machine.type;
       const cap = getMaxCapacity();
 
       if (mType === "loader" || mType === "excavator") {
-        // Check if near stockpile to scoop
-        let scooped = false;
+        // Scoop if near stockpile
         for (const pile of siteObjects.stockpiles) {
           const dist = Math.hypot(playerState.pos.x - pile.x, playerState.pos.z - pile.z);
-          if (dist < pile.r + 6.5) {
+          if (dist < pile.r + 7.2) {
             if (playerState.payload < cap) {
               playerState.payload = cap;
               playerState.payloadType = pile.type;
-              playerState.boomAngle = 0.55;
+              playerState.boomAngle = 0.6;
               playerState.bucketAngle = 0.05;
               audio.playScoop();
               spawnMaterialBurst(new THREE.Vector3(pile.x, 2, pile.z), MATERIALS[pile.type].color, 16);
               showToast(`SCOOPED ${cap.toFixed(1)}t ${MATERIALS[pile.type].name}!`);
             } else {
-              showToast("BUCKET FULL! Load a Haul Truck or Crusher.");
+              showToast("BUCKET FULL! Drive to a Haul Truck or Crusher.");
             }
-            scooped = true;
-            break;
-          }
-        }
-        if (scooped) return;
-
-        // Check if near an AI Haul Truck or Crusher to dump
-        if (playerState.payload > 0) {
-          for (const truck of siteObjects.aiDumpers) {
-            const dTruck = playerState.pos.distanceTo(truck.root.position);
-            if (dTruck < 11.5) {
-              const space = truck.maxLoad - truck.load;
-              const transfer = Math.min(playerState.payload, Math.max(space, playerState.payload));
-              truck.load = Math.min(truck.maxLoad, truck.load + transfer);
-              truck.materialType = playerState.payloadType;
-              truck.loadMound.visible = true;
-              truck.loadMound.material.color.setHex(MATERIALS[playerState.payloadType].color);
-
-              const payout = Math.round(transfer * MATERIALS[playerState.payloadType].valuePerTon * 0.55 * playerState.streak);
-              awardMoney(payout, transfer);
-              playerState.payload = 0;
-              playerState.bucketAngle = 0.9;
-              spawnMaterialBurst(truck.root.position.clone().add(new THREE.Vector3(0, 2.5, 0)), MATERIALS[truck.materialType].color, 18);
-              showToast(`LOADED TRUCK +$${payout} (Truck dispatches to sell!)`);
-              return;
-            }
-          }
-
-          // Direct dump into crusher hopper
-          const dCrusher = Math.hypot(playerState.pos.x - siteObjects.crusherZone.x, playerState.pos.z - (siteObjects.crusherZone.z + 9.5));
-          if (dCrusher < 12) {
-            const payout = Math.round(playerState.payload * MATERIALS[playerState.payloadType].valuePerTon * playerState.streak);
-            awardMoney(payout, playerState.payload);
-            spawnMaterialBurst(siteObjects.crusherZone.clone().add(new THREE.Vector3(0, 4, 2)), MATERIALS[playerState.payloadType].color, 20);
-            playerState.payload = 0;
-            playerState.bucketAngle = 0.95;
-            showToast(`CRUSHER DELIVERY +$${payout}!`);
             return;
           }
         }
-        showToast("Drive closer to a Stockpile to scoop, or Haul Truck to unload!");
+
+        if (unloadToTruckOrCrusher()) return;
+        showToast("Move closer to a Rock Pile to scoop, or a Haul Truck to unload!");
       } else if (mType === "dumper") {
-        // Dumper mode: Load at Silo Hopper or Tip at North Crusher
         const dHopper = Math.hypot(playerState.pos.x - siteObjects.hopperZone.x, playerState.pos.z - siteObjects.hopperZone.z);
-        if (dHopper < 10.5) {
+        if (dHopper < 11.0) {
           const types = ["granite", "iron", "gold"];
           const chosen = types[Math.floor(Math.random() * types.length)];
           playerState.payload = cap;
@@ -2331,8 +2503,8 @@
         }
 
         const dCrusher = Math.hypot(playerState.pos.x - siteObjects.crusherZone.x, playerState.pos.z - (siteObjects.crusherZone.z + 9.5));
-        if (dCrusher < 12 && playerState.payload > 0) {
-          playerState.boomAngle = 0.95; // Raise bed!
+        if (dCrusher < 12.5 && playerState.payload > 0) {
+          playerState.boomAngle = 0.95;
           const payout = Math.round(playerState.payload * MATERIALS[playerState.payloadType].valuePerTon * 1.25 * playerState.streak);
           awardMoney(payout, playerState.payload);
           spawnMaterialBurst(siteObjects.crusherZone.clone().add(new THREE.Vector3(0, 3.5, 4)), MATERIALS[playerState.payloadType].color, 24);
@@ -2342,7 +2514,6 @@
           return;
         }
 
-        // Manual bed tip toggle anywhere
         playerState.boomAngle = playerState.boomAngle > 0.5 ? 0 : 0.95;
         if (playerState.payload > 0 && playerState.boomAngle > 0.5) {
           spawnMaterialBurst(playerState.pos.clone().add(new THREE.Vector3(0, 2, 0)), MATERIALS[playerState.payloadType].color, 14);
@@ -2357,7 +2528,7 @@
       slot.money += amount;
       slot.totalTons = +(slot.totalTons + tons).toFixed(1);
       playerState.streak = Math.min(3.0, +(playerState.streak + 0.25).toFixed(2));
-      playerState.streakTimer = 28;
+      playerState.streakTimer = 30;
       if (playerState.streak > slot.highScoreStreak) {
         slot.highScoreStreak = playerState.streak;
       }
@@ -2378,7 +2549,6 @@
       let minDist = 99;
       let threatAngle = 0;
 
-      // Check workers in high-vis vests
       for (const w of siteObjects.workers) {
         const dx = w.mesh.position.x - playerState.pos.x;
         const dz = w.mesh.position.z - playerState.pos.z;
@@ -2389,7 +2559,6 @@
         }
       }
 
-      // Check AI Dumpers
       for (const t of siteObjects.aiDumpers) {
         const dx = t.root.position.x - playerState.pos.x;
         const dz = t.root.position.z - playerState.pos.z;
@@ -2400,7 +2569,6 @@
         }
       }
 
-      // Check Static Crusher Obstacle
       for (const obs of siteObjects.obstacles) {
         const dx = obs.x - playerState.pos.x;
         const dz = obs.z - playerState.pos.z;
@@ -2413,7 +2581,6 @@
 
       playerState.nearestObstacleDist = Math.max(0.4, minDist);
 
-      // Normalize relative angle (-PI to PI): 0 is front, PI is rear
       while (threatAngle > Math.PI) threatAngle -= Math.PI * 2;
       while (threatAngle < -Math.PI) threatAngle += Math.PI * 2;
 
@@ -2429,21 +2596,27 @@
 
       playerState.autoBrakeActive = engageBrake;
 
-      // Update Portrait Screen Radar Overlay
+      // Update Both Standard Radar Arc & Excavator 360° Ring Colors
       const arc = document.getElementById("radar-arc");
+      const ringOuter = document.getElementById("ring-360-outer");
+      const ringInner = document.getElementById("ring-360-inner");
       const readout = document.getElementById("cam-dist-readout");
       const banner = document.getElementById("autobrake-banner");
 
       if (minDist < brakeDist) {
         arc.setAttribute("stroke", "#ef4444");
+        if (ringInner) ringInner.setAttribute("stroke", "#ef4444");
         readout.style.color = "#ef4444";
         readout.textContent = `STOP ${minDist.toFixed(1)}m`;
       } else if (minDist < warnDist) {
         arc.setAttribute("stroke", "#f5b800");
+        if (ringOuter) ringOuter.setAttribute("stroke", "#f5b800");
         readout.style.color = "#f5b800";
         readout.textContent = `WARN ${minDist.toFixed(1)}m`;
       } else {
         arc.setAttribute("stroke", "#22c55e");
+        if (ringOuter) ringOuter.setAttribute("stroke", "#22c55e");
+        if (ringInner) ringInner.setAttribute("stroke", "#f5b800");
         readout.style.color = "#22c55e";
         readout.textContent = `CLR >8m`;
       }
@@ -2458,10 +2631,9 @@
     }
 
     // --------------------------------------------------------------------------
-    // 11. AUTONOMOUS AI DUMPERS & WORKERS SIMULATION LOOP
+    // 11. AUTONOMOUS AI DUMPERS, WORKERS & DYNAMIC 3D OBJECTIVE BEACON
     // --------------------------------------------------------------------------
     function updateSiteEntities(dt, elapsed) {
-      // Animate High-Vis Site Workers
       for (const w of siteObjects.workers) {
         const t = elapsed * w.speed + w.phase;
         const nx = w.cx + Math.cos(t) * w.rx;
@@ -2474,10 +2646,8 @@
         }
       }
 
-      // Animate Autonomous AI Dumpers (Receive Load -> Haul to Crusher -> Tip & Sell -> Return)
       for (const truck of siteObjects.aiDumpers) {
-        // Wait at loading zone if waiting for player or loading
-        if (truck.wpIndex === 0 && truck.load < truck.maxLoad * 0.7 && truck.waitTimer > 0) {
+        if (truck.wpIndex === 0 && truck.load < truck.maxLoad * 0.65 && truck.waitTimer > 0) {
           truck.waitTimer -= dt;
           continue;
         }
@@ -2487,15 +2657,12 @@
         const dz = target.z - truck.root.position.z;
         const dist = Math.hypot(dx, dz);
 
-        // Collision check with player so AI trucks also yield politely!
         const distToPlayer = truck.root.position.distanceTo(playerState.pos);
         const aiSpeed = distToPlayer < 8.5 ? 0 : 7.2;
 
         if (dist < 2.5) {
-          // Arrived at waypoint
           if (truck.wpIndex === 1 && truck.load > 0) {
-            // Arrived near North Crusher: Sell autonomous load!
-            const autoSale = Math.round(truck.load * MATERIALS[truck.materialType].valuePerTon * 0.65);
+            const autoSale = Math.round(truck.load * MATERIALS[truck.materialType].valuePerTon * 0.7);
             const slot = getActiveSlot();
             slot.money += autoSale;
             slot.totalTons = +(slot.totalTons + truck.load).toFixed(1);
@@ -2511,7 +2678,7 @@
 
           truck.wpIndex = (truck.wpIndex + 1) % truck.waypoints.length;
           if (truck.wpIndex === 0) {
-            truck.waitTimer = 18; // Park at center loading zone for player to fill
+            truck.waitTimer = 22;
           }
         } else if (aiSpeed > 0) {
           const desiredYaw = Math.atan2(dx, dz);
@@ -2524,6 +2691,36 @@
           truck.root.position.z += Math.cos(truck.root.rotation.y) * aiSpeed * dt;
           truck.wheels.forEach((w) => { w.rotation.x += aiSpeed * dt * 1.1; });
         }
+      }
+
+      // Position Glowing 3D Ground Beacon on Current Target Zone
+      if (siteObjects.beaconRing && playerState.machine) {
+        const mType = playerState.machine.type;
+        const hasLoad = playerState.payload > getMaxCapacity() * 0.4;
+        if (mType === "dumper") {
+          if (!hasLoad) {
+            siteObjects.beaconRing.position.set(siteObjects.hopperZone.x, 0.14, siteObjects.hopperZone.z);
+          } else {
+            siteObjects.beaconRing.position.set(siteObjects.crusherZone.x, 0.14, siteObjects.crusherZone.z + 9.5);
+          }
+        } else {
+          if (!hasLoad) {
+            // Point to nearest stockpile
+            let best = siteObjects.stockpiles[0];
+            let bestD = 999;
+            for (const p of siteObjects.stockpiles) {
+              const d = Math.hypot(playerState.pos.x - p.x, playerState.pos.z - p.z);
+              if (d < bestD) { bestD = d; best = p; }
+            }
+            siteObjects.beaconRing.position.set(best.x, 0.14, best.z);
+          } else {
+            // Point to nearest AI haul truck
+            const tr = siteObjects.aiDumpers[0];
+            siteObjects.beaconRing.position.set(tr.root.position.x, 0.14, tr.root.position.z);
+          }
+        }
+        const pulse = 1 + Math.sin(elapsed * 5) * 0.12;
+        siteObjects.beaconRing.scale.set(pulse, pulse, 1);
       }
 
       // Animate 3D Rock/Dust Particles
@@ -2554,7 +2751,6 @@
       const engineMult = 1 + (slot.upgrades.engine - 1) * 0.16;
       const hydMult = 1 + (slot.upgrades.hydraulics - 1) * 0.22;
 
-      // Combine Keyboard + Touch Inputs
       let throttle = inputState.throttle;
       let steer = inputState.steer;
       if (keysDown["KeyW"] || keysDown["ArrowUp"]) throttle = 1;
@@ -2567,11 +2763,10 @@
       const hydIn = inputState.hydIn || keysDown["KeyQ"];
       const hydOut = inputState.hydOut || keysDown["KeyE"];
 
-      // Safety Radar & Emergency Auto-Brake
       const autoBraked = evaluateSafetyRadar(throttle);
 
-      const maxFwd = (m.type === "excavator" ? 5.2 : 12.5) * engineMult;
-      const maxRev = (m.type === "excavator" ? 4.2 : 7.5) * engineMult;
+      const maxFwd = (m.type === "excavator" ? 5.6 : 12.8) * engineMult;
+      const maxRev = (m.type === "excavator" ? 4.4 : 7.8) * engineMult;
 
       if (autoBraked) {
         playerState.speed *= Math.pow(0.02, dt);
@@ -2584,7 +2779,6 @@
         if (Math.abs(playerState.speed) < 0.05) playerState.speed = 0;
       }
 
-      // Reverse Beep Audio
       if (playerState.speed < -0.6) {
         beepCooldown -= dt;
         if (beepCooldown <= 0) {
@@ -2593,7 +2787,6 @@
         }
       }
 
-      // Steering & Articulation
       playerState.steerAngle += (steer * 0.55 - playerState.steerAngle) * Math.min(1, dt * 6);
       const turnRate = m.type === "excavator" ? 1.45 : (playerState.speed / 8.5) * 1.65;
       if (m.type === "excavator") {
@@ -2605,7 +2798,6 @@
       playerState.pos.x += Math.sin(playerState.heading) * playerState.speed * dt;
       playerState.pos.z += Math.cos(playerState.heading) * playerState.speed * dt;
 
-      // Keep inside Quarry Perimeter
       const radialDist = Math.hypot(playerState.pos.x, playerState.pos.z);
       if (radialDist > 92) {
         const clampScale = 92 / radialDist;
@@ -2614,54 +2806,82 @@
         playerState.speed *= 0.4;
       }
 
-      // Hydraulic Boom / Bucket / Slew / Bed Motion
       const hydRate = 0.85 * hydMult * dt;
       if (hydUp) playerState.boomAngle = Math.min(1, playerState.boomAngle + hydRate);
       if (hydDown) playerState.boomAngle = Math.max(0, playerState.boomAngle - hydRate);
 
       if (m.type === "excavator") {
-        if (hydIn) playerState.slewAngle += 1.35 * hydMult * dt;
-        if (hydOut) playerState.slewAngle -= 1.35 * hydMult * dt;
+        if (hydIn) playerState.slewAngle += 1.45 * hydMult * dt;
+        if (hydOut) playerState.slewAngle -= 1.45 * hydMult * dt;
       } else {
         if (hydIn) playerState.bucketAngle = Math.max(0, playerState.bucketAngle - hydRate * 1.2);
         if (hydOut) playerState.bucketAngle = Math.min(1, playerState.bucketAngle + hydRate * 1.2);
       }
 
-      // Auto-scoop when driving low bucket into a stockpile!
-      if ((m.type === "loader" || m.type === "excavator") && playerState.boomAngle < 0.35 && playerState.payload < getMaxCapacity()) {
-        for (const pile of siteObjects.stockpiles) {
-          const d = Math.hypot(playerState.pos.x - pile.x, playerState.pos.z - pile.z);
-          if (d < pile.r + 3.2 && Math.abs(playerState.speed) > 0.8) {
-            playerState.payload = Math.min(getMaxCapacity(), playerState.payload + dt * 6.5 * hydMult);
-            playerState.payloadType = pile.type;
-            if (Math.random() < 0.25) {
-              spawnMaterialBurst(new THREE.Vector3(pile.x, 1.4, pile.z), MATERIALS[pile.type].color, 2);
+      const cap = getMaxCapacity();
+
+      // Seamless Automatic Loading & Unloading Mechanics for All 3 Machines
+      if (m.type === "loader" || m.type === "excavator") {
+        // Scoop when bucket is lowered near stockpile
+        if (playerState.boomAngle < 0.45 && playerState.payload < cap) {
+          for (const pile of siteObjects.stockpiles) {
+            const d = Math.hypot(playerState.pos.x - pile.x, playerState.pos.z - pile.z);
+            if (d < pile.r + 4.2 && (Math.abs(playerState.speed) > 0.5 || hydDown || hydUp)) {
+              playerState.payload = Math.min(cap, playerState.payload + dt * 7.5 * hydMult);
+              playerState.payloadType = pile.type;
+              if (Math.random() < 0.25) {
+                spawnMaterialBurst(new THREE.Vector3(pile.x, 1.4, pile.z), MATERIALS[pile.type].color, 2);
+              }
             }
           }
         }
+        // Auto-unload when raising boom or tilting bucket beside a Haul Truck or Crusher
+        if (playerState.payload >= cap * 0.5 && (playerState.boomAngle > 0.45 || playerState.bucketAngle > 0.6)) {
+          unloadToTruckOrCrusher();
+        }
+      } else if (m.type === "dumper") {
+        // Auto-fill under Silo Hopper when parked/slow inside loading ring
+        const dHopper = Math.hypot(playerState.pos.x - siteObjects.hopperZone.x, playerState.pos.z - siteObjects.hopperZone.z);
+        if (dHopper < 6.8 && playerState.payload < cap && Math.abs(playerState.speed) < 2.5) {
+          if (playerState.payload < 0.1) {
+            const types = ["granite", "iron", "gold"];
+            playerState.payloadType = types[Math.floor(Math.random() * types.length)];
+          }
+          playerState.payload = Math.min(cap, playerState.payload + dt * 11 * hydMult);
+          if (Math.random() < 0.3) {
+            spawnMaterialBurst(siteObjects.hopperZone.clone().add(new THREE.Vector3(0, 6.5, 0)), MATERIALS[playerState.payloadType].color, 2);
+          }
+          if (playerState.payload >= cap) {
+            audio.playScoop();
+            showToast(`FULL LOAD (${cap}t ${MATERIALS[playerState.payloadType].name})! Drive to North Crusher!`);
+          }
+        }
+
+        // Auto-tip at North Crusher Hopper
+        const dCrusher = Math.hypot(playerState.pos.x - siteObjects.crusherZone.x, playerState.pos.z - (siteObjects.crusherZone.z + 9.5));
+        if (dCrusher < 8.5 && playerState.payload > 0.5 && Math.abs(playerState.speed) < 3.0) {
+          triggerSmartAction();
+        }
       }
 
-      // Apply Transforms to 3D Machine Parts
+      // Apply Transforms
       m.root.position.copy(playerState.pos);
       m.root.rotation.y = playerState.heading;
 
-      // Animate Cab Steering Wheel & Joystick
       if (m.cab) {
         m.cab.steeringPivot.rotation.z = -playerState.steerAngle * 2.4;
         m.cab.joystickStick.rotation.x = 0.2 + (hydUp ? -0.25 : hydDown ? 0.25 : 0);
       }
 
-      // Spin Tires
       m.wheels.forEach((w) => {
         w.rotation.x += playerState.speed * dt * 1.15;
       });
 
-      // Payload Visual Mound
       if (m.loadMound) {
         m.loadMound.visible = playerState.payload > 0.2;
         if (m.loadMound.visible) {
           m.loadMound.material.color.setHex(MATERIALS[playerState.payloadType].color);
-          const ratio = Math.max(0.3, playerState.payload / getMaxCapacity());
+          const ratio = Math.max(0.3, playerState.payload / cap);
           m.loadMound.scale.y = 0.4 + ratio * 0.5;
         }
       }
@@ -2678,7 +2898,6 @@
         m.bedPivot.rotation.x = -playerState.boomAngle * 0.78;
       }
 
-      // Update Main Player Camera (Cab Interior vs 3rd-Person Chase)
       m.root.updateMatrixWorld(true);
       const cabParent = m.type === "loader" ? m.frontPivot : m.type === "excavator" ? m.housePivot : m.root;
 
@@ -2695,24 +2914,33 @@
         playerCamera.lookAt(chaseLook);
       }
 
-      // Position Live Rear / Work Camera for the Portrait Cab Monitor
-      if (playerState.rearCamMode === "rear") {
-        const rPos = m.rearCamLocal.clone().applyMatrix4(cabParent.matrixWorld);
-        const rLook = m.rearCamLookLocal.clone().applyMatrix4(cabParent.matrixWorld);
-        rearCamera.position.copy(rPos);
-        rearCamera.lookAt(rLook);
+      // Position Portrait Screen Camera: Stitched 360° Bird's-Eye View for Excavator, Rear Cam for Loader/Dumper
+      if (m.type === "excavator" && !playerState.auxCamAltMode) {
+        // 360° Surround Top-Down Bird's-Eye Camera centered above the Excavator House
+        const topPos = new THREE.Vector3(0, 17.5, 0).applyMatrix4(m.housePivot.matrixWorld);
+        const lookCenter = new THREE.Vector3(0, 0, 0).applyMatrix4(m.housePivot.matrixWorld);
+        // Align camera up-vector with excavator front heading so forward is always UP on the 360 screen
+        const forwardDir = new THREE.Vector3(0, 0, 1).applyMatrix4(m.housePivot.matrixWorld).sub(lookCenter).normalize();
+        auxCamera.up.copy(forwardDir);
+        auxCamera.position.copy(topPos);
+        auxCamera.lookAt(lookCenter);
       } else {
-        // Overhead Work / Bucket Alignment Camera
-        const wPos = new THREE.Vector3(2.8, 5.4, 2.5).applyMatrix4(cabParent.matrixWorld);
-        const wLook = new THREE.Vector3(0, 0.6, 5.5).applyMatrix4(cabParent.matrixWorld);
-        rearCamera.position.copy(wPos);
-        rearCamera.lookAt(wLook);
+        auxCamera.up.set(0, 1, 0);
+        if (!playerState.auxCamAltMode) {
+          const rPos = m.rearCamLocal.clone().applyMatrix4(cabParent.matrixWorld);
+          const rLook = m.rearCamLookLocal.clone().applyMatrix4(cabParent.matrixWorld);
+          auxCamera.position.copy(rPos);
+          auxCamera.lookAt(rLook);
+        } else {
+          const wPos = new THREE.Vector3(2.8, 5.4, 2.5).applyMatrix4(cabParent.matrixWorld);
+          const wLook = new THREE.Vector3(0, 0.6, 5.5).applyMatrix4(cabParent.matrixWorld);
+          auxCamera.position.copy(wPos);
+          auxCamera.lookAt(wLook);
+        }
       }
 
-      // Update Engine Audio
       audio.updateEngine(playerState.speed / maxFwd, hydUp || hydDown || hydIn || hydOut);
 
-      // Update Streak Decay & Shift Timer
       playerState.shiftTimer += dt;
       if (playerState.streakTimer > 0) {
         playerState.streakTimer -= dt;
@@ -2739,7 +2967,6 @@
       miniCtx.fillStyle = "#11161c";
       miniCtx.fillRect(0, 0, w, h);
 
-      // Radar Grid Rings
       miniCtx.strokeStyle = "rgba(255,255,255,0.08)";
       miniCtx.lineWidth = 1;
       [35, 70, 100].forEach((r) => {
@@ -2748,12 +2975,10 @@
         miniCtx.stroke();
       });
 
-      // Haul Roads
       miniCtx.strokeStyle = "#374151";
       miniCtx.lineWidth = 8;
       miniCtx.strokeRect(cx - 44 * scale, cy - 48 * scale, 88 * scale, 94 * scale);
 
-      // Stockpiles
       for (const p of siteObjects.stockpiles) {
         miniCtx.fillStyle = p.type === "gold" ? "#eab308" : p.type === "iron" ? "#ea580c" : "#9ca3af";
         miniCtx.beginPath();
@@ -2761,15 +2986,12 @@
         miniCtx.fill();
       }
 
-      // North Crusher Zone (Green Square)
       miniCtx.fillStyle = "#22c55e";
       miniCtx.fillRect(cx + siteObjects.crusherZone.x * scale - 7, cy + siteObjects.crusherZone.z * scale - 7, 14, 14);
 
-      // South-West Silo Hopper (Amber Square)
       miniCtx.fillStyle = "#f5b800";
       miniCtx.fillRect(cx + siteObjects.hopperZone.x * scale - 6, cy + siteObjects.hopperZone.z * scale - 6, 12, 12);
 
-      // Workers (Cyan Dots)
       miniCtx.fillStyle = "#38bdf8";
       for (const wk of siteObjects.workers) {
         miniCtx.beginPath();
@@ -2777,7 +2999,6 @@
         miniCtx.fill();
       }
 
-      // Autonomous AI Dumpers (White/Amber Rectangles)
       miniCtx.fillStyle = "#fde047";
       for (const tr of siteObjects.aiDumpers) {
         miniCtx.beginPath();
@@ -2785,7 +3006,6 @@
         miniCtx.fill();
       }
 
-      // Player Machine Arrow
       const px = cx + playerState.pos.x * scale;
       const pz = cy + playerState.pos.z * scale;
       miniCtx.save();
@@ -2802,13 +3022,12 @@
       miniCtx.restore();
     }
 
-    function renderRearCameraMonitor() {
+    function renderAuxCameraMonitor() {
       renderer.setRenderTarget(rearCamTarget);
-      renderer.render(scene, rearCamera);
+      renderer.render(scene, auxCamera);
       renderer.readRenderTargetPixels(rearCamTarget, 0, 0, 180, 260, rearPixelBuffer);
       renderer.setRenderTarget(null);
 
-      // Flip Y from WebGL buffer to 2D Canvas ImageData
       const rowBytes = 180 * 4;
       for (let y = 0; y < 260; y++) {
         const srcOffset = (259 - y) * rowBytes;
@@ -2862,10 +3081,9 @@
       el.className = "toast-msg";
       el.textContent = msg;
       container.appendChild(el);
-      setTimeout(() => el.remove(), 2450);
+      setTimeout(() => el.remove(), 2500);
     }
 
-    // Modal Upgraders & Save Slot Renderers
     const UPGRADE_DEFS = [
       { key: "bucketCap", name: "High-Capacity Bucket/Bed", baseCost: 450, max: 5 },
       { key: "hydraulics", name: "Turbo Hydraulic Pumps", baseCost: 500, max: 5 },
@@ -2873,31 +3091,55 @@
       { key: "radarRange", name: "360° AI Proximity Radar", baseCost: 400, max: 5 }
     ];
 
+    function syncStartShiftButtonLabel() {
+      const slot = getActiveSlot();
+      const btn = document.getElementById("btn-start-shift");
+      const currentType = playerState.machine?.type;
+
+      if (currentType && currentType === slot.selectedMachine && playerState.shiftTimer > 1) {
+        btn.textContent = "▶ RESUME SHIFT & APPLY UPGRADES";
+        btn.classList.add("resume-style");
+      } else if (currentType && currentType !== slot.selectedMachine) {
+        const names = { loader: "WHEEL LOADER", excavator: "EXCAVATOR", dumper: "DUMPER" };
+        btn.textContent = `🔄 DEPLOY ${names[slot.selectedMachine]}`;
+        btn.classList.remove("resume-style");
+      } else {
+        btn.textContent = "▶ ENTER CAB & START SHIFT";
+        btn.classList.remove("resume-style");
+      }
+    }
+
     function renderModalLists() {
       const slot = getActiveSlot();
       document.getElementById("modal-money").textContent = "$" + slot.money.toLocaleString();
 
-      // Highlight selected machine card
       document.querySelectorAll(".machine-card").forEach((card) => {
         card.classList.toggle("selected", card.dataset.machine === slot.selectedMachine);
       });
 
-      // Render Upgrades
       const upgContainer = document.getElementById("upgrades-list");
       upgContainer.innerHTML = "";
       UPGRADE_DEFS.forEach((u) => {
         const lvl = slot.upgrades[u.key] || 1;
         const isMax = lvl >= u.max;
         const cost = u.baseCost * lvl;
+        const canAfford = !isMax && slot.money >= cost;
+
+        let pipsHtml = `<div class="lvl-pips">`;
+        for (let p = 1; p <= u.max; p++) {
+          pipsHtml += `<span class="lvl-pip ${p <= lvl ? "filled" : ""}"></span>`;
+        }
+        pipsHtml += `</div>`;
+
         const row = document.createElement("div");
         row.className = "upgrade-item";
         row.innerHTML = `
           <div>
             <div style="font-size:12px; font-weight:700; color:#fff;">${u.name}</div>
-            <div style="font-size:10px; color:#9ca3af;">Level ${lvl} / ${u.max}</div>
+            ${pipsHtml}
           </div>
-          <button class="btn-secondary" ${isMax || slot.money < cost ? "disabled" : ""}>
-            ${isMax ? "MAXED" : "$" + cost}
+          <button class="btn-secondary ${canAfford ? "buy-ready" : ""}" ${!canAfford ? "disabled" : ""}>
+            ${isMax ? "MAXED" : "UPGRADE $" + cost}
           </button>
         `;
         row.querySelector("button").addEventListener("click", () => {
@@ -2908,12 +3150,12 @@
             persistSaves();
             renderModalLists();
             updateHUDNumbers();
+            showToast(`UPGRADED: ${u.name} (Lvl ${lvl + 1})`);
           }
         });
         upgContainer.appendChild(row);
       });
 
-      // Render Save Slots
       const slotsContainer = document.getElementById("save-slots-list");
       slotsContainer.innerHTML = "";
       saveState.slots.forEach((s) => {
@@ -2934,12 +3176,14 @@
           persistSaves();
           renderModalLists();
           updateHUDNumbers();
+          spawnPlayerMachine(getActiveSlot().selectedMachine, false);
         });
         slotsContainer.appendChild(row);
       });
+
+      syncStartShiftButtonLabel();
     }
 
-    // Machine Card Selection Events
     document.querySelectorAll(".machine-card").forEach((card) => {
       card.addEventListener("click", () => {
         audio.unlock();
@@ -2964,7 +3208,10 @@
     document.getElementById("btn-start-shift").addEventListener("click", () => {
       audio.unlock();
       const slot = getActiveSlot();
-      spawnPlayerMachine(slot.selectedMachine);
+      const isSameMachine = playerState.machine && playerState.machine.type === slot.selectedMachine && playerState.shiftTimer > 1;
+      if (!isSameMachine) {
+        spawnPlayerMachine(slot.selectedMachine, false);
+      }
       document.getElementById("main-modal").classList.add("hidden");
       updateHUDNumbers();
     });
@@ -2983,15 +3230,13 @@
 
     document.getElementById("btn-cam-toggle").addEventListener("click", togglePlayerCamera);
 
-    // Tap Portrait Screen to switch Rear Camera vs Overhead Bucket Camera
+    // Tap Portrait Screen to toggle alternate camera mode
     document.getElementById("cab-monitor-frame").addEventListener("click", () => {
-      playerState.rearCamMode = playerState.rearCamMode === "rear" ? "work" : "rear";
-      document.getElementById("cam-feed-label").textContent =
-        playerState.rearCamMode === "rear" ? "REAR CAM" : "WORK CAM";
+      playerState.auxCamAltMode = !playerState.auxCamAltMode;
+      updateCameraMonitorChrome(playerState.machine?.type || "loader");
       audio.playTone(680, "sine", 0.08, 0.07);
     });
 
-    // Mute Toggle
     const muteBtn = document.getElementById("btn-mute");
     function syncMuteBtn() {
       muteBtn.textContent = saveState.muted ? "🔇" : "🔊";
@@ -3028,10 +3273,9 @@
       updateSiteEntities(dt, elapsed);
       updatePlayerMachine(dt);
 
-      // Render Rear/Work Camera to Portrait Screen every 2nd frame for silky 60fps mobile perf
       frameCount++;
       if (frameCount % 2 === 0) {
-        renderRearCameraMonitor();
+        renderAuxCameraMonitor();
         renderMinimap();
         updateHUDNumbers();
       }
@@ -3041,7 +3285,7 @@
 
     window.onload = function () {
       const slot = getActiveSlot();
-      spawnPlayerMachine(slot.selectedMachine);
+      spawnPlayerMachine(slot.selectedMachine, false);
       renderModalLists();
       updateHUDNumbers();
       checkForUpdates(false);

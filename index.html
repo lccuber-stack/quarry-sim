@@ -1220,7 +1220,7 @@
       </div>
     </div>
 
-    <!-- PORTRAIT CAB DISPLAY SCREEN (REAR CAM FOR LOADER/DUMPER, STITCHED 360° VIEW FOR EXCAVATOR) -->
+    <!-- PORTRAIT CAB DISPLAY SCREEN (REAR CAM FOR LOADER/HAULER, STITCHED 360° VIEW FOR EXCAVATOR) -->
     <div id="cab-monitor-frame" title="Tap to toggle camera feed mode">
       <div class="monitor-bezel-top">
         <span id="cam-feed-label">REAR CAM</span>
@@ -1229,7 +1229,7 @@
       <div id="rear-cam-screen">
         <canvas id="rear-cam-canvas" width="180" height="260"></canvas>
 
-        <!-- OVERLAY FOR STANDARD REAR CAMERA (LOADER & DUMPER) -->
+        <!-- OVERLAY FOR STANDARD REAR CAMERA (LOADER & HAULER) -->
         <svg id="cam-overlay-svg" viewBox="0 0 100 140" preserveAspectRatio="none">
           <path d="M 18 135 L 34 78" stroke="#ef4444" stroke-width="1.6" stroke-dasharray="3,2" fill="none" opacity="0.85"/>
           <path d="M 82 135 L 66 78" stroke="#ef4444" stroke-width="1.6" stroke-dasharray="3,2" fill="none" opacity="0.85"/>
@@ -1291,7 +1291,7 @@
         </div>
       </div>
 
-      <!-- HYDRAULIC CONTROLS (BUCKET / BOOM / DUMP BED) -->
+      <!-- HYDRAULIC CONTROLS (BUCKET / BOOM / HAULER BED) -->
       <div class="hydraulic-cluster pointer-auto">
         <div class="hyd-grid" id="hyd-controls-grid">
           <button class="hyd-btn" id="btn-hyd-up">▲<span id="lbl-hyd-up">BOOM UP</span></button>
@@ -1312,7 +1312,7 @@
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
           <span style="font-family:'Chakra Petch'; font-weight:700; color:#22c55e; font-size:16px;" id="modal-money">$1,250</span>
           <button class="update-status-badge" id="btn-check-update" title="Tap to check server & reload latest version without recreating home screen icon">
-            <span id="update-badge-text">✓ LATEST v1.4.0 • CHECK</span>
+            <span id="update-badge-text">✓ LATEST v1.4.2 • CHECK</span>
           </button>
         </div>
       </div>
@@ -1377,7 +1377,7 @@
             <div class="machine-mode-tag">MODE: CRUSHER FEEDER • REAR CAM</div>
           </div>
           <div class="machine-desc">
-            Scoop granite &amp; ore piles and load waiting autonomous haul trucks for fast cash combos.
+            Scoop granite &amp; ore piles and load waiting autonomous haulers for fast cash combos.
           </div>
         </div>
 
@@ -1493,7 +1493,7 @@
 
       <div class="modal-footer">
         <div style="font-size:11px; color:#9ca3af; line-height:1.4; flex:1; min-width:220px;">
-          <b>Drive:</b> WASD / Left Pad • <b>Hydraulics:</b> R/F/Q/E / Right Pad • <b>Look:</b> Drag • <span style="color:#6b7280;">v<span id="app-version-label">1.4.1</span></span>
+          <b>Drive:</b> WASD / Left Pad • <b>Hydraulics:</b> R/F/Q/E / Right Pad • <b>Look:</b> Drag • <span style="color:#6b7280;">v<span id="app-version-label">1.4.2</span></span>
         </div>
         <div class="modal-footer-right">
           <button class="btn-action" id="btn-start-shift">
@@ -1516,8 +1516,8 @@
         <div class="ctrl-box">
           <h4>📱 iPhone &amp; iPad (Touch)</h4>
           • <b>Left Joystick:</b> Drive &amp; Steer<br/>
-          • <b>Drag Anywhere on View:</b> Look around 360° in Cab or Chase view<br/>
-          • <b>Right Buttons:</b> Boom, Slew, Bucket &amp; Dump Bed<br/>
+          • <b>Drag Anywhere on View:</b> Look around 360° (inverted vertical)<br/>
+          • <b>Right Buttons:</b> Boom, Slew, Bucket &amp; Hauler Bed<br/>
           • <b>Tap Portrait Monitor:</b> Toggle Rear / Boom / 360° Cam
         </div>
         <div class="ctrl-box">
@@ -1563,7 +1563,7 @@
      * ============================================================================
      */
 
-    const APP_VERSION = "1.4.1";
+    const APP_VERSION = "1.4.2";
     const STORAGE_KEY = "quarry_sim_3d_saves_v1";
 
     // --------------------------------------------------------------------------
@@ -1575,6 +1575,20 @@
         iconCanvas.width = 512;
         iconCanvas.height = 512;
         const ctx = iconCanvas.getContext("2d");
+
+        if (!ctx.roundRect) {
+          ctx.roundRect = function (x, y, w, h, r) {
+            const rad = Math.min(r, w / 2, h / 2);
+            this.beginPath();
+            this.moveTo(x + rad, y);
+            this.arcTo(x + w, y, x + w, y + h, rad);
+            this.arcTo(x + w, y + h, x, y + h, rad);
+            this.arcTo(x, y + h, x, y, rad);
+            this.arcTo(x, y, x + w, y, rad);
+            this.closePath();
+            return this;
+          };
+        }
 
         // Rich industrial slate & amber radial backdrop (full bleed for iPadOS rounded mask)
         const bgGrad = ctx.createRadialGradient(256, 195, 30, 256, 256, 360);
@@ -1623,26 +1637,10 @@
         }
         ctx.restore();
 
-        // Crisp "QUARRY SIM" Header Pill (safe inside iPadOS icon corner radius)
-        ctx.fillStyle = "rgba(15, 20, 26, 0.88)";
-        ctx.beginPath();
-        ctx.roundRect(126, 52, 260, 44, 22);
-        ctx.fill();
-        ctx.strokeStyle = "#f5b800";
-        ctx.lineWidth = 3;
-        ctx.stroke();
-
-        ctx.fillStyle = "#f5b800";
-        ctx.font = "900 24px -apple-system, BlinkMacSystemFont, sans-serif";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText("QUARRY SIM", 256, 75);
-
-        // Detailed Heavy Wheel Loader Emblem (Centered)
+        // Detailed Heavy Wheel Loader Emblem (Centered cleanly without embedded text)
         ctx.save();
-        ctx.translate(12, 22);
+        ctx.translate(12, 28);
 
-        // Rear Engine Hood & Body
         const bodyGrad = ctx.createLinearGradient(0, 175, 0, 290);
         bodyGrad.addColorStop(0, "#ffd43b");
         bodyGrad.addColorStop(1, "#d98a00");
@@ -1651,13 +1649,11 @@
         ctx.roundRect(72, 195, 136, 86, 16);
         ctx.fill();
 
-        // Dark Grille & Counterweight
         ctx.fillStyle = "#1e232a";
         ctx.beginPath();
         ctx.roundRect(62, 204, 24, 72, 8);
         ctx.fill();
 
-        // Operator Cab Frame & Tinted Glass
         ctx.fillStyle = "#11161d";
         ctx.beginPath();
         ctx.moveTo(165, 132);
@@ -1670,17 +1666,14 @@
         ctx.strokeStyle = "#f5b800";
         ctx.stroke();
 
-        // Cab Roof Visor
         ctx.fillStyle = "#f5b800";
         ctx.beginPath();
         ctx.roundRect(156, 122, 98, 13, 6);
         ctx.fill();
 
-        // Front Chassis Frame
         ctx.fillStyle = "#262b33";
         ctx.fillRect(204, 232, 92, 46);
 
-        // Hydraulic Lift Boom Arm
         ctx.strokeStyle = "#f5b800";
         ctx.lineWidth = 24;
         ctx.lineCap = "round";
@@ -1689,7 +1682,6 @@
         ctx.lineTo(358, 248);
         ctx.stroke();
 
-        // Chrome Hydraulic Piston
         ctx.strokeStyle = "#cbd5e1";
         ctx.lineWidth = 10;
         ctx.beginPath();
@@ -1697,7 +1689,6 @@
         ctx.lineTo(334, 212);
         ctx.stroke();
 
-        // Rock Mound inside Bucket
         ctx.fillStyle = "#9ca3af";
         ctx.beginPath();
         ctx.moveTo(352, 216);
@@ -1705,7 +1696,6 @@
         ctx.closePath();
         ctx.fill();
 
-        // Heavy Steel Rock Bucket with Teeth
         ctx.fillStyle = "#374151";
         ctx.strokeStyle = "#111418";
         ctx.lineWidth = 5;
@@ -1718,7 +1708,6 @@
         ctx.fill();
         ctx.stroke();
 
-        // Heavy Off-Road Tires with Golden Rims
         [136, 276].forEach((wx) => {
           ctx.fillStyle = "#0b0d10";
           ctx.beginPath();
@@ -1744,7 +1733,6 @@
 
         const pngDataUrl = iconCanvas.toDataURL("image/png");
 
-        // Remove any stale icon tags first, then inject fresh PNG icons for iPad/iOS Dock & Home Screen
         document.querySelectorAll('link[rel="apple-touch-icon"], link[rel="apple-touch-icon-precomposed"], link[rel="icon"]').forEach((el) => el.remove());
 
         ["apple-touch-icon", "apple-touch-icon-precomposed"].forEach((relName) => {
@@ -1970,7 +1958,6 @@
         const now = this.ctx.currentTime;
         const absSpd = Math.abs(speedNorm);
 
-        // Silent in menus and completely silent when parked/idle
         if (saveState.muted || isMenuOpen || (absSpd < 0.04 && !hydActive)) {
           this.engineGain.gain.setTargetAtTime(0.0001, now, 0.08);
           return;
@@ -2037,7 +2024,6 @@
     const rearCamCtx = rearCamCanvas.getContext("2d");
     const rearImageData = rearCamCtx.createImageData(180, 260);
 
-    // Lighting
     const hemiLight = new THREE.HemisphereLight(0xf0f9ff, 0x78716c, 0.95);
     scene.add(hemiLight);
 
@@ -2055,7 +2041,6 @@
     dirLight.shadow.camera.bottom = -dShadow;
     scene.add(dirLight);
 
-    // Procedural Quarry Ground Texture
     const groundTexCanvas = document.createElement("canvas");
     groundTexCanvas.width = 256;
     groundTexCanvas.height = 256;
@@ -2122,7 +2107,6 @@
     }
 
     function buildQuarryEnvironment() {
-      // 1. Haul Roads
       const roadMat = new THREE.MeshStandardMaterial({ color: 0x3f3f46, roughness: 0.88 });
       const roadSegments = [
         { x: 0, z: 0, w: 14, l: 112 },
@@ -2139,7 +2123,6 @@
         scene.add(m);
       });
 
-      // 2. Perimeter Quarry Cliff Walls
       const cliffMat = new THREE.MeshStandardMaterial({ color: 0x57534e, roughness: 0.95, flatShading: true });
       for (let i = 0; i < 44; i++) {
         const angle = (i / 44) * Math.PI * 2;
@@ -2155,7 +2138,6 @@
         scene.add(cliff);
       }
 
-      // 3. Primary Rock Crusher Plant (North End: z = -56)
       const crusherGroup = new THREE.Group();
       crusherGroup.position.copy(siteObjects.crusherZone);
 
@@ -2190,7 +2172,6 @@
       scene.add(crusherGroup);
       siteObjects.obstacles.push({ x: 0, z: -56, r: 8.5, label: "CRUSHER PLANT" });
 
-      // 4. Quarry Loading Silo / Hopper (South-West: x = -42, z = 36)
       const siloGroup = new THREE.Group();
       siloGroup.position.copy(siteObjects.hopperZone);
       const legOffsets = [[-3.5, -3.5], [3.5, -3.5], [-3.5, 3.5], [3.5, 3.5]];
@@ -2212,7 +2193,6 @@
       siloGroup.add(loadRing);
       scene.add(siloGroup);
 
-      // 4B. Procedural Mission Dispatch Station (South-East: x = 24, z = 44)
       const missionGroup = new THREE.Group();
       missionGroup.position.copy(siteObjects.missionStationZone);
 
@@ -2254,7 +2234,6 @@
       scene.add(missionGroup);
       siteObjects.obstacles.push({ x: 24, z: 39.5, r: 3.4, label: "MISSION DISPATCH" });
 
-      // 5. Large Procedural Aggregate & Ore Stockpiles
       const pileConfigs = [
         { x: 24, z: -16, r: 10.5, h: 6.2, type: "granite" },
         { x: -24, z: -18, r: 11.5, h: 6.8, type: "granite" },
@@ -2294,7 +2273,6 @@
         siteObjects.stockpiles.push({ ...cfg, mesh });
       });
 
-      // Dynamic Objective Waypoint Beacon Ring in 3D World
       const beacon = new THREE.Mesh(
         new THREE.RingGeometry(4.2, 5.2, 32),
         new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide, transparent: true, opacity: 0.85 })
@@ -2304,7 +2282,6 @@
       scene.add(beacon);
       siteObjects.beaconRing = beacon;
 
-      // Floating 3D Directional Arrow Guide (used in Race Mode & Mission Navigation)
       const arrowGroup = new THREE.Group();
       const arrowShaft = new THREE.Mesh(
         new THREE.BoxGeometry(0.9, 0.35, 2.4),
@@ -2323,7 +2300,6 @@
       scene.add(arrowGroup);
       siteObjects.raceArrowGroup = arrowGroup;
 
-      // Race Circuit Checkpoints
       siteObjects.raceCheckpoints = [
         new THREE.Vector3(0, 0, -10),
         new THREE.Vector3(0, 0, -46),
@@ -2336,7 +2312,6 @@
         new THREE.Vector3(0, 0, 24)
       ];
 
-      // 6. Site Personnel in High-Visibility Safety Vests
       const vestMat = new THREE.MeshStandardMaterial({ color: 0xccff00, emissive: 0x3f4d00, roughness: 0.5 });
       const pantsMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.8 });
       const helmetMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, roughness: 0.3 });
@@ -2366,7 +2341,6 @@
         siteObjects.workers.push({ mesh: worker, ...rt });
       });
 
-      // 7. Autonomous AI Haul Dumpers
       const aiLoopWaypoints = [
         new THREE.Vector3(0, 0, 10),
         new THREE.Vector3(0, 0, -34),
@@ -2395,7 +2369,7 @@
     }
 
     // --------------------------------------------------------------------------
-    // 6. HEAVY MACHINERY 3D BUILDERS (LOADER, EXCAVATOR, DUMPER & CAB INTERIOR)
+    // 6. HEAVY MACHINERY 3D BUILDERS (LOADER, EXCAVATOR, HAULER & CAB INTERIOR)
     // --------------------------------------------------------------------------
     function createCabInterior() {
       const cabGroup = new THREE.Group();
@@ -2404,12 +2378,10 @@
       const orangeRailMat = new THREE.MeshStandardMaterial({ color: 0xf97316, roughness: 0.35 });
       const pillarMat = new THREE.MeshStandardMaterial({ color: 0x26292e, roughness: 0.6 });
 
-      // Dashboard console
       const dash = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.45, 0.55), dashMat);
       dash.position.set(0, 0.48, 0.68);
       cabGroup.add(dash);
 
-      // Steering column & wheel
       const steeringPivot = new THREE.Group();
       steeringPivot.position.set(0, 0.78, 0.46);
       steeringPivot.rotation.x = -0.55;
@@ -2422,7 +2394,6 @@
       steeringPivot.add(wheelRim, spoke);
       cabGroup.add(steeringPivot);
 
-      // Small illuminated HUD cluster behind steering wheel
       const clusterScreen = new THREE.Mesh(
         new THREE.PlaneGeometry(0.28, 0.14),
         new THREE.MeshBasicMaterial({ color: 0x0ea5e9 })
@@ -2431,7 +2402,6 @@
       clusterScreen.rotation.x = -0.35;
       cabGroup.add(clusterScreen);
 
-      // Right-hand hydraulic joystick
       const joystickBase = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.25, 0.32), dashMat);
       joystickBase.position.set(0.48, 0.55, 0.35);
       const joystickStick = new THREE.Mesh(
@@ -2442,7 +2412,6 @@
       joystickStick.rotation.x = 0.2;
       cabGroup.add(joystickBase, joystickStick);
 
-      // Cab A-pillars & high-vis orange grab rails
       [-0.74, 0.74].forEach((px) => {
         const pillar = new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.35, 0.08), pillarMat);
         pillar.position.set(px, 1.05, 0.78);
@@ -2457,7 +2426,6 @@
       roofBar.position.set(0, 1.72, 0.78);
       cabGroup.add(roofBar);
 
-      // Rear ROPS pillars, yellow canopy roof, back wall & tinted cab windows
       const yellowRoofMat = new THREE.MeshStandardMaterial({ color: 0xf5b800, metalness: 0.25, roughness: 0.42 });
       const glassMat = new THREE.MeshStandardMaterial({
         color: 0x1e293b,
@@ -2680,24 +2648,32 @@
       });
       const darkMat = new THREE.MeshStandardMaterial({ color: 0x26292e, metalness: 0.5, roughness: 0.5 });
 
-      const frame = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.7, 6.8), darkMat);
-      frame.position.set(0, 1.05, 0);
-      root.add(frame);
+      const rearFrame = new THREE.Mesh(new THREE.BoxGeometry(2.15, 0.65, 4.3), darkMat);
+      rearFrame.position.set(0, 1.05, -1.55);
+      root.add(rearFrame);
+
+      const frontPivot = new THREE.Group();
+      frontPivot.position.set(0, 0, 0.55);
+      root.add(frontPivot);
+
+      const frontFrame = new THREE.Mesh(new THREE.BoxGeometry(2.15, 0.75, 2.7), darkMat);
+      frontFrame.position.set(0, 1.1, 1.25);
+      frontPivot.add(frontFrame);
 
       const hood = new THREE.Mesh(new THREE.BoxGeometry(2.3, 1.25, 1.8), yellowMat);
-      hood.position.set(0, 1.65, 2.45);
+      hood.position.set(0, 1.65, 1.9);
       hood.castShadow = true;
-      root.add(hood);
+      frontPivot.add(hood);
 
       let cab = null;
       if (!isAI) {
         cab = createCabInterior();
-        cab.cabGroup.position.set(0, 1.75, 1.15);
-        root.add(cab.cabGroup);
+        cab.cabGroup.position.set(0, 1.75, 0.6);
+        frontPivot.add(cab.cabGroup);
       } else {
         const aiCab = new THREE.Mesh(new THREE.BoxGeometry(2.1, 1.35, 1.4), darkMat);
-        aiCab.position.set(0, 2.35, 1.35);
-        root.add(aiCab);
+        aiCab.position.set(0, 2.35, 0.8);
+        frontPivot.add(aiCab);
       }
 
       const bedPivot = new THREE.Group();
@@ -2719,7 +2695,10 @@
       bedPivot.add(loadMound);
 
       const wheels = [];
-      [2.1, -0.65, -2.35].forEach((wz) => {
+      const wFL = createWheel(0.88, 0.65); wFL.position.set(1.22, 0.88, 1.55); frontPivot.add(wFL); wheels.push(wFL);
+      const wFR = createWheel(0.88, 0.65); wFR.position.set(-1.22, 0.88, 1.55); frontPivot.add(wFR); wheels.push(wFR);
+
+      [-0.65, -2.35].forEach((wz) => {
         const wl = createWheel(0.88, 0.65); wl.position.set(1.22, 0.88, wz); root.add(wl); wheels.push(wl);
         const wr = createWheel(0.88, 0.65); wr.position.set(-1.22, 0.88, wz); root.add(wr); wheels.push(wr);
       });
@@ -2727,11 +2706,12 @@
       return {
         type: "dumper",
         root,
+        frontPivot,
         bedPivot,
         loadMound,
         cab,
         wheels,
-        cabEyeLocal: new THREE.Vector3(0, 2.9, 1.32),
+        cabEyeLocal: new THREE.Vector3(0, 2.9, 0.77),
         rearCamLocal: new THREE.Vector3(0, 1.65, -3.45),
         rearCamLookLocal: new THREE.Vector3(0, 0.5, -11.5)
       };
@@ -2962,7 +2942,6 @@
       keysDown[e.code] = false;
     });
 
-    // Touch & Right/Middle Mouse Drag on Canvas to Look Around Freely
     let lookTouchId = null;
     let lastLookX = 0;
     let lastLookY = 0;
@@ -2988,7 +2967,7 @@
           lastLookX = t.clientX;
           lastLookY = t.clientY;
           playerState.lookYaw = Math.max(-2.6, Math.min(2.6, playerState.lookYaw - dx * 0.0065));
-          playerState.lookPitch = Math.max(-0.45, Math.min(0.65, playerState.lookPitch - dy * 0.0045));
+          playerState.lookPitch = Math.max(-0.45, Math.min(0.65, playerState.lookPitch + dy * 0.0045));
         }
       }
     }, { passive: true });
@@ -3037,7 +3016,6 @@
       }
     }, { passive: true });
 
-    // Left Touch Joystick / Drive Pad
     const drivePad = document.getElementById("drive-pad");
     const driveKnob = document.getElementById("drive-knob");
     let joyTouchId = null;
@@ -3150,7 +3128,6 @@
     function unloadToTruckOrCrusher() {
       if (playerState.payload <= 0.05) return false;
 
-      // 1. Check nearby Autonomous Haul Dumpers
       for (const truck of siteObjects.aiDumpers) {
         const dist = truck.root.position.distanceTo(playerState.pos);
         if (dist < 10.5) {
@@ -3171,7 +3148,6 @@
         }
       }
 
-      // 2. Check North Rock Crusher Hopper
       const dCrusher = Math.hypot(playerState.pos.x - siteObjects.crusherZone.x, playerState.pos.z - (siteObjects.crusherZone.z + 9.5));
       if (dCrusher < 12.5) {
         const payout = Math.round(playerState.payload * MATERIALS[playerState.payloadType].valuePerTon * playerState.streak);
@@ -3189,7 +3165,6 @@
       const mType = playerState.machine.type;
       const cap = getMaxCapacity();
 
-      // Check if standing at the Mission Dispatch Station first
       const dMission = Math.hypot(playerState.pos.x - siteObjects.missionStationZone.x, playerState.pos.z - (siteObjects.missionStationZone.z + 1.8));
       if (dMission < 8.5) {
         playerState.activeContract = generateProceduralContract();
@@ -3200,7 +3175,6 @@
       }
 
       if (mType === "loader" || mType === "excavator") {
-        // Scoop if near stockpile
         for (const pile of siteObjects.stockpiles) {
           const dist = Math.hypot(playerState.pos.x - pile.x, playerState.pos.z - pile.z);
           if (dist < pile.r + 7.2) {
@@ -3264,7 +3238,6 @@
         slot.highScoreStreak = playerState.streak;
       }
 
-      // Check active procedural contract progress
       const matUsed = materialType || playerState.payloadType;
       if (playerState.activeContract && playerState.activeContract.materialType === matUsed) {
         playerState.activeContract.deliveredTons += tons;
@@ -3409,7 +3382,6 @@
         rearCamCtx.lineWidth = isClose ? 2.4 : 1.7;
         rearCamCtx.strokeRect(bx, by, boxW, boxH);
 
-        // Label badge above bounding box
         const label = isClose ? `PERSON ${dist.toFixed(0)}m!` : `WORKER ${dist.toFixed(0)}m`;
         rearCamCtx.font = "bold 9px monospace";
         const tw = rearCamCtx.measureText(label).width + 6;
@@ -3425,7 +3397,6 @@
     // 11. SITE ENTITIES SIMULATION (WORKERS, AI HAULERS, RACE & BEACON)
     // --------------------------------------------------------------------------
     function updateSiteEntities(dt, elapsed) {
-      // 1. Animate Site Crew in High-Vis Vests
       for (const wk of siteObjects.workers) {
         const t = elapsed * wk.speed + wk.phase;
         const nx = wk.cx + Math.cos(t) * wk.rx;
@@ -3439,7 +3410,6 @@
         wk.mesh.position.y = Math.abs(Math.sin(elapsed * 7 + wk.phase)) * 0.06;
       }
 
-      // 2. Animate Autonomous AI Haul Dumpers
       for (const tr of siteObjects.aiDumpers) {
         if (tr.waitTimer > 0 && tr.load < tr.maxLoad) {
           tr.waitTimer -= dt;
@@ -3453,11 +3423,9 @@
 
         if (dist < 2.2) {
           tr.wpIndex = (tr.wpIndex + 1) % tr.waypoints.length;
-          // At loading zone (wpIndex 0), pause for player loading
           if (tr.wpIndex === 0) {
             tr.waitTimer = 18;
           }
-          // At crusher drop point (wpIndex 2), autonomously sell any player-loaded ore
           if (tr.wpIndex === 2 && tr.load > 0) {
             const autoSale = Math.round(tr.load * MATERIALS[tr.materialType].valuePerTon * 0.45);
             awardMoney(autoSale, tr.load, tr.materialType);
@@ -3467,7 +3435,6 @@
             tr.loadMound.visible = false;
           }
         } else {
-          // Yield if player machine is directly ahead
           const distToPlayer = tr.root.position.distanceTo(playerState.pos);
           const moveSpeed = distToPlayer < 8.5 ? 0 : 6.2;
           const desiredYaw = Math.atan2(dx, dz);
@@ -3480,7 +3447,6 @@
         }
       }
 
-      // 3. Mission Dispatch Station Proximity Trigger
       if (playerState.missionStationCooldown > 0) {
         playerState.missionStationCooldown -= dt;
       }
@@ -3496,7 +3462,6 @@
         showToast(`📋 NEW CONTRACT: ${playerState.activeContract.title} (+$${playerState.activeContract.reward})`);
       }
 
-      // 4. Objective Waypoint Beacon & Race Mode 3D Arrow
       if (playerState.playMode === "race" && !playerState.raceFinished) {
         const cp = siteObjects.raceCheckpoints[playerState.raceCheckpointIdx];
         if (cp && siteObjects.beaconRing) {
@@ -3557,7 +3522,6 @@
         }
       }
 
-      // 5. Update Flying Material Particles
       for (let i = siteObjects.particles.length - 1; i >= 0; i--) {
         const pt = siteObjects.particles[i];
         pt.life -= dt * 1.4;
@@ -3619,7 +3583,6 @@
         }
       }
 
-      // Steering & Articulation
       const targetSteer = steer * 0.42;
       playerState.steerAngle += (targetSteer - playerState.steerAngle) * Math.min(1, dt * 7);
 
@@ -3630,7 +3593,6 @@
         playerState.heading += playerState.steerAngle * dirSign * Math.min(1, Math.abs(playerState.speed) / 4) * dt * 1.9;
       }
 
-      // Move Machine & Enforce Quarry Perimeter Bounds
       playerState.pos.x += Math.sin(playerState.heading) * playerState.speed * dt;
       playerState.pos.z += Math.cos(playerState.heading) * playerState.speed * dt;
 
@@ -3645,7 +3607,6 @@
       m.root.position.copy(playerState.pos);
       m.root.rotation.y = playerState.heading;
 
-      // Wheel rotation & Cab controls animation
       m.wheels.forEach((w) => {
         w.rotation.x += playerState.speed * dt * 1.1;
       });
@@ -3655,7 +3616,6 @@
         m.cab.joystickStick.rotation.z = hydIn ? 0.25 : hydOut ? -0.25 : 0;
       }
 
-      // Machine-Specific Hydraulics & Articulation
       const hydActive = Boolean(hydUp || hydDown || hydIn || hydOut);
       if (m.type === "loader") {
         m.frontPivot.rotation.y = playerState.steerAngle * 0.72;
@@ -3684,11 +3644,11 @@
           unloadToTruckOrCrusher();
         }
       } else if (m.type === "dumper") {
+        if (m.frontPivot) m.frontPivot.rotation.y = playerState.steerAngle * 0.72;
         if (hydUp || hydOut) playerState.boomAngle = Math.min(0.98, playerState.boomAngle + dt * 0.8 * hydMult);
         if (hydDown || hydIn) playerState.boomAngle = Math.max(0, playerState.boomAngle - dt * 0.8 * hydMult);
         m.bedPivot.rotation.x = -playerState.boomAngle;
 
-        // Auto-load under SW Yellow Hopper
         const dHopper = Math.hypot(playerState.pos.x - siteObjects.hopperZone.x, playerState.pos.z - siteObjects.hopperZone.z);
         const cap = getMaxCapacity();
         if (dHopper < 6.8 && Math.abs(playerState.speed) < 1.2 && playerState.payload < cap) {
@@ -3706,7 +3666,6 @@
           }
         }
 
-        // Auto-unload at North Crusher
         const dCrusher = Math.hypot(playerState.pos.x - siteObjects.crusherZone.x, playerState.pos.z - (siteObjects.crusherZone.z + 9.5));
         if (dCrusher < 9.5 && playerState.payload > 0.5 && (playerState.boomAngle > 0.6 || Math.abs(playerState.speed) < 1.0)) {
           playerState.boomAngle = 0.95;
@@ -3719,7 +3678,6 @@
         }
       }
 
-      // Update Visual Payload Mound inside Bucket / Dump Bed
       if (m.loadMound) {
         m.loadMound.visible = playerState.payload > 0.2;
         if (m.loadMound.visible) {
@@ -3727,7 +3685,6 @@
         }
       }
 
-      // Timers, Streak Decay & Rush Mode End Check
       if (playerState.playMode !== "race" || !playerState.raceFinished) {
         playerState.shiftTimer += dt;
       }
@@ -3760,19 +3717,17 @@
       const isMenuOpen = !document.getElementById("main-modal").classList.contains("hidden");
       audio.updateEngine(playerState.speed / maxFwd, hydActive, isMenuOpen);
 
-      // Gently recenter free-look when driving and not actively dragging
       if (!playerState.isDraggingLook && Math.abs(playerState.speed) > 1.5) {
         playerState.lookYaw *= Math.pow(0.25, dt);
         playerState.lookPitch *= Math.pow(0.25, dt);
       }
 
-      // Update Main Player Camera (Cab First-Person vs Chase Third-Person)
-      const activeYaw = playerState.heading + (m.type === "excavator" ? playerState.slewAngle : m.type === "loader" ? playerState.steerAngle * 0.72 : 0);
+      const activeYaw = playerState.heading + (m.type === "excavator" ? playerState.slewAngle : (m.type === "loader" || m.type === "dumper") ? playerState.steerAngle * 0.72 : 0);
 
       if (playerState.cameraMode === "cab") {
         m.root.updateMatrixWorld(true);
         const eyeWorld = m.cabEyeLocal ? m.cabEyeLocal.clone() : new THREE.Vector3(0, 2.8, 0.6);
-        if (m.type === "loader") {
+        if (m.type === "loader" || m.type === "dumper") {
           m.frontPivot.localToWorld(eyeWorld);
         } else if (m.type === "excavator") {
           m.housePivot.localToWorld(eyeWorld);
@@ -3800,7 +3755,6 @@
         playerCamera.lookAt(playerState.pos.x, playerState.pos.y + 2.0, playerState.pos.z);
       }
 
-      // Update Portrait Cab Monitor Camera (Stitched 360° Bird's-Eye for Excavator, Rear/Work Cam for Loader/Dumper)
       if (m.type === "excavator" && !playerState.auxCamAltMode) {
         auxCamera.fov = 75;
         auxCamera.updateProjectionMatrix();
@@ -3875,7 +3829,6 @@
       miniCtx.fillStyle = "#f5b800";
       miniCtx.fillRect(cx + siteObjects.hopperZone.x * scale - 6, cy + siteObjects.hopperZone.z * scale - 6, 12, 12);
 
-      // Mission Station Radar Blip (Cyan Diamond)
       miniCtx.fillStyle = "#38bdf8";
       miniCtx.fillRect(cx + siteObjects.missionStationZone.x * scale - 6, cy + siteObjects.missionStationZone.z * scale - 6, 12, 12);
 
@@ -4021,7 +3974,6 @@
     function renderModalLists() {
       const slot = getActiveSlot();
 
-      // Sync Mode Record Subtitles
       recalculateOverallHighScores();
       const oh = saveState.overallHighScores;
       const recCareerEl = document.getElementById("rec-career");
@@ -4033,12 +3985,10 @@
       if (recRush3El) recRush3El.textContent = `Best: ${oh.rush3.score.toFixed(1)}t (${oh.rush3.name})`;
       if (recRaceEl) recRaceEl.textContent = oh.race.time ? `Best: ${oh.race.time.toFixed(1)}s (${oh.race.name})` : "Best: --.-s • Follow 3D Arrows";
 
-      // Highlight selected machine card
       document.querySelectorAll(".machine-card").forEach((card) => {
         card.classList.toggle("selected", card.dataset.machine === slot.selectedMachine);
       });
 
-      // Render Upgrades with Visual Level Pips
       const upgContainer = document.getElementById("upgrades-list");
       upgContainer.innerHTML = "";
       UPGRADE_DEFS.forEach((u) => {
@@ -4078,7 +4028,6 @@
         upgContainer.appendChild(row);
       });
 
-      // Render Save Profiles with Rename Input for Active Profile
       const slotsContainer = document.getElementById("save-slots-list");
       slotsContainer.innerHTML = "";
       saveState.slots.forEach((s) => {
@@ -4143,7 +4092,6 @@
         slotsContainer.appendChild(row);
       });
 
-      // Render Top 3 Ranking Dynamically Linked to Selected Gameplay Mode
       const lbHeading = document.getElementById("leaderboard-mode-heading");
       const lbContainer = document.getElementById("overall-leaderboard-list");
       const modeNames = {
@@ -4256,7 +4204,6 @@
       btn.addEventListener("click", () => openTop10Modal(btn.dataset.tmode));
     });
 
-    // Close any popup dialog when clicking outside its card on the dark backdrop
     document.getElementById("controls-modal").addEventListener("click", (e) => {
       if (e.target === e.currentTarget) {
         document.getElementById("controls-modal").classList.add("hidden");
@@ -4374,7 +4321,6 @@
       showToast(saveState.aebEnabled ? "🛡️ Auto Collision Brake: ON" : "⚠️ Auto Collision Brake: OFF");
     });
 
-    // Tap Portrait Screen to toggle alternate camera mode
     document.getElementById("cab-monitor-frame").addEventListener("click", () => {
       playerState.auxCamAltMode = !playerState.auxCamAltMode;
       updateCameraMonitorChrome(playerState.machine?.type || "loader");

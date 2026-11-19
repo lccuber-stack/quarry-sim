@@ -20,8 +20,8 @@
   <style>
     :root {
       --bg-dark: #0f1215;
-      --panel-bg: rgba(16, 20, 26, 0.88);
-      --panel-border: rgba(255, 255, 255, 0.14);
+      --panel-bg: rgba(14, 18, 24, 0.92);
+      --panel-border: rgba(255, 255, 255, 0.16);
       --accent-yellow: #f5b800;
       --accent-amber: #ff8c00;
       --accent-green: #22c55e;
@@ -40,6 +40,14 @@
       -webkit-tap-highlight-color: transparent;
       user-select: none;
       -webkit-user-select: none;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    *::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
     }
 
     html, body {
@@ -63,7 +71,7 @@
       z-index: 1;
     }
 
-    /* HUD LAYER */
+    /* HUD LAYER — EXTRA TOP CLEARANCE FOR SHARP iOS / iPAD RENDERING */
     #hud-layer {
       position: fixed;
       inset: 0;
@@ -72,7 +80,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: calc(var(--safe-top) + 10px) calc(var(--safe-right) + 12px) calc(var(--safe-bottom) + 10px) calc(var(--safe-left) + 12px);
+      padding: calc(var(--safe-top) + 20px) calc(var(--safe-right) + 14px) calc(var(--safe-bottom) + 12px) calc(var(--safe-left) + 14px);
     }
 
     .pointer-auto {
@@ -101,12 +109,11 @@
       align-items: center;
       gap: 8px;
       background: var(--panel-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--panel-border);
       border-radius: 14px;
       padding: 7px 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+      transform: translateZ(0);
     }
 
     .stat-pill {
@@ -143,14 +150,23 @@
 
     /* MISSION OBJECTIVE BANNER */
     .mission-box {
-      background: linear-gradient(135deg, rgba(18, 23, 30, 0.92), rgba(28, 35, 44, 0.88));
+      background: linear-gradient(135deg, rgba(16, 21, 28, 0.95), rgba(24, 31, 40, 0.92));
       border-left: 4px solid var(--accent-yellow);
       border-top: 1px solid var(--panel-border);
       border-right: 1px solid var(--panel-border);
       border-bottom: 1px solid var(--panel-border);
       border-radius: 12px;
       padding: 8px 12px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+      transform: translateZ(0);
+    }
+
+    .mission-box.contract-active {
+      border-left-color: var(--accent-cyan);
+    }
+
+    .mission-box.race-active {
+      border-left-color: var(--accent-green);
     }
 
     .mission-header {
@@ -200,6 +216,8 @@
 
     .icon-btn-row {
       display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
       gap: 6px;
     }
 
@@ -208,7 +226,7 @@
       border: 1px solid var(--panel-border);
       color: var(--text-main);
       border-radius: 11px;
-      padding: 8px 11px;
+      padding: 8px 10px;
       font-family: 'Chakra Petch', sans-serif;
       font-weight: 700;
       font-size: 12px;
@@ -218,8 +236,8 @@
       align-items: center;
       justify-content: center;
       gap: 5px;
-      backdrop-filter: blur(10px);
       transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+      transform: translateZ(0);
     }
 
     .hud-btn:active {
@@ -240,11 +258,11 @@
     /* MINIMAP CARD */
     .minimap-wrap {
       position: relative;
-      width: 128px;
-      height: 128px;
+      width: 126px;
+      height: 126px;
       border-radius: 16px;
       overflow: hidden;
-      background: rgba(12, 16, 20, 0.92);
+      background: rgba(12, 16, 20, 0.94);
       border: 2px solid rgba(255, 255, 255, 0.18);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55);
     }
@@ -262,18 +280,18 @@
       font-family: 'Chakra Petch', sans-serif;
       font-size: 9px;
       font-weight: 700;
-      color: rgba(255, 255, 255, 0.75);
-      background: rgba(0, 0, 0, 0.55);
+      color: rgba(255, 255, 255, 0.8);
+      background: rgba(0, 0, 0, 0.6);
       padding: 1px 5px;
       border-radius: 4px;
       letter-spacing: 0.6px;
     }
 
-    /* PORTRAIT CAB MONITOR (REAR CAM OR STITCHED 360° CAM FOR EXCAVATOR) */
+    /* PORTRAIT CAB MONITOR */
     #cab-monitor-frame {
       position: fixed;
       right: calc(var(--safe-right) + 14px);
-      top: calc(var(--safe-top) + 192px);
+      top: calc(var(--safe-top) + 202px);
       width: 122px;
       height: 178px;
       background: #14171c;
@@ -357,7 +375,7 @@
     /* AUTO-BRAKE ALERT BANNER */
     #autobrake-banner {
       position: fixed;
-      top: calc(var(--safe-top) + 125px);
+      top: calc(var(--safe-top) + 138px);
       left: 50%;
       transform: translateX(-50%) scale(0.92);
       background: rgba(220, 38, 38, 0.94);
@@ -385,7 +403,7 @@
     /* TOAST FEEDBACK */
     #toast-container {
       position: fixed;
-      top: calc(var(--safe-top) + 168px);
+      top: calc(var(--safe-top) + 180px);
       left: 50%;
       transform: translateX(-50%);
       z-index: 24;
@@ -650,8 +668,59 @@
     .modal-subtitle {
       color: var(--text-muted);
       font-size: 12.5px;
-      margin: 0 0 14px;
+      margin: 0 0 12px;
       line-height: 1.4;
+    }
+
+    /* GAMEPLAY MODE TABS ON START SCREEN */
+    .mode-selector-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 8px;
+      margin-bottom: 14px;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 8px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .playmode-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 11px;
+      padding: 8px 10px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .playmode-pill:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .playmode-pill.selected {
+      background: rgba(56, 189, 248, 0.16);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.18);
+    }
+
+    .playmode-pill .pm-title {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .playmode-pill.selected .pm-title {
+      color: var(--accent-cyan);
+    }
+
+    .playmode-pill .pm-sub {
+      font-size: 10.5px;
+      color: var(--text-muted);
     }
 
     /* MACHINE SELECTION CARDS WITH LARGE CUSTOM VECTOR ICONS */
@@ -879,6 +948,69 @@
       color: var(--accent-yellow);
     }
 
+    .btn-save-solid {
+      background: rgba(34, 197, 94, 0.22);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.55);
+      border-radius: 9px;
+      padding: 6px 11px;
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      cursor: pointer;
+      transition: transform 0.1s ease, background 0.15s ease;
+    }
+
+    .btn-save-solid:active {
+      transform: scale(0.95);
+    }
+
+    .update-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(34, 197, 94, 0.14);
+      border: 1px solid rgba(34, 197, 94, 0.42);
+      color: #4ade80;
+      padding: 5px 10px;
+      border-radius: 9px;
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .update-status-badge.checking {
+      border-color: var(--accent-yellow);
+      color: var(--accent-yellow);
+      background: rgba(245, 184, 0, 0.14);
+    }
+
+    .leaderboard-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 8px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.035);
+      margin-bottom: 4px;
+      font-size: 11px;
+    }
+
+    .leaderboard-row .lb-mode {
+      color: var(--text-muted);
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .leaderboard-row .lb-val {
+      color: var(--accent-yellow);
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+    }
+
     .btn-secondary:disabled {
       opacity: 0.42;
       cursor: not-allowed;
@@ -894,13 +1026,44 @@
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* RESPONSIVE TWEAKS FOR PORTRAIT IPHONE */
-    @media (max-width: 600px) {
+    /* CONTROLS HELP POPUP CARD */
+    .controls-help-card {
+      max-width: 480px;
+    }
+
+    .ctrl-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .ctrl-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 10px;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .ctrl-box h4 {
+      margin: 0 0 6px;
+      font-family: 'Chakra Petch', sans-serif;
+      color: var(--accent-yellow);
+      font-size: 13px;
+    }
+
+    /* RESPONSIVE TWEAKS FOR PORTRAIT IPHONE & IPAD */
+    @media (max-width: 768px) {
+      #hud-layer {
+        padding-top: calc(var(--safe-top) + 26px);
+      }
       .top-left-cluster {
-        max-width: 58%;
+        max-width: 56%;
       }
       .telemetry-strip {
-        padding: 5px 9px;
+        padding: 6px 9px;
         gap: 6px;
       }
       .stat-pill {
@@ -910,14 +1073,14 @@
         font-size: 14px;
       }
       .minimap-wrap {
-        width: 102px;
-        height: 102px;
+        width: 100px;
+        height: 100px;
       }
       #cab-monitor-frame {
         width: 98px;
         height: 146px;
-        top: calc(var(--safe-top) + 160px);
-        right: calc(var(--safe-right) + 10px);
+        top: calc(var(--safe-top) + 178px);
+        right: calc(var(--safe-right) + 12px);
       }
       .drive-pad {
         width: 114px;
@@ -928,7 +1091,7 @@
         height: 44px;
       }
       .cab-cluster-hud {
-        min-width: 116px;
+        min-width: 114px;
         padding: 6px 9px;
       }
       .speed-readout {
@@ -946,7 +1109,7 @@
         font-size: 11px;
       }
       .machine-art-box {
-        height: 62px;
+        height: 60px;
       }
     }
   </style>
@@ -1003,9 +1166,31 @@
       <!-- TOP RIGHT: CONTROLS & SITE MINIMAP -->
       <div class="top-right-cluster">
         <div class="icon-btn-row pointer-auto">
-          <button class="hud-btn active" id="btn-cam-toggle" title="Switch Cab / Chase Camera">🎥 CAB</button>
-          <button class="hud-btn" id="btn-mute" title="Toggle Audio">🔊</button>
-          <button class="hud-btn upgrade-pill" id="btn-menu" title="Fleet, Upgrades & Saves">⚙️ GARAGE</button>
+          <button class="hud-btn active" id="btn-cam-toggle" title="Switch Cab / Chase Camera">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span id="cam-btn-text">CAB</span>
+          </button>
+          <button class="hud-btn active" id="btn-aeb-toggle" title="Toggle Auto Collision Brake (AEB)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span id="aeb-btn-text">AEB ON</span>
+          </button>
+          <button class="hud-btn" id="btn-help" title="Controls Guide">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="6" width="20" height="12" rx="4"/>
+              <path d="M7 10v4M5 12h4"/>
+              <circle cx="15.5" cy="13" r="1.2" fill="currentColor" stroke="none"/>
+              <circle cx="18.2" cy="11" r="1.2" fill="currentColor" stroke="none"/>
+            </svg>
+            <span>CTRL</span>
+          </button>
+          <button class="hud-btn" id="btn-mute" title="Toggle Audio">
+            <svg id="icon-sound-on" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+            <svg id="icon-sound-off" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+          </button>
+          <button class="hud-btn upgrade-pill" id="btn-menu" title="Fleet, Upgrades & Saves">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>GARAGE</span>
+          </button>
         </div>
 
         <div class="minimap-wrap pointer-auto">
@@ -1103,17 +1288,39 @@
   <div class="modal-backdrop" id="main-modal">
     <div class="modal-card">
       <div class="modal-header-row">
-        <span class="brand-badge">HEAVY IRON QUARRY OPS • v<span id="app-version-label">1.1.0</span></span>
-        <div style="display:flex; gap:8px; align-items:center;">
+        <span class="brand-badge">HEAVY IRON QUARRY OPS • v<span id="app-version-label">1.3.0</span></span>
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
           <span style="font-family:'Chakra Petch'; font-weight:700; color:#22c55e; font-size:16px;" id="modal-money">$1,250</span>
-          <button class="btn-secondary" id="btn-check-update" title="Check for latest version">↻ UPDATE</button>
+          <button class="update-status-badge" id="btn-check-update" title="Tap to check server & reload latest version without recreating home screen icon">
+            <span id="update-badge-text">✓ LATEST v1.3.0 • CHECK</span>
+          </button>
         </div>
       </div>
 
       <h1 class="modal-title">QUARRY SIM</h1>
       <p class="modal-subtitle">
-        Select your heavy machine or upgrade your fleet below. Upgrades apply immediately to your current shift without resetting your progress!
+        Choose your challenge mode &amp; heavy machine below. Visit the glowing <b>Mission Station</b> on site for procedural contracts!
       </p>
+
+      <!-- CHALLENGE / GAMEPLAY MODE SELECTOR WITH LIVE BEST RECORDS -->
+      <div class="mode-selector-bar" id="playmode-selector">
+        <button class="playmode-pill selected" data-playmode="career">
+          <span class="pm-title">🏗️ CAREER SHIFT</span>
+          <span class="pm-sub" id="rec-career">Best: $1,250 (Main Quarry)</span>
+        </button>
+        <button class="playmode-pill" data-playmode="rush1">
+          <span class="pm-title">⏱️ 1-MIN TONNAGE RUSH</span>
+          <span class="pm-sub" id="rec-rush1">Best: 0.0t • 2x Pay</span>
+        </button>
+        <button class="playmode-pill" data-playmode="rush3">
+          <span class="pm-title">🔥 3-MIN SHIFT BLITZ</span>
+          <span class="pm-sub" id="rec-rush3">Best: 0.0t • 2x Pay</span>
+        </button>
+        <button class="playmode-pill" data-playmode="race">
+          <span class="pm-title">🏁 QUARRY RALLY RACE</span>
+          <span class="pm-sub" id="rec-race">Best: --.-s • Follow 3D Arrows</span>
+        </button>
+      </div>
 
       <!-- MACHINE & GAME MODE SELECTOR WITH LARGE CUSTOM SVG ICONS -->
       <div class="machine-grid" id="machine-cards-container">
@@ -1205,56 +1412,69 @@
             <div class="machine-art-box">
               <!-- Detailed 6x6 Articulated Dumper SVG -->
               <svg viewBox="0 0 200 95" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Heavy Dump Bed filled with Ore -->
-                <path d="M22 32 L106 32 L112 58 L28 58 Z" fill="#f5b800" stroke="#111" stroke-width="2"/>
-                <path d="M28 32 Q65 18 102 32 Z" fill="#78716c"/>
-                <!-- Articulated Joint -->
-                <rect x="108" y="42" width="12" height="16" fill="#26292e"/>
-                <!-- Front Cab & Sloped Hood -->
-                <path d="M120 22 H144 L148 42 H120 Z" fill="#1e293b" stroke="#f5b800" stroke-width="2.5"/>
-                <path d="M146 34 L176 40 L176 58 L146 58 Z" fill="#f5b800" stroke="#111" stroke-width="2"/>
-                <!-- 6x6 Heavy Wheels (3 Axles) -->
-                <circle cx="44" cy="70" r="15" fill="#141619" stroke="#374151" stroke-width="2"/>
-                <circle cx="44" cy="70" r="6.5" fill="#f5b800"/>
-                <circle cx="82" cy="70" r="15" fill="#141619" stroke="#374151" stroke-width="2"/>
-                <circle cx="82" cy="70" r="6.5" fill="#f5b800"/>
-                <circle cx="152" cy="70" r="15" fill="#141619" stroke="#374151" stroke-width="2"/>
-                <circle cx="152" cy="70" r="6.5" fill="#f5b800"/>
+                <!-- Heavy Articulated Dump Body -->
+                <path d="M18 28 L98 32 L106 60 L24 60 Z" fill="#f5b800" stroke="#111" stroke-width="2"/>
+                <path d="M22 28 C44 16, 74 18, 95 31" fill="#78716c"/>
+                <!-- Articulated Pivot Joint -->
+                <rect x="104" y="46" width="14" height="16" rx="2" fill="#26292e"/>
+                <!-- Forward Cab & Engine Nose -->
+                <path d="M118 22 H144 L150 42 H118 Z" fill="#1e293b" stroke="#f5b800" stroke-width="2.5"/>
+                <path d="M148 34 H178 L182 58 H118 V42 H148 Z" fill="#f5b800" stroke="#111" stroke-width="2"/>
+                <!-- 6x6 Heavy Off-Road Wheels -->
+                <circle cx="42" cy="70" r="16" fill="#141619" stroke="#374151" stroke-width="2"/>
+                <circle cx="42" cy="70" r="7" fill="#f5b800"/>
+                <circle cx="80" cy="70" r="16" fill="#141619" stroke="#374151" stroke-width="2"/>
+                <circle cx="80" cy="70" r="7" fill="#f5b800"/>
+                <circle cx="152" cy="70" r="17" fill="#141619" stroke="#374151" stroke-width="2"/>
+                <circle cx="152" cy="70" r="8" fill="#f5b800"/>
               </svg>
             </div>
             <div class="machine-name">Articulated Dumper</div>
-            <div class="machine-mode-tag">MODE: EXPRESS RUN • REAR CAM</div>
+            <div class="machine-mode-tag">MODE: EXPRESS HAULER • REAR CAM</div>
           </div>
           <div class="machine-desc">
-            45-ton 6x6 hauler. Fill up at the Quarry Silo Hopper and tip your bed into the North Crusher!
+            45-ton 6x6 articulated hauler. Fill up under the yellow hopper and dump into the North Crusher!
           </div>
         </div>
       </div>
 
-      <!-- UPGRADES & SAVE SLOTS -->
+      <!-- TWO-COLUMN FLEET UPGRADES & SAVE PROFILES -->
       <div class="two-col-section">
-        <!-- WORKSHOP UPGRADES -->
+        <!-- FLEET UPGRADES -->
         <div class="sub-panel">
           <div class="sub-panel-title">
-            <span>⚙️ FLEET WORKSHOP UPGRADES</span>
-            <span style="font-size:10px; color:#38bdf8;">APPLIES LIVE</span>
+            <span>🔧 WORKSHOP UPGRADES</span>
+            <span style="font-size:10px; color:#9ca3af;">ALL MACHINES</span>
           </div>
           <div id="upgrades-list"></div>
         </div>
 
-        <!-- SAVE SLOTS -->
+        <!-- SAVE SLOTS WITH DEDICATED SAVE GAME BUTTON & OVERALL HIGH SCORES -->
         <div class="sub-panel">
           <div class="sub-panel-title">
             <span>💾 SAVE PROFILES</span>
-            <button class="btn-secondary" id="btn-new-game">+ NEW SLOT</button>
+            <div style="display:flex; gap:6px;">
+              <button class="btn-save-solid" id="btn-save-now">💾 SAVE GAME</button>
+              <button class="btn-secondary" id="btn-new-game">+ NEW PLAYER</button>
+            </div>
           </div>
           <div id="save-slots-list"></div>
+          <div id="save-status-line" style="font-size:10.5px; color:#4ade80; margin:6px 0 8px; font-family:'Chakra Petch', sans-serif;">
+            ✓ Auto-saved locally
+          </div>
+
+          <div class="sub-panel-title" style="margin-top:8px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.08);">
+            <span>🏆 OVERALL HIGH SCORES</span>
+            <span style="font-size:10px; color:#9ca3af;">ALL PLAYERS</span>
+          </div>
+          <div id="overall-leaderboard-list"></div>
         </div>
       </div>
 
       <div class="modal-footer">
-        <div style="font-size:11px; color:#9ca3af;">
-          Desktop: <b>WASD / Arrows</b> Drive • <b>R/F</b> Boom • <b>Q/E</b> Bucket/Bed • <b>C</b> Camera
+        <div style="font-size:11px; color:#9ca3af; line-height:1.4;">
+          <b>Desktop:</b> WASD/Arrows Drive • R/F Boom • Q/E Bucket/Bed • <b>Right/Middle Drag</b> Look Around<br/>
+          <b>iPhone/iPad:</b> Left Pad Drive • <b>Drag Screen</b> Look Around • Right Buttons Hydraulics
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
           <button class="btn-action" id="btn-start-shift">
@@ -1265,15 +1485,46 @@
     </div>
   </div>
 
+  <!-- CONTROLS QUICK REFERENCE MODAL -->
+  <div class="modal-backdrop hidden" id="controls-modal">
+    <div class="modal-card controls-help-card">
+      <div class="modal-header-row">
+        <span class="brand-badge">OPERATOR MANUAL</span>
+        <button class="btn-secondary" id="btn-close-controls">✕ CLOSE</button>
+      </div>
+      <h2 class="modal-title" style="font-size:22px; margin-top:8px;">MACHINE &amp; CAMERA CONTROLS</h2>
+      <div class="ctrl-grid">
+        <div class="ctrl-box">
+          <h4>📱 iPhone &amp; iPad (Touch)</h4>
+          • <b>Left Joystick:</b> Drive &amp; Steer<br/>
+          • <b>Drag Anywhere on View:</b> Look around 360° in Cab or Chase view<br/>
+          • <b>Right Buttons:</b> Boom, Slew, Bucket &amp; Dump Bed<br/>
+          • <b>Tap Portrait Monitor:</b> Toggle Rear / Boom / 360° Cam
+        </div>
+        <div class="ctrl-box">
+          <h4>💻 Desktop (Mouse &amp; Keys)</h4>
+          • <b>WASD / Arrows:</b> Drive &amp; Steer<br/>
+          • <b>Right-Click or Wheel Drag:</b> Look around freely<br/>
+          • <b>R / F:</b> Boom Up / Down<br/>
+          • <b>Q / E:</b> Curl / Dump / Slew<br/>
+          • <b>Space:</b> Smart Scoop/Unload • <b>C:</b> Cab/Chase
+        </div>
+      </div>
+      <div style="font-size:12px; color:#cbd5e1; background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.3); padding:9px 12px; border-radius:10px;">
+        💡 <b>Pro Tip:</b> Drive into the glowing cyan <b>Mission Station</b> (southeast of center) to accept procedural delivery contracts for huge cash payouts!
+      </div>
+    </div>
+  </div>
+
   <script>
     /**
      * ============================================================================
      * QUARRY SIM — HEAVY IRON 3D SIMULATOR
-     * Complete 3D WebGL Engine, Cab Interior, Stitched 360° Cam & AI Auto-Braking
+     * Complete 3D WebGL Engine, Free-Look Camera, Procedural Missions & Race Mode
      * ============================================================================
      */
 
-    const APP_VERSION = "1.1.0";
+    const APP_VERSION = "1.3.0";
     const STORAGE_KEY = "quarry_sim_3d_saves_v1";
 
     // --------------------------------------------------------------------------
@@ -1363,40 +1614,72 @@
     })();
 
     async function checkForUpdates(manual = false) {
+      const badge = document.getElementById("btn-check-update");
+      const badgeText = document.getElementById("update-badge-text");
+      if (badge && badgeText && manual) {
+        badge.classList.add("checking");
+        badgeText.textContent = "↻ CHECKING SERVER...";
+      }
+
       try {
-        const url = window.location.href.split("?")[0] + "?vcheck=" + Date.now();
-        const res = await fetch(url, { cache: "no-store" });
-        if (!res.ok) return;
-        const htmlText = await res.text();
-        const match = htmlText.match(/const APP_VERSION\s*=\s*["']([^"']+)["']/);
-        if (match && match[1] && match[1] !== APP_VERSION) {
-          showToast(`Updating Quarry Sim to v${match[1]}...`);
-          if ("caches" in window) {
-            const keys = await caches.keys();
-            await Promise.all(keys.map((k) => caches.delete(k)));
+        const cleanUrl = window.location.href.split("?")[0];
+        const res = await fetch(cleanUrl + "?vcheck=" + Date.now(), {
+          cache: "no-store",
+          headers: { "Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache" }
+        });
+
+        if (res.ok) {
+          const htmlText = await res.text();
+          const match = htmlText.match(/const APP_VERSION\s*=\s*["']([^"']+)["']/);
+          const serverVer = match && match[1] ? match[1] : null;
+
+          if (serverVer && serverVer !== APP_VERSION) {
+            if (badgeText) badgeText.textContent = `⬇ UPDATING TO v${serverVer}...`;
+            showToast(`New version v${serverVer} found! Refreshing home screen app...`);
+            persistSaves();
+            if ("caches" in window) {
+              const keys = await caches.keys();
+              await Promise.all(keys.map((k) => caches.delete(k)));
+            }
+            if ("serviceWorker" in navigator) {
+              const regs = await navigator.serviceWorker.getRegistrations();
+              await Promise.all(regs.map((r) => r.unregister()));
+            }
+            setTimeout(() => {
+              window.location.replace(cleanUrl + "?v=" + serverVer + "&t=" + Date.now());
+            }, 650);
+            return;
           }
-          setTimeout(() => {
-            window.location.replace(window.location.href.split("?")[0] + "?v=" + match[1] + "&t=" + Date.now());
-          }, 700);
-        } else if (manual) {
-          showToast(`Quarry Sim is up to date (v${APP_VERSION})`);
+        }
+
+        if (badge) badge.classList.remove("checking");
+        if (badgeText) badgeText.textContent = `✓ UP TO DATE (v${APP_VERSION})`;
+        if (manual) {
+          showToast(`✓ You are running the latest version (v${APP_VERSION})`);
         }
       } catch (e) {
-        if (manual) showToast(`Local Standalone Build (v${APP_VERSION})`);
+        if (badge) badge.classList.remove("checking");
+        if (badgeText) badgeText.textContent = `✓ LATEST v${APP_VERSION}`;
+        if (manual) {
+          showToast(`✓ Latest version v${APP_VERSION} active`);
+        }
       }
     }
 
     // --------------------------------------------------------------------------
-    // 2. VERSIONED LOCAL STORAGE & MULTI-SLOT SAVE MANAGER
+    // 2. VERSIONED LOCAL STORAGE, MULTI-PLAYER SLOTS & OVERALL HIGH SCORES
     // --------------------------------------------------------------------------
     function createDefaultSlot(name) {
       return {
         id: "slot_" + Date.now() + "_" + Math.floor(Math.random() * 999),
-        name: name || "Quarry Shift #1",
-        updatedAt: new Date().toLocaleDateString(),
+        name: name || "Operator #1",
+        updatedAt: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         money: 1250,
         totalTons: 0,
         highScoreStreak: 1,
+        bestRush1Tons: 0,
+        bestRush3Tons: 0,
+        bestRaceTime: null,
         selectedMachine: "loader",
         upgrades: {
           bucketCap: 1,
@@ -1408,11 +1691,43 @@
     }
 
     let saveState = {
-      schemaVersion: 2,
+      schemaVersion: 3,
       muted: false,
+      aebEnabled: true,
       activeSlotId: null,
-      slots: []
+      slots: [],
+      overallHighScores: {
+        career: { name: "Main Quarry Career", score: 1250 },
+        rush1: { name: "—", score: 0 },
+        rush3: { name: "—", score: 0 },
+        race: { name: "—", time: null }
+      }
     };
+
+    function recalculateOverallHighScores() {
+      if (!saveState.overallHighScores) {
+        saveState.overallHighScores = {
+          career: { name: "—", score: 0 },
+          rush1: { name: "—", score: 0 },
+          rush3: { name: "—", score: 0 },
+          race: { name: "—", time: null }
+        };
+      }
+      for (const s of saveState.slots) {
+        if ((s.money || 0) >= (saveState.overallHighScores.career.score || 0)) {
+          saveState.overallHighScores.career = { name: s.name, score: s.money || 0 };
+        }
+        if ((s.bestRush1Tons || 0) > (saveState.overallHighScores.rush1.score || 0)) {
+          saveState.overallHighScores.rush1 = { name: s.name, score: s.bestRush1Tons };
+        }
+        if ((s.bestRush3Tons || 0) > (saveState.overallHighScores.rush3.score || 0)) {
+          saveState.overallHighScores.rush3 = { name: s.name, score: s.bestRush3Tons };
+        }
+        if (s.bestRaceTime && (!saveState.overallHighScores.race.time || s.bestRaceTime < saveState.overallHighScores.race.time)) {
+          saveState.overallHighScores.race = { name: s.name, time: s.bestRaceTime };
+        }
+      }
+    }
 
     function loadSaves() {
       try {
@@ -1430,18 +1745,23 @@
         const initial = createDefaultSlot("Main Quarry Career");
         saveState.slots.push(initial);
         saveState.activeSlotId = initial.id;
-        persistSaves();
       }
-      if (!saveState.slots.find((s) => s.id === saveState.activeSlotId)) {
-        saveState.activeSlotId = saveState.slots[0].id;
-      }
+      recalculateOverallHighScores();
     }
 
-    function persistSaves() {
+    function persistSaves(manualClick = false) {
       try {
         const slot = getActiveSlot();
-        if (slot) slot.updatedAt = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        const timeStr = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+        if (slot) slot.updatedAt = timeStr;
+        recalculateOverallHighScores();
         localStorage.setItem(STORAGE_KEY, JSON.stringify(saveState));
+        const statusEl = document.getElementById("save-status-line");
+        if (statusEl) {
+          statusEl.textContent = manualClick
+            ? `✓ GAME SAVED TO "${slot.name}" AT ${timeStr}`
+            : `✓ Auto-saved locally (${timeStr})`;
+        }
       } catch (e) {
         console.warn("Save persist failed:", e);
       }
@@ -1454,91 +1774,95 @@
     loadSaves();
 
     // --------------------------------------------------------------------------
-    // 3. PROCEDURAL WEB AUDIO ENGINE (iOS UNLOCKABLE, ENGINE RUMBLE, HYDRAULICS)
+    // 3. WEB AUDIO API SYNTHESIZER (NO ANNOYING IDLE HUM — ONLY DRIVING & FX)
     // --------------------------------------------------------------------------
-    class QuarryAudio {
+    class QuarryAudioEngine {
       constructor() {
         this.ctx = null;
+        this.unlocked = false;
         this.engineOsc = null;
         this.engineGain = null;
-        this.initialized = false;
       }
 
       unlock() {
-        if (saveState.muted) return;
-        if (!this.ctx) {
+        if (this.unlocked) return;
+        try {
           const AudioCtx = window.AudioContext || window.webkitAudioContext;
-          if (!AudioCtx) return;
           this.ctx = new AudioCtx();
-        }
-        if (this.ctx.state === "suspended") {
-          this.ctx.resume();
-        }
-        if (!this.initialized && this.ctx) {
-          this.initialized = true;
+          if (this.ctx.state === "suspended") this.ctx.resume();
+
           this.engineOsc = this.ctx.createOscillator();
-          this.engineGain = this.ctx.createGain();
+          this.engineOsc.type = "triangle";
+          this.engineOsc.frequency.value = 46;
+
           const filter = this.ctx.createBiquadFilter();
           filter.type = "lowpass";
-          filter.frequency.value = 140;
+          filter.frequency.value = 135;
 
-          this.engineOsc.type = "sawtooth";
-          this.engineOsc.frequency.value = 34;
-          this.engineGain.gain.value = 0.03;
+          this.engineGain = this.ctx.createGain();
+          this.engineGain.gain.value = 0.0001;
 
           this.engineOsc.connect(filter);
           filter.connect(this.engineGain);
           this.engineGain.connect(this.ctx.destination);
           this.engineOsc.start();
+          this.unlocked = true;
+        } catch (e) {
+          console.warn("Audio unlock deferred:", e);
         }
       }
 
-      updateEngine(speedRatio, working) {
-        if (!this.initialized || !this.ctx || saveState.muted) {
-          if (this.engineGain) this.engineGain.gain.value = 0;
+      updateEngine(speedNorm, hydActive, isMenuOpen = false) {
+        if (!this.unlocked || !this.ctx || !this.engineGain) return;
+        const now = this.ctx.currentTime;
+        const absSpd = Math.abs(speedNorm);
+
+        // Silent in menus and completely silent when parked/idle
+        if (saveState.muted || isMenuOpen || (absSpd < 0.04 && !hydActive)) {
+          this.engineGain.gain.setTargetAtTime(0.0001, now, 0.08);
           return;
         }
-        const targetFreq = 32 + Math.abs(speedRatio) * 38 + (working ? 12 : 0);
-        const targetGain = 0.028 + Math.abs(speedRatio) * 0.028 + (working ? 0.015 : 0);
-        this.engineOsc.frequency.setTargetAtTime(targetFreq, this.ctx.currentTime, 0.08);
-        this.engineGain.gain.setTargetAtTime(targetGain, this.ctx.currentTime, 0.08);
+
+        const rpmFreq = 44 + absSpd * 46 + (hydActive ? 14 : 0);
+        const targetGain = Math.min(0.055, absSpd * 0.045 + (hydActive ? 0.02 : 0));
+        this.engineOsc.frequency.setTargetAtTime(rpmFreq, now, 0.08);
+        this.engineGain.gain.setTargetAtTime(targetGain, now, 0.08);
       }
 
-      playTone(freq, type = "triangle", duration = 0.16, vol = 0.12) {
-        if (saveState.muted) return;
-        this.unlock();
-        if (!this.ctx) return;
+      playTone(freq, type = "sine", duration = 0.12, gainVal = 0.12) {
+        if (!this.unlocked || !this.ctx || saveState.muted) return;
+        const now = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         osc.type = type;
-        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-        gain.gain.setValueAtTime(vol, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+        osc.frequency.setValueAtTime(freq, now);
+        gain.gain.setValueAtTime(gainVal, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(this.ctx.currentTime + duration);
-      }
-
-      playScoop() {
-        this.playTone(110, "sawtooth", 0.24, 0.14);
-        setTimeout(() => this.playTone(165, "triangle", 0.18, 0.1), 80);
-      }
-
-      playCash() {
-        this.playTone(587.33, "sine", 0.14, 0.15);
-        setTimeout(() => this.playTone(880, "sine", 0.25, 0.16), 90);
+        osc.start(now);
+        osc.stop(now + duration);
       }
 
       playBeep() {
-        this.playTone(920, "square", 0.08, 0.06);
+        this.playTone(980, "square", 0.11, 0.06);
+      }
+
+      playScoop() {
+        this.playTone(130, "triangle", 0.25, 0.16);
+        setTimeout(() => this.playTone(195, "sine", 0.18, 0.12), 70);
+      }
+
+      playCash() {
+        this.playTone(587.33, "sine", 0.14, 0.14);
+        setTimeout(() => this.playTone(880, "sine", 0.22, 0.15), 90);
       }
     }
 
-    const audio = new QuarryAudio();
+    const audio = new QuarryAudioEngine();
 
     // --------------------------------------------------------------------------
-    // 4. THREE.JS 3D QUARRY WORLD, MACHINES, CAB INTERIOR & 360° / REAR CAM
+    // 4. THREE.JS SCENE, LIGHTING, SKY & RENDER TARGETS
     // --------------------------------------------------------------------------
     const canvas = document.getElementById("game-canvas");
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
@@ -1546,90 +1870,77 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.08;
-
-    // Secondary WebGLRenderTarget for the Portrait Cab Monitor
-    const rearCamTarget = new THREE.WebGLRenderTarget(180, 260, {
-      minFilter: THREE.LinearFilter,
-      magFilter: THREE.LinearFilter,
-      format: THREE.RGBAFormat
-    });
-    const rearCamCanvas = document.getElementById("rear-cam-canvas");
-    const rearCamCtx = rearCamCanvas.getContext("2d");
-    const rearPixelBuffer = new Uint8Array(180 * 260 * 4);
-    const rearImageData = rearCamCtx.createImageData(180, 260);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x9fb4c7);
-    scene.fog = new THREE.FogExp2(0x9fb4c7, 0.0052);
+    scene.background = new THREE.Color(0x9cb3c9);
+    scene.fog = new THREE.FogExp2(0x9cb3c9, 0.0048);
 
-    const playerCamera = new THREE.PerspectiveCamera(64, window.innerWidth / window.innerHeight, 0.15, 360);
-    // Auxiliary Camera (acts as Rear Cam for Loader/Dumper, or Top-Down 360° Stitched Camera for Excavator)
-    const auxCamera = new THREE.PerspectiveCamera(76, 180 / 260, 0.2, 160);
+    const playerCamera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.2, 320);
+    const auxCamera = new THREE.PerspectiveCamera(68, 180 / 260, 0.2, 160);
+
+    const rearCamTarget = new THREE.WebGLRenderTarget(180, 260);
+    const rearPixelBuffer = new Uint8Array(180 * 260 * 4);
+    const rearCamCanvas = document.getElementById("rear-cam-canvas");
+    const rearCamCtx = rearCamCanvas.getContext("2d");
+    const rearImageData = rearCamCtx.createImageData(180, 260);
 
     // Lighting
-    const hemiLight = new THREE.HemisphereLight(0xdbeafe, 0x57534e, 0.88);
+    const hemiLight = new THREE.HemisphereLight(0xf0f9ff, 0x78716c, 0.95);
     scene.add(hemiLight);
 
-    const dirLight = new THREE.DirectionalLight(0xfffbeb, 1.35);
-    dirLight.position.set(65, 95, 45);
+    const dirLight = new THREE.DirectionalLight(0xfffbeb, 1.15);
+    dirLight.position.set(55, 85, 45);
     dirLight.castShadow = true;
-    dirLight.shadow.mapSize.width = 2048;
-    dirLight.shadow.mapSize.height = 2048;
+    dirLight.shadow.mapSize.width = 1024;
+    dirLight.shadow.mapSize.height = 1024;
     dirLight.shadow.camera.near = 10;
-    dirLight.shadow.camera.far = 230;
-    const d = 85;
-    dirLight.shadow.camera.left = -d;
-    dirLight.shadow.camera.right = d;
-    dirLight.shadow.camera.top = d;
-    dirLight.shadow.camera.bottom = -d;
-    dirLight.shadow.bias = -0.0005;
+    dirLight.shadow.camera.far = 220;
+    const dShadow = 85;
+    dirLight.shadow.camera.left = -dShadow;
+    dirLight.shadow.camera.right = dShadow;
+    dirLight.shadow.camera.top = dShadow;
+    dirLight.shadow.camera.bottom = -dShadow;
     scene.add(dirLight);
 
-    function createQuarryGroundTexture() {
-      const c = document.createElement("canvas");
-      c.width = 512;
-      c.height = 512;
-      const g = c.getContext("2d");
-      g.fillStyle = "#6c655c";
-      g.fillRect(0, 0, 512, 512);
-      for (let i = 0; i < 16000; i++) {
-        const x = Math.random() * 512;
-        const y = Math.random() * 512;
-        const shade = 80 + Math.floor(Math.random() * 55);
-        g.fillStyle = `rgb(${shade},${shade - 6},${shade - 14})`;
-        g.fillRect(x, y, 2, 2);
-      }
-      const tex = new THREE.CanvasTexture(c);
-      tex.wrapS = THREE.RepeatWrapping;
-      tex.wrapT = THREE.RepeatWrapping;
-      tex.repeat.set(36, 36);
-      return tex;
+    // Procedural Quarry Ground Texture
+    const groundTexCanvas = document.createElement("canvas");
+    groundTexCanvas.width = 256;
+    groundTexCanvas.height = 256;
+    const gCtx = groundTexCanvas.getContext("2d");
+    gCtx.fillStyle = "#7c7365";
+    gCtx.fillRect(0, 0, 256, 256);
+    for (let i = 0; i < 2400; i++) {
+      gCtx.fillStyle = i % 2 === 0 ? "rgba(40,36,32,0.18)" : "rgba(180,170,155,0.16)";
+      gCtx.fillRect(Math.random() * 256, Math.random() * 256, 3, 3);
     }
+    const groundTex = new THREE.CanvasTexture(groundTexCanvas);
+    groundTex.wrapS = THREE.RepeatWrapping;
+    groundTex.wrapT = THREE.RepeatWrapping;
+    groundTex.repeat.set(28, 28);
 
-    const groundMat = new THREE.MeshStandardMaterial({
-      map: createQuarryGroundTexture(),
-      roughness: 0.92,
-      metalness: 0.04
-    });
-    const groundMesh = new THREE.Mesh(new THREE.PlaneGeometry(340, 340), groundMat);
+    const groundMesh = new THREE.Mesh(
+      new THREE.CircleGeometry(125, 48),
+      new THREE.MeshStandardMaterial({ map: groundTex, roughness: 0.94 })
+    );
     groundMesh.rotation.x = -Math.PI / 2;
     groundMesh.receiveShadow = true;
     scene.add(groundMesh);
 
     // --------------------------------------------------------------------------
-    // 5. PROCEDURAL QUARRY SITE GENERATION (STOCKPILES, HAUL ROADS, CRUSHER, CREW)
+    // 5. PROCEDURAL QUARRY SITE GENERATION (STOCKPILES, MISSION STATION, RACE)
     // --------------------------------------------------------------------------
     const siteObjects = {
       stockpiles: [],
       crusherZone: new THREE.Vector3(0, 0, -56),
       hopperZone: new THREE.Vector3(-42, 0, 36),
+      missionStationZone: new THREE.Vector3(24, 0, 44),
       workers: [],
       aiDumpers: [],
       obstacles: [],
       particles: [],
-      beaconRing: null
+      beaconRing: null,
+      raceCheckpoints: [],
+      raceArrowGroup: null
     };
 
     const MATERIALS = {
@@ -1637,6 +1948,25 @@
       iron: { name: "IRON ORE", color: 0x9a3412, valuePerTon: 85 },
       gold: { name: "GOLD QUARTZ", color: 0xeab308, valuePerTon: 160 }
     };
+
+    function spawnMaterialBurst(origin, hexColor, count = 12) {
+      const geo = new THREE.DodecahedronGeometry(0.24, 0);
+      const mat = new THREE.MeshStandardMaterial({ color: hexColor, roughness: 0.8 });
+      for (let i = 0; i < count; i++) {
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.copy(origin);
+        scene.add(mesh);
+        siteObjects.particles.push({
+          mesh,
+          vel: new THREE.Vector3(
+            (Math.random() - 0.5) * 6,
+            3 + Math.random() * 5,
+            (Math.random() - 0.5) * 6
+          ),
+          life: 1.0
+        });
+      }
+    }
 
     function buildQuarryEnvironment() {
       // 1. Haul Roads
@@ -1707,7 +2037,7 @@
       scene.add(crusherGroup);
       siteObjects.obstacles.push({ x: 0, z: -56, r: 8.5, label: "CRUSHER PLANT" });
 
-      // 4. Quarry Loading Silo / Hopper (South-West: x = -42, z = 36) for Dumper Mode
+      // 4. Quarry Loading Silo / Hopper (South-West: x = -42, z = 36)
       const siloGroup = new THREE.Group();
       siloGroup.position.copy(siteObjects.hopperZone);
       const legOffsets = [[-3.5, -3.5], [3.5, -3.5], [-3.5, 3.5], [3.5, 3.5]];
@@ -1728,6 +2058,48 @@
       loadRing.position.set(0, 0.08, 0);
       siloGroup.add(loadRing);
       scene.add(siloGroup);
+
+      // 4B. Procedural Mission Dispatch Station (South-East: x = 24, z = 44)
+      const missionGroup = new THREE.Group();
+      missionGroup.position.copy(siteObjects.missionStationZone);
+
+      const cabin = new THREE.Mesh(
+        new THREE.BoxGeometry(5.5, 3.2, 4.2),
+        new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.5, roughness: 0.4 })
+      );
+      cabin.position.set(0, 1.6, -4.5);
+      cabin.castShadow = true;
+      missionGroup.add(cabin);
+
+      const roofTrim = new THREE.Mesh(
+        new THREE.BoxGeometry(5.8, 0.35, 4.5),
+        new THREE.MeshBasicMaterial({ color: 0x38bdf8 })
+      );
+      roofTrim.position.set(0, 3.3, -4.5);
+      missionGroup.add(roofTrim);
+
+      const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.25, 6.5, 8), steelMat);
+      mast.position.set(2.2, 5.5, -4.5);
+      missionGroup.add(mast);
+
+      const dish = new THREE.Mesh(
+        new THREE.SphereGeometry(0.85, 12, 8, 0, Math.PI),
+        new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide })
+      );
+      dish.position.set(2.2, 8.7, -4.5);
+      dish.rotation.x = -0.6;
+      missionGroup.add(dish);
+
+      const missionPadRing = new THREE.Mesh(
+        new THREE.RingGeometry(4.0, 5.2, 32),
+        new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide })
+      );
+      missionPadRing.rotation.x = -Math.PI / 2;
+      missionPadRing.position.set(0, 0.09, 1.8);
+      missionGroup.add(missionPadRing);
+
+      scene.add(missionGroup);
+      siteObjects.obstacles.push({ x: 24, z: 39.5, r: 3.4, label: "MISSION DISPATCH" });
 
       // 5. Large Procedural Aggregate & Ore Stockpiles
       const pileConfigs = [
@@ -1779,6 +2151,38 @@
       scene.add(beacon);
       siteObjects.beaconRing = beacon;
 
+      // Floating 3D Directional Arrow Guide (used in Race Mode & Mission Navigation)
+      const arrowGroup = new THREE.Group();
+      const arrowShaft = new THREE.Mesh(
+        new THREE.BoxGeometry(0.9, 0.35, 2.4),
+        new THREE.MeshBasicMaterial({ color: 0x22c55e })
+      );
+      arrowShaft.position.z = -0.6;
+      const arrowHead = new THREE.Mesh(
+        new THREE.ConeGeometry(1.35, 2.2, 4),
+        new THREE.MeshBasicMaterial({ color: 0xfacc15 })
+      );
+      arrowHead.rotation.x = Math.PI / 2;
+      arrowHead.rotation.y = Math.PI / 4;
+      arrowHead.position.z = 1.4;
+      arrowGroup.add(arrowShaft, arrowHead);
+      arrowGroup.visible = false;
+      scene.add(arrowGroup);
+      siteObjects.raceArrowGroup = arrowGroup;
+
+      // Race Circuit Checkpoints
+      siteObjects.raceCheckpoints = [
+        new THREE.Vector3(0, 0, -10),
+        new THREE.Vector3(0, 0, -46),
+        new THREE.Vector3(44, 0, -46),
+        new THREE.Vector3(44, 0, 0),
+        new THREE.Vector3(44, 0, 46),
+        new THREE.Vector3(-44, 0, 46),
+        new THREE.Vector3(-44, 0, -46),
+        new THREE.Vector3(0, 0, -46),
+        new THREE.Vector3(0, 0, 24)
+      ];
+
       // 6. Site Personnel in High-Visibility Safety Vests
       const vestMat = new THREE.MeshStandardMaterial({ color: 0xccff00, emissive: 0x3f4d00, roughness: 0.5 });
       const pantsMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.8 });
@@ -1811,12 +2215,12 @@
 
       // 7. Autonomous AI Haul Dumpers
       const aiLoopWaypoints = [
-        new THREE.Vector3(0, 0, 10),    // Loading Staging Zone (Center)
-        new THREE.Vector3(0, 0, -34),   // Approach Crusher
-        new THREE.Vector3(14, 0, -48),  // Turn East
-        new THREE.Vector3(44, 0, -44),  // East Haul Road North
-        new THREE.Vector3(44, 0, 44),   // East Haul Road South
-        new THREE.Vector3(0, 0, 46)     // Return Center South
+        new THREE.Vector3(0, 0, 10),
+        new THREE.Vector3(0, 0, -34),
+        new THREE.Vector3(14, 0, -48),
+        new THREE.Vector3(44, 0, -44),
+        new THREE.Vector3(44, 0, 44),
+        new THREE.Vector3(0, 0, 46)
       ];
 
       for (let idx = 0; idx < 2; idx++) {
@@ -1838,151 +2242,191 @@
     }
 
     // --------------------------------------------------------------------------
-    // 6. DETAILED MACHINE BUILDERS (VOLVO-INSPIRED YELLOW/CHARCOAL + CAB INTERIOR)
+    // 6. HEAVY MACHINERY 3D BUILDERS (LOADER, EXCAVATOR, DUMPER & CAB INTERIOR)
     // --------------------------------------------------------------------------
-    const volvoYellow = new THREE.MeshStandardMaterial({ color: 0xf5b800, metalness: 0.28, roughness: 0.38 });
-    const volvoDarkGrey = new THREE.MeshStandardMaterial({ color: 0x26292e, metalness: 0.45, roughness: 0.5 });
-    const tireRubber = new THREE.MeshStandardMaterial({ color: 0x141619, roughness: 0.88 });
-    const glassMat = new THREE.MeshStandardMaterial({
-      color: 0xbae6fd,
-      transparent: true,
-      opacity: 0.22,
-      roughness: 0.1
-    });
-
-    function createCabInteriorAssembly() {
+    function createCabInterior() {
       const cabGroup = new THREE.Group();
 
-      const dash = new THREE.Mesh(new THREE.BoxGeometry(1.45, 0.36, 0.52), volvoDarkGrey);
-      dash.position.set(0, 0.62, 0.55);
+      const dashMat = new THREE.MeshStandardMaterial({ color: 0x181c20, roughness: 0.7 });
+      const orangeRailMat = new THREE.MeshStandardMaterial({ color: 0xf97316, roughness: 0.35 });
+      const pillarMat = new THREE.MeshStandardMaterial({ color: 0x26292e, roughness: 0.6 });
+
+      // Dashboard console
+      const dash = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.45, 0.55), dashMat);
+      dash.position.set(0, 0.48, 0.68);
       cabGroup.add(dash);
 
+      // Steering column & wheel
       const steeringPivot = new THREE.Group();
-      steeringPivot.position.set(0, 0.86, 0.38);
-      steeringPivot.rotation.x = -0.48;
+      steeringPivot.position.set(0, 0.78, 0.46);
+      steeringPivot.rotation.x = -0.55;
 
-      const wheelRim = new THREE.Mesh(new THREE.TorusGeometry(0.22, 0.026, 10, 24), tireRubber);
-      const wheelHub = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.04, 12), volvoDarkGrey);
-      wheelHub.rotation.x = Math.PI / 2;
-      const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.03, 0.02), volvoDarkGrey);
-      steeringPivot.add(wheelRim, wheelHub, spoke);
+      const wheelRim = new THREE.Mesh(
+        new THREE.TorusGeometry(0.22, 0.025, 10, 24),
+        new THREE.MeshStandardMaterial({ color: 0x111315, roughness: 0.5 })
+      );
+      const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.03, 0.02), pillarMat);
+      steeringPivot.add(wheelRim, spoke);
       cabGroup.add(steeringPivot);
 
-      const miniScreen = new THREE.Mesh(
-        new THREE.BoxGeometry(0.26, 0.15, 0.02),
+      // Small illuminated HUD cluster behind steering wheel
+      const clusterScreen = new THREE.Mesh(
+        new THREE.PlaneGeometry(0.28, 0.14),
         new THREE.MeshBasicMaterial({ color: 0x0ea5e9 })
       );
-      miniScreen.position.set(0, 0.92, 0.62);
-      miniScreen.rotation.x = -0.35;
-      cabGroup.add(miniScreen);
+      clusterScreen.position.set(0, 0.78, 0.66);
+      clusterScreen.rotation.x = -0.35;
+      cabGroup.add(clusterScreen);
 
-      const grabRailMat = new THREE.MeshStandardMaterial({ color: 0xea580c, roughness: 0.4 });
-      [-0.68, 0.68].forEach((px) => {
-        const pillar = new THREE.Mesh(new THREE.BoxGeometry(0.06, 1.25, 0.06), volvoDarkGrey);
-        pillar.position.set(px, 1.25, 0.68);
+      // Right-hand hydraulic joystick
+      const joystickBase = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.25, 0.32), dashMat);
+      joystickBase.position.set(0.48, 0.55, 0.35);
+      const joystickStick = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.018, 0.024, 0.22, 8),
+        new THREE.MeshStandardMaterial({ color: 0x090b0d })
+      );
+      joystickStick.position.set(0.48, 0.72, 0.38);
+      joystickStick.rotation.x = 0.2;
+      cabGroup.add(joystickBase, joystickStick);
+
+      // Cab A-pillars & high-vis orange grab rails
+      [-0.74, 0.74].forEach((px) => {
+        const pillar = new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.35, 0.08), pillarMat);
+        pillar.position.set(px, 1.05, 0.78);
         cabGroup.add(pillar);
 
-        const rail = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.9, 8), grabRailMat);
-        rail.position.set(px * 0.92, 1.22, 0.62);
-        cabGroup.add(rail);
+        const grabRail = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 1.05, 8), orangeRailMat);
+        grabRail.position.set(px * 0.92, 1.02, 0.72);
+        cabGroup.add(grabRail);
       });
 
-      const joystickBase = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.25, 0.35), volvoDarkGrey);
-      joystickBase.position.set(0.46, 0.65, 0.15);
-      const stick = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.025, 0.22, 8), tireRubber);
-      stick.position.set(0.46, 0.85, 0.18);
-      stick.rotation.x = 0.2;
-      cabGroup.add(joystickBase, stick);
+      const roofBar = new THREE.Mesh(new THREE.BoxGeometry(1.56, 0.08, 0.08), pillarMat);
+      roofBar.position.set(0, 1.72, 0.78);
+      cabGroup.add(roofBar);
 
-      const roof = new THREE.Mesh(new THREE.BoxGeometry(1.56, 0.12, 1.65), volvoYellow);
-      roof.position.set(0, 1.9, 0.05);
-      cabGroup.add(roof);
+      // Rear ROPS pillars, yellow canopy roof, back wall & tinted cab windows
+      const yellowRoofMat = new THREE.MeshStandardMaterial({ color: 0xf5b800, metalness: 0.25, roughness: 0.42 });
+      const glassMat = new THREE.MeshStandardMaterial({
+        color: 0x1e293b,
+        transparent: true,
+        opacity: 0.34,
+        roughness: 0.15,
+        metalness: 0.6,
+        side: THREE.DoubleSide
+      });
 
-      const windshield = new THREE.Mesh(new THREE.PlaneGeometry(1.32, 1.1), glassMat);
-      windshield.position.set(0, 1.32, 0.72);
-      windshield.rotation.y = Math.PI;
-      cabGroup.add(windshield);
+      [-0.74, 0.74].forEach((px) => {
+        const rearPillar = new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.35, 0.08), pillarMat);
+        rearPillar.position.set(px, 1.05, -0.58);
+        cabGroup.add(rearPillar);
 
-      return { cabGroup, steeringPivot, joystickStick: stick };
+        const topSideRail = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.08, 1.44), pillarMat);
+        topSideRail.position.set(px, 1.72, 0.1);
+        cabGroup.add(topSideRail);
+
+        const sideGlass = new THREE.Mesh(new THREE.PlaneGeometry(1.28, 1.18), glassMat);
+        sideGlass.rotation.y = Math.PI / 2;
+        sideGlass.position.set(px, 1.12, 0.1);
+        cabGroup.add(sideGlass);
+      });
+
+      const cabRoof = new THREE.Mesh(new THREE.BoxGeometry(1.68, 0.14, 1.56), yellowRoofMat);
+      cabRoof.position.set(0, 1.81, 0.1);
+      cabRoof.castShadow = true;
+      cabGroup.add(cabRoof);
+
+      const rearWall = new THREE.Mesh(new THREE.BoxGeometry(1.52, 0.72, 0.08), pillarMat);
+      rearWall.position.set(0, 0.72, -0.58);
+      cabGroup.add(rearWall);
+
+      const rearGlass = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 0.62), glassMat);
+      rearGlass.position.set(0, 1.38, -0.58);
+      cabGroup.add(rearGlass);
+
+      const frontGlass = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 0.92), glassMat);
+      frontGlass.position.set(0, 1.24, 0.78);
+      cabGroup.add(frontGlass);
+
+      return { cabGroup, steeringPivot, joystickStick };
+    }
+
+    function createWheel(radius = 0.95, width = 0.68) {
+      const wheelGroup = new THREE.Group();
+      const tire = new THREE.Mesh(
+        new THREE.CylinderGeometry(radius, radius, width, 20),
+        new THREE.MeshStandardMaterial({ color: 0x181a1d, roughness: 0.88 })
+      );
+      tire.rotation.z = Math.PI / 2;
+      tire.castShadow = true;
+
+      const rim = new THREE.Mesh(
+        new THREE.CylinderGeometry(radius * 0.52, radius * 0.52, width + 0.03, 14),
+        new THREE.MeshStandardMaterial({ color: 0xf5b800, metalness: 0.3, roughness: 0.45 })
+      );
+      rim.rotation.z = Math.PI / 2;
+
+      wheelGroup.add(tire, rim);
+      return wheelGroup;
     }
 
     function createWheelLoaderMesh() {
       const root = new THREE.Group();
+      const yellowMat = new THREE.MeshStandardMaterial({ color: 0xf5b800, metalness: 0.25, roughness: 0.42 });
+      const darkMat = new THREE.MeshStandardMaterial({ color: 0x26292e, metalness: 0.5, roughness: 0.5 });
 
-      const rearBody = new THREE.Mesh(new THREE.BoxGeometry(2.3, 1.65, 3.2), volvoYellow);
-      rearBody.position.set(0, 1.35, -1.3);
-      rearBody.castShadow = true;
-      root.add(rearBody);
-
-      const counterweight = new THREE.Mesh(new THREE.BoxGeometry(2.35, 1.2, 0.9), volvoDarkGrey);
-      counterweight.position.set(0, 1.25, -2.85);
-      root.add(counterweight);
+      const rearChassis = new THREE.Mesh(new THREE.BoxGeometry(2.3, 1.3, 2.8), yellowMat);
+      rearChassis.position.set(0, 1.35, -1.3);
+      rearChassis.castShadow = true;
+      root.add(rearChassis);
 
       const frontPivot = new THREE.Group();
-      frontPivot.position.set(0, 0, 0.35);
+      frontPivot.position.set(0, 0, 0.2);
       root.add(frontPivot);
 
-      const frontFrame = new THREE.Mesh(new THREE.BoxGeometry(2.0, 1.1, 2.2), volvoDarkGrey);
-      frontFrame.position.set(0, 1.1, 1.1);
-      frontPivot.add(frontFrame);
+      const frontChassis = new THREE.Mesh(new THREE.BoxGeometry(2.1, 1.05, 2.1), darkMat);
+      frontChassis.position.set(0, 1.15, 1.05);
+      frontChassis.castShadow = true;
+      frontPivot.add(frontChassis);
 
-      const cab = createCabInteriorAssembly();
-      cab.cabGroup.position.set(0, 1.55, 0.35);
+      const cab = createCabInterior();
+      cab.cabGroup.position.set(0, 1.9, -0.05);
       frontPivot.add(cab.cabGroup);
 
       const boomPivot = new THREE.Group();
-      boomPivot.position.set(0, 1.65, 1.75);
+      boomPivot.position.set(0, 1.85, 1.65);
       frontPivot.add(boomPivot);
 
-      [-0.78, 0.78].forEach((bx) => {
-        const arm = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.36, 3.1), volvoYellow);
-        arm.position.set(bx, -0.15, 1.45);
+      [-0.78, 0.78].forEach((ax) => {
+        const arm = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.32, 2.6), yellowMat);
+        arm.position.set(ax, -0.25, 1.25);
+        arm.rotation.x = 0.28;
         arm.castShadow = true;
         boomPivot.add(arm);
       });
 
       const bucketPivot = new THREE.Group();
-      bucketPivot.position.set(0, -0.3, 2.95);
+      bucketPivot.position.set(0, -0.65, 2.45);
       boomPivot.add(bucketPivot);
 
-      const bucketBack = new THREE.Mesh(new THREE.BoxGeometry(2.9, 1.15, 0.18), volvoDarkGrey);
-      bucketBack.position.set(0, 0.45, 0.1);
-      const bucketFloor = new THREE.Mesh(new THREE.BoxGeometry(2.9, 0.16, 1.25), volvoDarkGrey);
-      bucketFloor.position.set(0, -0.08, 0.65);
-      const bucketLeft = new THREE.Mesh(new THREE.BoxGeometry(0.16, 1.1, 1.2), volvoDarkGrey);
-      bucketLeft.position.set(-1.42, 0.42, 0.62);
-      const bucketRight = new THREE.Mesh(new THREE.BoxGeometry(0.16, 1.1, 1.2), volvoDarkGrey);
-      bucketRight.position.set(1.42, 0.42, 0.62);
+      const bucket = new THREE.Mesh(new THREE.BoxGeometry(2.9, 1.05, 1.35), darkMat);
+      bucket.position.set(0, 0.1, 0.55);
+      bucket.castShadow = true;
+      bucketPivot.add(bucket);
 
       const loadMound = new THREE.Mesh(
-        new THREE.SphereGeometry(1.15, 12, 10),
-        new THREE.MeshStandardMaterial({ color: 0x78716c, roughness: 0.95, flatShading: true })
+        new THREE.SphereGeometry(1.15, 12, 8),
+        new THREE.MeshStandardMaterial({ color: 0x78716c, roughness: 0.95 })
       );
-      loadMound.scale.set(1.15, 0.55, 0.65);
-      loadMound.position.set(0, 0.35, 0.6);
+      loadMound.scale.set(1.15, 0.55, 0.75);
+      loadMound.position.set(0, 0.55, 0.5);
       loadMound.visible = false;
-
-      bucketPivot.add(bucketBack, bucketFloor, bucketLeft, bucketRight, loadMound);
+      bucketPivot.add(loadMound);
 
       const wheels = [];
-      const wheelPositions = [
-        { parent: frontPivot, x: -1.32, y: 0.85, z: 1.35 },
-        { parent: frontPivot, x: 1.32, y: 0.85, z: 1.35 },
-        { parent: root, x: -1.32, y: 0.85, z: -1.55 },
-        { parent: root, x: 1.32, y: 0.85, z: -1.55 }
-      ];
-      wheelPositions.forEach((wp) => {
-        const wGroup = new THREE.Group();
-        wGroup.position.set(wp.x, wp.y, wp.z);
-        const tire = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 0.85, 0.68, 20), tireRubber);
-        tire.rotation.z = Math.PI / 2;
-        tire.castShadow = true;
-        const rim = new THREE.Mesh(new THREE.CylinderGeometry(0.44, 0.44, 0.71, 14), volvoYellow);
-        rim.rotation.z = Math.PI / 2;
-        wGroup.add(tire, rim);
-        wp.parent.add(wGroup);
-        wheels.push(wGroup);
-      });
+      const wFL = createWheel(0.96, 0.72); wFL.position.set(1.22, 0.96, 1.25); frontPivot.add(wFL); wheels.push(wFL);
+      const wFR = createWheel(0.96, 0.72); wFR.position.set(-1.22, 0.96, 1.25); frontPivot.add(wFR); wheels.push(wFR);
+      const wRL = createWheel(0.96, 0.72); wRL.position.set(1.22, 0.96, -1.45); root.add(wRL); wheels.push(wRL);
+      const wRR = createWheel(0.96, 0.72); wRR.position.set(-1.22, 0.96, -1.45); root.add(wRR); wheels.push(wRR);
 
       return {
         type: "loader",
@@ -1991,79 +2435,73 @@
         boomPivot,
         bucketPivot,
         loadMound,
-        wheels,
         cab,
-        cabEyeLocal: new THREE.Vector3(0, 2.85, 0.45),
-        rearCamLocal: new THREE.Vector3(0, 2.35, -3.35),
-        rearCamLookLocal: new THREE.Vector3(0, 0.9, -11)
+        wheels,
+        cabEyeLocal: new THREE.Vector3(0, 3.05, 0.12),
+        rearCamLocal: new THREE.Vector3(0, 2.35, -2.75),
+        rearCamLookLocal: new THREE.Vector3(0, 0.6, -10.5)
       };
     }
 
     function createExcavatorMesh() {
       const root = new THREE.Group();
+      const yellowMat = new THREE.MeshStandardMaterial({ color: 0xf5b800, metalness: 0.25, roughness: 0.42 });
+      const darkMat = new THREE.MeshStandardMaterial({ color: 0x26292e, metalness: 0.55, roughness: 0.5 });
 
-      [-1.25, 1.25].forEach((tx) => {
-        const track = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.78, 4.2), tireRubber);
-        track.position.set(tx, 0.39, 0);
+      [-1.15, 1.15].forEach((tx) => {
+        const track = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.75, 4.2), darkMat);
+        track.position.set(tx, 0.38, 0);
         track.castShadow = true;
         root.add(track);
       });
-      const centerBase = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.55, 2.4), volvoDarkGrey);
-      centerBase.position.set(0, 0.52, 0);
-      root.add(centerBase);
 
       const housePivot = new THREE.Group();
       housePivot.position.set(0, 0.85, 0);
       root.add(housePivot);
 
-      const engineDeck = new THREE.Mesh(new THREE.BoxGeometry(2.55, 1.45, 3.6), volvoYellow);
-      engineDeck.position.set(0, 0.75, -0.45);
-      engineDeck.castShadow = true;
-      housePivot.add(engineDeck);
+      const upperBody = new THREE.Mesh(new THREE.BoxGeometry(2.55, 1.25, 3.5), yellowMat);
+      upperBody.position.set(0, 0.65, -0.35);
+      upperBody.castShadow = true;
+      housePivot.add(upperBody);
 
-      const rearCounter = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.35, 0.95), volvoDarkGrey);
-      rearCounter.position.set(0, 0.75, -2.15);
-      housePivot.add(rearCounter);
+      const counterweight = new THREE.Mesh(new THREE.BoxGeometry(2.5, 1.15, 0.85), darkMat);
+      counterweight.position.set(0, 0.65, -2.15);
+      housePivot.add(counterweight);
 
-      const cab = createCabInteriorAssembly();
-      cab.cabGroup.position.set(-0.62, 0.1, 0.85);
+      const cab = createCabInterior();
+      cab.cabGroup.position.set(0.55, 0.95, 0.45);
       housePivot.add(cab.cabGroup);
 
       const boomPivot = new THREE.Group();
-      boomPivot.position.set(0.45, 0.95, 1.15);
+      boomPivot.position.set(-0.45, 1.15, 0.95);
       housePivot.add(boomPivot);
 
-      const mainBoom = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.65, 3.8), volvoDarkGrey);
-      mainBoom.position.set(0, 1.1, 1.65);
-      mainBoom.rotation.x = -0.52;
+      const mainBoom = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.55, 3.6), darkMat);
+      mainBoom.position.set(0, 1.15, 1.35);
+      mainBoom.rotation.x = -0.68;
       mainBoom.castShadow = true;
       boomPivot.add(mainBoom);
 
       const stickPivot = new THREE.Group();
-      stickPivot.position.set(0, 2.1, 3.35);
+      stickPivot.position.set(0, 2.25, 2.75);
       boomPivot.add(stickPivot);
 
-      const stickMesh = new THREE.Mesh(new THREE.BoxGeometry(0.38, 2.8, 0.45), volvoDarkGrey);
-      stickMesh.position.set(0, -1.1, 0.35);
-      stickMesh.rotation.x = -0.25;
-      stickMesh.castShadow = true;
-      stickPivot.add(stickMesh);
+      const dipperStick = new THREE.Mesh(new THREE.BoxGeometry(0.34, 2.5, 0.42), darkMat);
+      dipperStick.position.set(0, -1.05, 0.45);
+      dipperStick.rotation.x = -0.32;
+      stickPivot.add(dipperStick);
 
-      const bucketPivot = new THREE.Group();
-      bucketPivot.position.set(0, -2.4, 0.7);
-      stickPivot.add(bucketPivot);
-
-      const scoop = new THREE.Mesh(new THREE.BoxGeometry(1.35, 0.95, 1.05), volvoDarkGrey);
-      scoop.position.set(0, -0.25, 0.25);
-      bucketPivot.add(scoop);
+      const bucket = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.85, 0.95), darkMat);
+      bucket.position.set(0, -2.25, 0.85);
+      stickPivot.add(bucket);
 
       const loadMound = new THREE.Mesh(
         new THREE.SphereGeometry(0.65, 10, 8),
         new THREE.MeshStandardMaterial({ color: 0x78716c, roughness: 0.95 })
       );
-      loadMound.position.set(0, 0.15, 0.3);
+      loadMound.position.set(0, -2.0, 0.95);
       loadMound.visible = false;
-      bucketPivot.add(loadMound);
+      stickPivot.add(loadMound);
 
       return {
         type: "excavator",
@@ -2071,77 +2509,66 @@
         housePivot,
         boomPivot,
         stickPivot,
-        bucketPivot,
         loadMound,
-        wheels: [],
         cab,
-        cabEyeLocal: new THREE.Vector3(-0.62, 2.25, 0.95),
-        rearCamLocal: new THREE.Vector3(0, 16.5, 0), // Used for 360 stitched top-down view
-        rearCamLookLocal: new THREE.Vector3(0, 0, 0.01)
+        wheels: [],
+        cabEyeLocal: new THREE.Vector3(0.55, 2.1, 0.62),
+        rearCamLocal: new THREE.Vector3(0, 1.65, -2.62),
+        rearCamLookLocal: new THREE.Vector3(0, 0.5, -10.5)
       };
     }
 
     function createDumperVisualMesh(isAI = false) {
       const root = new THREE.Group();
+      const yellowMat = new THREE.MeshStandardMaterial({
+        color: isAI ? 0xeab308 : 0xf5b800,
+        metalness: 0.25,
+        roughness: 0.45
+      });
+      const darkMat = new THREE.MeshStandardMaterial({ color: 0x26292e, metalness: 0.5, roughness: 0.5 });
 
-      const frontChassis = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.15, 2.8), volvoDarkGrey);
-      frontChassis.position.set(0, 1.15, 2.1);
-      root.add(frontChassis);
+      const frame = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.7, 6.8), darkMat);
+      frame.position.set(0, 1.05, 0);
+      root.add(frame);
 
-      const hood = new THREE.Mesh(new THREE.BoxGeometry(2.15, 1.25, 1.85), volvoYellow);
-      hood.position.set(0, 1.75, 2.65);
+      const hood = new THREE.Mesh(new THREE.BoxGeometry(2.3, 1.25, 1.8), yellowMat);
+      hood.position.set(0, 1.65, 2.45);
       hood.castShadow = true;
       root.add(hood);
 
-      const cab = createCabInteriorAssembly();
-      cab.cabGroup.position.set(0, 1.65, 1.25);
-      if (!isAI) root.add(cab.cabGroup);
-      else {
-        const aiCabBox = new THREE.Mesh(new THREE.BoxGeometry(1.75, 1.35, 1.45), volvoYellow);
-        aiCabBox.position.set(0, 2.35, 1.3);
-        root.add(aiCabBox);
+      let cab = null;
+      if (!isAI) {
+        cab = createCabInterior();
+        cab.cabGroup.position.set(0, 1.75, 1.15);
+        root.add(cab.cabGroup);
+      } else {
+        const aiCab = new THREE.Mesh(new THREE.BoxGeometry(2.1, 1.35, 1.4), darkMat);
+        aiCab.position.set(0, 2.35, 1.35);
+        root.add(aiCab);
       }
 
-      const rearChassis = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.85, 4.4), volvoDarkGrey);
-      rearChassis.position.set(0, 1.05, -1.75);
-      root.add(rearChassis);
-
       const bedPivot = new THREE.Group();
-      bedPivot.position.set(0, 1.5, -3.65);
+      bedPivot.position.set(0, 1.45, -3.1);
       root.add(bedPivot);
 
-      const bedFloor = new THREE.Mesh(new THREE.BoxGeometry(2.75, 0.22, 4.3), volvoYellow);
-      bedFloor.position.set(0, 0.1, 2.05);
-      const bedLeft = new THREE.Mesh(new THREE.BoxGeometry(0.2, 1.25, 4.3), volvoYellow);
-      bedLeft.position.set(-1.32, 0.72, 2.05);
-      const bedRight = new THREE.Mesh(new THREE.BoxGeometry(0.2, 1.25, 4.3), volvoYellow);
-      bedRight.position.set(1.32, 0.72, 2.05);
-      const bedFront = new THREE.Mesh(new THREE.BoxGeometry(2.75, 1.35, 0.22), volvoYellow);
-      bedFront.position.set(0, 0.78, 4.15);
+      const dumpBed = new THREE.Mesh(new THREE.BoxGeometry(2.65, 1.35, 4.1), yellowMat);
+      dumpBed.position.set(0, 0.68, 1.95);
+      dumpBed.castShadow = true;
+      bedPivot.add(dumpBed);
 
       const loadMound = new THREE.Mesh(
-        new THREE.BoxGeometry(2.4, 0.95, 3.8),
+        new THREE.SphereGeometry(1.35, 12, 8),
         new THREE.MeshStandardMaterial({ color: 0x78716c, roughness: 0.95 })
       );
-      loadMound.position.set(0, 0.75, 2.05);
+      loadMound.scale.set(0.95, 0.55, 1.45);
+      loadMound.position.set(0, 1.28, 1.95);
       loadMound.visible = false;
-
-      bedPivot.add(bedFloor, bedLeft, bedRight, bedFront, loadMound);
+      bedPivot.add(loadMound);
 
       const wheels = [];
-      [-1.32, 1.32].forEach((wx) => {
-        [2.25, -0.95, -2.75].forEach((wz) => {
-          const wGroup = new THREE.Group();
-          wGroup.position.set(wx, 0.82, wz);
-          const tire = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.82, 0.64, 18), tireRubber);
-          tire.rotation.z = Math.PI / 2;
-          tire.castShadow = true;
-          const rim = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.67, 12), volvoYellow);
-          rim.rotation.z = Math.PI / 2;
-          wGroup.add(tire, rim);
-          root.add(wGroup);
-          wheels.push(wGroup);
-        });
+      [2.1, -0.65, -2.35].forEach((wz) => {
+        const wl = createWheel(0.88, 0.65); wl.position.set(1.22, 0.88, wz); root.add(wl); wheels.push(wl);
+        const wr = createWheel(0.88, 0.65); wr.position.set(-1.22, 0.88, wz); root.add(wr); wheels.push(wr);
       });
 
       return {
@@ -2149,162 +2576,215 @@
         root,
         bedPivot,
         loadMound,
-        wheels,
         cab,
-        cabEyeLocal: new THREE.Vector3(0, 2.95, 1.35),
-        rearCamLocal: new THREE.Vector3(0, 1.75, -4.1),
-        rearCamLookLocal: new THREE.Vector3(0, 0.7, -12)
+        wheels,
+        cabEyeLocal: new THREE.Vector3(0, 2.9, 1.32),
+        rearCamLocal: new THREE.Vector3(0, 1.65, -3.45),
+        rearCamLookLocal: new THREE.Vector3(0, 0.5, -11.5)
       };
     }
 
     buildQuarryEnvironment();
 
     // --------------------------------------------------------------------------
-    // 7. PLAYER VEHICLE CONTROLLER, PHYSICS, HYDRAULICS & AUTO-BRAKING AI
+    // 7. PLAYER MACHINE STATE, CONTRACT GENERATOR & SPAWN LOGIC
     // --------------------------------------------------------------------------
     const playerState = {
       machine: null,
-      pos: new THREE.Vector3(0, 0, 24),
+      pos: new THREE.Vector3(0, 0, 26),
       heading: Math.PI,
       speed: 0,
       steerAngle: 0,
       slewAngle: 0,
-      boomAngle: 0.15,
-      bucketAngle: 0.2,
+      boomAngle: 0.25,
+      bucketAngle: 0.1,
       payload: 0,
       payloadType: "granite",
+      streak: 1.0,
+      streakTimer: 0,
       cameraMode: "cab",
-      auxCamAltMode: false, // Allows toggling alternate view if tapped
+      auxCamAltMode: false,
+      lookYaw: 0,
+      lookPitch: 0,
+      chaseZoom: 12,
+      isDraggingLook: false,
       autoBrakeActive: false,
       nearestObstacleDist: 99,
       shiftTimer: 0,
-      streak: 1.0,
-      streakTimer: 0,
-      autoTipCooldown: 0
+      playMode: "career",
+      hasStartedFirstShift: false,
+      rushRemaining: 60,
+      rushScoreTons: 0,
+      raceCheckpointIdx: 0,
+      raceFinished: false,
+      activeContract: null,
+      missionStationCooldown: 0
     };
 
     function getMaxCapacity() {
       const slot = getActiveSlot();
-      const base = playerState.machine?.type === "dumper" ? 24 : playerState.machine?.type === "loader" ? 10 : 6;
-      return base + (slot.upgrades.bucketCap - 1) * 3;
+      const capBonus = 1 + ((slot.upgrades.bucketCap || 1) - 1) * 0.25;
+      const mType = playerState.machine ? playerState.machine.type : slot.selectedMachine;
+      const base = mType === "dumper" ? 18 : mType === "excavator" ? 7.5 : 9.5;
+      return +(base * capBonus).toFixed(1);
     }
 
-    function spawnPlayerMachine(type, preserveShift = false) {
-      if (playerState.machine && playerState.machine.root) {
-        scene.remove(playerState.machine.root);
-      }
-      if (type === "loader") playerState.machine = createWheelLoaderMesh();
-      else if (type === "excavator") playerState.machine = createExcavatorMesh();
-      else playerState.machine = createDumperVisualMesh(false);
-
-      if (!preserveShift) {
-        playerState.pos.set(type === "dumper" ? -34 : 0, 0, type === "dumper" ? 36 : 24);
-        playerState.heading = type === "dumper" ? Math.PI * 0.5 : Math.PI;
-        playerState.speed = 0;
-        playerState.steerAngle = 0;
-        playerState.slewAngle = 0;
-        playerState.boomAngle = 0.12;
-        playerState.bucketAngle = 0.15;
-        playerState.payload = 0;
-        playerState.shiftTimer = 0;
-      }
-
-      playerState.auxCamAltMode = false;
-      playerState.machine.root.position.copy(playerState.pos);
-      playerState.machine.root.rotation.y = playerState.heading;
-      scene.add(playerState.machine.root);
-
-      updateControlsLabelsForMachine(type);
-      updateCameraMonitorChrome(type);
-      updateMissionBanner();
+    function generateProceduralContract() {
+      const matKeys = ["granite", "iron", "gold"];
+      const matKey = matKeys[Math.floor(Math.random() * matKeys.length)];
+      const mat = MATERIALS[matKey];
+      const targetTons = matKey === "gold" ? 12 : matKey === "iron" ? 18 : 24;
+      const reward = Math.round(targetTons * mat.valuePerTon * 0.55);
+      return {
+        title: `${mat.name} ORDER`,
+        materialType: matKey,
+        targetTons,
+        deliveredTons: 0,
+        reward
+      };
     }
 
-    function updateCameraMonitorChrome(type) {
-      const label = document.getElementById("cam-feed-label");
+    function updateCameraMonitorChrome(mType) {
+      const labelEl = document.getElementById("cam-feed-label");
       const rearSvg = document.getElementById("cam-overlay-svg");
-      const cam360Svg = document.getElementById("cam-360-overlay-svg");
+      const surrSvg = document.getElementById("cam-360-overlay-svg");
 
-      if (type === "excavator" && !playerState.auxCamAltMode) {
-        label.textContent = "360° STITCH";
-        label.style.color = "#38bdf8";
+      if (mType === "excavator" && !playerState.auxCamAltMode) {
+        labelEl.textContent = "360° STITCH";
         rearSvg.style.display = "none";
-        cam360Svg.style.display = "block";
+        surrSvg.style.display = "block";
       } else {
-        label.textContent = playerState.auxCamAltMode ? "BOOM CAM" : "REAR CAM";
-        label.style.color = "#e5e7eb";
+        labelEl.textContent = playerState.auxCamAltMode ? "WORK CAM" : "REAR CAM";
         rearSvg.style.display = "block";
-        cam360Svg.style.display = "none";
-      }
-    }
-
-    function updateControlsLabelsForMachine(type) {
-      const up = document.getElementById("lbl-hyd-up");
-      const dn = document.getElementById("lbl-hyd-down");
-      const inn = document.getElementById("lbl-hyd-in");
-      const out = document.getElementById("lbl-hyd-out");
-      const act = document.getElementById("btn-quick-action");
-
-      if (type === "loader") {
-        up.textContent = "BOOM UP";
-        dn.textContent = "BOOM DN";
-        inn.textContent = "CURL IN";
-        out.textContent = "DUMP";
-        act.textContent = "⚡ SCOOP / LOAD TRUCK";
-      } else if (type === "excavator") {
-        up.textContent = "BOOM UP";
-        dn.textContent = "DIG DN";
-        inn.textContent = "SLEW L";
-        out.textContent = "SLEW R";
-        act.textContent = "⚡ DIG / SWING DUMP";
-      } else {
-        up.textContent = "BED UP";
-        dn.textContent = "BED DN";
-        inn.textContent = "LOCK BED";
-        out.textContent = "TIP LOAD";
-        act.textContent = "⚡ LOAD / TIP CRUSHER";
+        surrSvg.style.display = "none";
       }
     }
 
     function updateMissionBanner() {
-      const m = playerState.machine?.type || "loader";
-      const title = document.getElementById("mission-mode-title");
-      const desc = document.getElementById("mission-desc");
-      if (m === "loader") {
-        title.textContent = "MODE: CRUSHER FEEDER (L150H)";
-        desc.textContent = "Drive into any rock stockpile to scoop material, then pull beside a Haul Truck to unload!";
-      } else if (m === "excavator") {
-        title.textContent = "MODE: DEEP VEIN MINING (EC210D)";
-        desc.textContent = "Dig into Iron/Gold veins using 360° Surround View, then slew over a Haul Truck to load!";
+      const card = document.getElementById("mission-card");
+      const titleEl = document.getElementById("mission-mode-title");
+      const descEl = document.getElementById("mission-desc");
+      const mType = playerState.machine ? playerState.machine.type : "loader";
+
+      card.classList.remove("contract-active", "race-active");
+
+      if (playerState.playMode === "race") {
+        card.classList.add("race-active");
+        titleEl.textContent = "MODE: QUARRY RALLY RACE";
+        if (playerState.raceFinished) {
+          descEl.textContent = `Finish! Completed circuit in ${playerState.shiftTimer.toFixed(1)}s! Open Garage to race again.`;
+        } else {
+          descEl.textContent = `Follow the 3D arrow! Checkpoint ${playerState.raceCheckpointIdx + 1} of ${siteObjects.raceCheckpoints.length}`;
+        }
+        return;
+      }
+
+      if (playerState.activeContract) {
+        card.classList.add("contract-active");
+        const c = playerState.activeContract;
+        titleEl.textContent = `CONTRACT: ${c.title} (+$${c.reward})`;
+        descEl.textContent = `Deliver ${c.deliveredTons.toFixed(1)} / ${c.targetTons}t of ${MATERIALS[c.materialType].name} to Haulers or Crusher.`;
+        return;
+      }
+
+      if (playerState.playMode === "rush1" || playerState.playMode === "rush3") {
+        titleEl.textContent = playerState.playMode === "rush1" ? "1-MIN TONNAGE RUSH (2X PAY)" : "3-MIN SHIFT BLITZ (2X PAY)";
+        descEl.textContent = `Delivered this rush: ${playerState.rushScoreTons.toFixed(1)}t! Scoop & load non-stop before time expires!`;
+        return;
+      }
+
+      if (mType === "loader") {
+        titleEl.textContent = "MODE: CRUSHER FEEDER";
+        descEl.textContent = "Scoop crushed granite or ore piles and load waiting autonomous dump trucks.";
+      } else if (mType === "excavator") {
+        titleEl.textContent = "MODE: DEEP VEIN MINING";
+        descEl.textContent = "Dig rich Iron & Gold veins and slew 360° over haul trucks to unload.";
       } else {
-        title.textContent = "MODE: EXPRESS CRUSHER RUN (A45G)";
-        desc.textContent = "Park under the Yellow Silo Hopper to fill your bed, then haul & tip into the North Crusher!";
+        titleEl.textContent = "MODE: EXPRESS HAULER";
+        descEl.textContent = "Fill bed under the SW Yellow Hopper and dump into the North Crusher!";
       }
     }
 
-    // --------------------------------------------------------------------------
-    // 8. PARTICLE EFFECTS (DUST, FALLING ROCKS, SPARKS)
-    // --------------------------------------------------------------------------
-    const particleGeo = new THREE.DodecahedronGeometry(0.24, 0);
-    function spawnMaterialBurst(worldPos, colorHex, count = 14) {
-      const mat = new THREE.MeshStandardMaterial({ color: colorHex, roughness: 0.9 });
-      for (let i = 0; i < count; i++) {
-        const p = new THREE.Mesh(particleGeo, mat);
-        p.position.copy(worldPos);
-        p.position.x += (Math.random() - 0.5) * 1.6;
-        p.position.y += 0.5 + Math.random() * 1.2;
-        p.position.z += (Math.random() - 0.5) * 1.6;
-        scene.add(p);
-        siteObjects.particles.push({
-          mesh: p,
-          vel: new THREE.Vector3((Math.random() - 0.5) * 4.5, 2.5 + Math.random() * 3.5, (Math.random() - 0.5) * 4.5),
-          life: 1.0
-        });
+    function updateHydraulicButtonLabels(mType) {
+      const up = document.getElementById("lbl-hyd-up");
+      const dn = document.getElementById("lbl-hyd-down");
+      const hIn = document.getElementById("lbl-hyd-in");
+      const hOut = document.getElementById("lbl-hyd-out");
+      const act = document.getElementById("btn-quick-action");
+
+      if (mType === "dumper") {
+        up.textContent = "BED UP";
+        dn.textContent = "BED DN";
+        hIn.textContent = "LOCK";
+        hOut.textContent = "TIP BED";
+        act.textContent = "⚡ LOAD / DUMP BED";
+      } else if (mType === "excavator") {
+        up.textContent = "BOOM UP";
+        dn.textContent = "BOOM DN";
+        hIn.textContent = "SLEW L";
+        hOut.textContent = "SLEW R";
+        act.textContent = "⚡ DIG / UNLOAD";
+      } else {
+        up.textContent = "BOOM UP";
+        dn.textContent = "BOOM DN";
+        hIn.textContent = "CURL IN";
+        hOut.textContent = "DUMP";
+        act.textContent = "⚡ SCOOP / UNLOAD";
       }
     }
 
+    function spawnPlayerMachine(type, keepTransform = false) {
+      if (playerState.machine) {
+        scene.remove(playerState.machine.root);
+      }
+
+      let built;
+      if (type === "excavator") built = createExcavatorMesh();
+      else if (type === "dumper") built = createDumperVisualMesh(false);
+      else built = createWheelLoaderMesh();
+
+      playerState.machine = built;
+      scene.add(built.root);
+
+      if (!keepTransform) {
+        if (playerState.playMode === "race") {
+          playerState.pos.set(0, 0, 24);
+          playerState.heading = Math.PI;
+        } else if (type === "dumper") {
+          playerState.pos.set(-34, 0, 36);
+          playerState.heading = Math.PI * 0.5;
+        } else {
+          playerState.pos.set(0, 0, 22);
+          playerState.heading = Math.PI;
+        }
+        playerState.speed = 0;
+        playerState.steerAngle = 0;
+        playerState.slewAngle = 0;
+        playerState.boomAngle = 0.22;
+        playerState.bucketAngle = 0.08;
+        playerState.payload = 0;
+        playerState.shiftTimer = 0;
+        playerState.rushRemaining = playerState.playMode === "rush1" ? 60 : 180;
+        playerState.rushScoreTons = 0;
+        playerState.raceCheckpointIdx = 0;
+        playerState.raceFinished = false;
+      }
+
+      playerState.lookYaw = 0;
+      playerState.lookPitch = 0;
+      built.root.position.copy(playerState.pos);
+      built.root.rotation.y = playerState.heading;
+
+      updateCameraMonitorChrome(type);
+      updateHydraulicButtonLabels(type);
+      updateMissionBanner();
+      updateHUDNumbers();
+    }
+
     // --------------------------------------------------------------------------
-    // 9. INPUT HANDLING (KEYBOARD + MULTI-TOUCH JOYSTICK & HYDRAULIC BUTTONS)
+    // 8. INPUT HANDLERS (KEYBOARD, JOYSTICK, FREE-LOOK DRAG & HYDRAULICS)
     // --------------------------------------------------------------------------
+    const keysDown = {};
     const inputState = {
       throttle: 0,
       steer: 0,
@@ -2314,17 +2794,97 @@
       hydOut: false
     };
 
-    const keysDown = {};
     window.addEventListener("keydown", (e) => {
       audio.unlock();
       keysDown[e.code] = true;
-      if (e.code === "KeyC") togglePlayerCamera();
-      if (e.code === "Space") triggerSmartAction();
+      if (e.code === "Space") {
+        e.preventDefault();
+        triggerSmartAction();
+      } else if (e.code === "KeyC") {
+        togglePlayerCamera();
+      }
     });
+
     window.addEventListener("keyup", (e) => {
       keysDown[e.code] = false;
     });
 
+    // Touch & Right/Middle Mouse Drag on Canvas to Look Around Freely
+    let lookTouchId = null;
+    let lastLookX = 0;
+    let lastLookY = 0;
+    let mouseLookButton = null;
+
+    canvas.addEventListener("touchstart", (e) => {
+      audio.unlock();
+      if (lookTouchId === null && e.changedTouches.length > 0) {
+        const t = e.changedTouches[0];
+        lookTouchId = t.identifier;
+        lastLookX = t.clientX;
+        lastLookY = t.clientY;
+        playerState.isDraggingLook = true;
+      }
+    }, { passive: true });
+
+    canvas.addEventListener("touchmove", (e) => {
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        const t = e.changedTouches[i];
+        if (t.identifier === lookTouchId) {
+          const dx = t.clientX - lastLookX;
+          const dy = t.clientY - lastLookY;
+          lastLookX = t.clientX;
+          lastLookY = t.clientY;
+          playerState.lookYaw = Math.max(-2.6, Math.min(2.6, playerState.lookYaw - dx * 0.0065));
+          playerState.lookPitch = Math.max(-0.45, Math.min(0.65, playerState.lookPitch - dy * 0.0045));
+        }
+      }
+    }, { passive: true });
+
+    const endTouchLook = (e) => {
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        if (e.changedTouches[i].identifier === lookTouchId) {
+          lookTouchId = null;
+          playerState.isDraggingLook = false;
+        }
+      }
+    };
+    canvas.addEventListener("touchend", endTouchLook);
+    canvas.addEventListener("touchcancel", endTouchLook);
+
+    canvas.addEventListener("contextmenu", (e) => e.preventDefault());
+    canvas.addEventListener("mousedown", (e) => {
+      audio.unlock();
+      if (e.button === 2 || e.button === 1) {
+        mouseLookButton = e.button;
+        lastLookX = e.clientX;
+        lastLookY = e.clientY;
+        playerState.isDraggingLook = true;
+      }
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      if (mouseLookButton !== null) {
+        const dx = e.clientX - lastLookX;
+        const dy = e.clientY - lastLookY;
+        lastLookX = e.clientX;
+        lastLookY = e.clientY;
+        playerState.lookYaw = Math.max(-2.6, Math.min(2.6, playerState.lookYaw - dx * 0.006));
+        playerState.lookPitch = Math.max(-0.45, Math.min(0.65, playerState.lookPitch + dy * 0.004));
+      }
+    });
+
+    window.addEventListener("mouseup", () => {
+      mouseLookButton = null;
+      playerState.isDraggingLook = false;
+    });
+
+    canvas.addEventListener("wheel", (e) => {
+      if (playerState.cameraMode === "chase") {
+        playerState.chaseZoom = Math.max(7, Math.min(24, playerState.chaseZoom + e.deltaY * 0.01));
+      }
+    }, { passive: true });
+
+    // Left Touch Joystick / Drive Pad
     const drivePad = document.getElementById("drive-pad");
     const driveKnob = document.getElementById("drive-knob");
     let joyTouchId = null;
@@ -2348,24 +2908,29 @@
 
     function resetJoystick() {
       joyTouchId = null;
-      driveKnob.style.transform = `translate(0px, 0px)`;
+      driveKnob.style.transform = "translate(0px, 0px)";
       inputState.steer = 0;
       inputState.throttle = 0;
     }
 
     drivePad.addEventListener("touchstart", (e) => {
       e.preventDefault();
+      e.stopPropagation();
       audio.unlock();
-      const t = e.changedTouches[0];
-      joyTouchId = t.identifier;
-      updateJoystickFromClient(t.clientX, t.clientY);
+      if (joyTouchId === null && e.changedTouches.length > 0) {
+        const t = e.changedTouches[0];
+        joyTouchId = t.identifier;
+        updateJoystickFromClient(t.clientX, t.clientY);
+      }
     }, { passive: false });
 
     drivePad.addEventListener("touchmove", (e) => {
       e.preventDefault();
+      e.stopPropagation();
       for (let i = 0; i < e.changedTouches.length; i++) {
-        if (e.changedTouches[i].identifier === joyTouchId) {
-          updateJoystickFromClient(e.changedTouches[i].clientX, e.changedTouches[i].clientY);
+        const t = e.changedTouches[i];
+        if (t.identifier === joyTouchId) {
+          updateJoystickFromClient(t.clientX, t.clientY);
         }
       }
     }, { passive: false });
@@ -2377,41 +2942,42 @@
     });
     drivePad.addEventListener("touchcancel", resetJoystick);
 
-    let mouseJoyActive = false;
+    let joyMouseDown = false;
     drivePad.addEventListener("mousedown", (e) => {
+      e.stopPropagation();
       audio.unlock();
-      mouseJoyActive = true;
+      joyMouseDown = true;
       updateJoystickFromClient(e.clientX, e.clientY);
     });
     window.addEventListener("mousemove", (e) => {
-      if (mouseJoyActive) updateJoystickFromClient(e.clientX, e.clientY);
+      if (joyMouseDown) updateJoystickFromClient(e.clientX, e.clientY);
     });
     window.addEventListener("mouseup", () => {
-      if (mouseJoyActive) {
-        mouseJoyActive = false;
+      if (joyMouseDown) {
+        joyMouseDown = false;
         resetJoystick();
       }
     });
 
-    function bindHoldButton(btnId, flagName) {
-      const el = document.getElementById(btnId);
+    function bindHoldButton(btnId, stateKey) {
+      const btn = document.getElementById(btnId);
       const start = (e) => {
         e.preventDefault();
         audio.unlock();
-        inputState[flagName] = true;
-        el.classList.add("pressed");
+        inputState[stateKey] = true;
+        btn.classList.add("pressed");
       };
       const end = (e) => {
         if (e) e.preventDefault();
-        inputState[flagName] = false;
-        el.classList.remove("pressed");
+        inputState[stateKey] = false;
+        btn.classList.remove("pressed");
       };
-      el.addEventListener("touchstart", start, { passive: false });
-      el.addEventListener("touchend", end);
-      el.addEventListener("touchcancel", end);
-      el.addEventListener("mousedown", start);
-      el.addEventListener("mouseup", end);
-      el.addEventListener("mouseleave", end);
+      btn.addEventListener("touchstart", start, { passive: false });
+      btn.addEventListener("touchend", end);
+      btn.addEventListener("touchcancel", end);
+      btn.addEventListener("mousedown", start);
+      btn.addEventListener("mouseup", end);
+      btn.addEventListener("mouseleave", end);
     }
 
     bindHoldButton("btn-hyd-up", "hydUp");
@@ -2419,20 +2985,24 @@
     bindHoldButton("btn-hyd-tilt-in", "hydIn");
     bindHoldButton("btn-hyd-tilt-out", "hydOut");
 
-    document.getElementById("btn-quick-action").addEventListener("click", () => {
+    document.getElementById("btn-quick-action").addEventListener("click", (e) => {
+      e.preventDefault();
       audio.unlock();
       triggerSmartAction();
     });
 
+    // --------------------------------------------------------------------------
+    // 9. UNLOADING, SCOOPING & SMART ACTION MECHANICS
+    // --------------------------------------------------------------------------
     function unloadToTruckOrCrusher() {
-      const cap = getMaxCapacity();
-      if (playerState.payload <= 0.1) return false;
+      if (playerState.payload <= 0.05) return false;
 
-      // 1. Check nearby AI Haul Truck
+      // 1. Check nearby Autonomous Haul Dumpers
       for (const truck of siteObjects.aiDumpers) {
-        const dTruck = playerState.pos.distanceTo(truck.root.position);
-        if (dTruck < 12.0) {
-          const transfer = playerState.payload;
+        const dist = truck.root.position.distanceTo(playerState.pos);
+        if (dist < 10.5) {
+          const spaceLeft = truck.maxLoad - truck.load;
+          const transfer = Math.min(playerState.payload, Math.max(4, spaceLeft));
           truck.load = Math.min(truck.maxLoad, truck.load + transfer);
           truck.materialType = playerState.payloadType;
           truck.loadMound.visible = true;
@@ -2465,6 +3035,16 @@
     function triggerSmartAction() {
       const mType = playerState.machine.type;
       const cap = getMaxCapacity();
+
+      // Check if standing at the Mission Dispatch Station first
+      const dMission = Math.hypot(playerState.pos.x - siteObjects.missionStationZone.x, playerState.pos.z - (siteObjects.missionStationZone.z + 1.8));
+      if (dMission < 8.5) {
+        playerState.activeContract = generateProceduralContract();
+        audio.playCash();
+        updateMissionBanner();
+        showToast(`NEW CONTRACT: ${playerState.activeContract.title} (+$${playerState.activeContract.reward})`);
+        return;
+      }
 
       if (mType === "loader" || mType === "excavator") {
         // Scoop if near stockpile
@@ -2507,232 +3087,331 @@
           playerState.boomAngle = 0.95;
           const payout = Math.round(playerState.payload * MATERIALS[playerState.payloadType].valuePerTon * 1.25 * playerState.streak);
           awardMoney(payout, playerState.payload);
-          spawnMaterialBurst(siteObjects.crusherZone.clone().add(new THREE.Vector3(0, 3.5, 4)), MATERIALS[playerState.payloadType].color, 24);
+          spawnMaterialBurst(siteObjects.crusherZone.clone().add(new THREE.Vector3(0, 3.5, 2.5)), MATERIALS[playerState.payloadType].color, 26);
+          showToast(`CRUSHER DELIVERY +$${payout}!`);
           playerState.payload = 0;
-          showToast(`BED TIPPED AT CRUSHER! +$${payout}`);
-          setTimeout(() => { if (playerState.machine?.type === "dumper") playerState.boomAngle = 0; }, 1600);
+          setTimeout(() => { playerState.boomAngle = 0; }, 1400);
           return;
         }
-
-        playerState.boomAngle = playerState.boomAngle > 0.5 ? 0 : 0.95;
-        if (playerState.payload > 0 && playerState.boomAngle > 0.5) {
-          spawnMaterialBurst(playerState.pos.clone().add(new THREE.Vector3(0, 2, 0)), MATERIALS[playerState.payloadType].color, 14);
-          playerState.payload = 0;
-          showToast("DUMP BED EMPTIED!");
-        }
+        showToast("Drive under the Yellow Hopper (SW) to load, or North Crusher to dump!");
       }
     }
 
-    function awardMoney(amount, tons) {
+    function awardMoney(amount, tons, materialType = null) {
       const slot = getActiveSlot();
-      slot.money += amount;
+      const rushMult = (playerState.playMode === "rush1" || playerState.playMode === "rush3") ? 2 : 1;
+      const totalAward = amount * rushMult;
+
+      slot.money += totalAward;
       slot.totalTons = +(slot.totalTons + tons).toFixed(1);
+      playerState.rushScoreTons = +(playerState.rushScoreTons + tons).toFixed(1);
       playerState.streak = Math.min(3.0, +(playerState.streak + 0.25).toFixed(2));
       playerState.streakTimer = 30;
       if (playerState.streak > slot.highScoreStreak) {
         slot.highScoreStreak = playerState.streak;
       }
+
+      // Check active procedural contract progress
+      const matUsed = materialType || playerState.payloadType;
+      if (playerState.activeContract && playerState.activeContract.materialType === matUsed) {
+        playerState.activeContract.deliveredTons += tons;
+        if (playerState.activeContract.deliveredTons >= playerState.activeContract.targetTons) {
+          const bonus = playerState.activeContract.reward;
+          slot.money += bonus;
+          showToast(`🎉 CONTRACT COMPLETE! BONUS +$${bonus}!`);
+          playerState.activeContract = null;
+        }
+        updateMissionBanner();
+      }
+
       audio.playCash();
       persistSaves();
       updateHUDNumbers();
     }
 
     // --------------------------------------------------------------------------
-    // 10. PROXIMITY SAFETY RADAR & EMERGENCY AUTO-BRAKING SYSTEM
+    // 10. AI COLLISION ASSIST (AUTO-BRAKING) & PORTRAIT PEOPLE DETECTION OVERLAY
     // --------------------------------------------------------------------------
-    function evaluateSafetyRadar(intendedThrottle) {
+    function evaluateSafetyRadar(throttleCmd) {
       const slot = getActiveSlot();
-      const radarBonus = (slot.upgrades.radarRange - 1) * 0.8;
-      const warnDist = 7.5 + radarBonus;
-      const brakeDist = 4.4;
+      const radarBonus = ((slot.upgrades.radarRange || 1) - 1) * 0.6;
+      const stopDist = 5.4 + radarBonus;
+      const warnDist = 11.5 + radarBonus;
 
       let minDist = 99;
-      let threatAngle = 0;
+      let dangerInTravelDir = false;
 
-      for (const w of siteObjects.workers) {
-        const dx = w.mesh.position.x - playerState.pos.x;
-        const dz = w.mesh.position.z - playerState.pos.z;
-        const d = Math.hypot(dx, dz);
-        if (d < minDist) {
-          minDist = d;
-          threatAngle = Math.atan2(dx, dz) - playerState.heading;
+      const fwdX = Math.sin(playerState.heading);
+      const fwdZ = Math.cos(playerState.heading);
+      const travelSign = Math.abs(playerState.speed) > 0.25 ? Math.sign(playerState.speed) : Math.sign(throttleCmd || 0);
+
+      const checkTarget = (tx, tz, extraRadius = 0) => {
+        const dx = tx - playerState.pos.x;
+        const dz = tz - playerState.pos.z;
+        const d = Math.max(0, Math.hypot(dx, dz) - extraRadius);
+        if (d < minDist) minDist = d;
+
+        if (travelSign !== 0 && d < stopDist) {
+          const dot = (dx * fwdX + dz * fwdZ) * travelSign;
+          if (dot > 0) dangerInTravelDir = true;
         }
-      }
+      };
 
-      for (const t of siteObjects.aiDumpers) {
-        const dx = t.root.position.x - playerState.pos.x;
-        const dz = t.root.position.z - playerState.pos.z;
-        const d = Math.hypot(dx, dz) - 2.6;
-        if (d < minDist) {
-          minDist = d;
-          threatAngle = Math.atan2(dx, dz) - playerState.heading;
-        }
+      for (const wk of siteObjects.workers) {
+        checkTarget(wk.mesh.position.x, wk.mesh.position.z, 1.4);
       }
-
+      for (const tr of siteObjects.aiDumpers) {
+        checkTarget(tr.root.position.x, tr.root.position.z, 3.2);
+      }
       for (const obs of siteObjects.obstacles) {
-        const dx = obs.x - playerState.pos.x;
-        const dz = obs.z - playerState.pos.z;
-        const d = Math.hypot(dx, dz) - obs.r;
-        if (d < minDist) {
-          minDist = d;
-          threatAngle = Math.atan2(dx, dz) - playerState.heading;
-        }
+        checkTarget(obs.x, obs.z, obs.r);
       }
 
-      playerState.nearestObstacleDist = Math.max(0.4, minDist);
+      const aebOn = saveState.aebEnabled !== false;
+      const shouldBrake = aebOn && dangerInTravelDir;
 
-      while (threatAngle > Math.PI) threatAngle -= Math.PI * 2;
-      while (threatAngle < -Math.PI) threatAngle += Math.PI * 2;
+      playerState.nearestObstacleDist = minDist;
+      playerState.autoBrakeActive = shouldBrake;
 
-      const isFrontThreat = Math.abs(threatAngle) < 1.15;
-      const isRearThreat = Math.abs(threatAngle) > 1.95;
-
-      let engageBrake = false;
-      if (minDist < brakeDist) {
-        if ((intendedThrottle > 0.05 && isFrontThreat) || (intendedThrottle < -0.05 && isRearThreat)) {
-          engageBrake = true;
-        }
-      }
-
-      playerState.autoBrakeActive = engageBrake;
-
-      // Update Both Standard Radar Arc & Excavator 360° Ring Colors
-      const arc = document.getElementById("radar-arc");
-      const ringOuter = document.getElementById("ring-360-outer");
-      const ringInner = document.getElementById("ring-360-inner");
-      const readout = document.getElementById("cam-dist-readout");
       const banner = document.getElementById("autobrake-banner");
+      const distReadout = document.getElementById("cam-dist-readout");
+      const assistTag = document.getElementById("cam-assist-tag");
+      const radarArc = document.getElementById("radar-arc");
+      const ring360 = document.getElementById("ring-360-outer");
 
-      if (minDist < brakeDist) {
-        arc.setAttribute("stroke", "#ef4444");
-        if (ringInner) ringInner.setAttribute("stroke", "#ef4444");
-        readout.style.color = "#ef4444";
-        readout.textContent = `STOP ${minDist.toFixed(1)}m`;
-      } else if (minDist < warnDist) {
-        arc.setAttribute("stroke", "#f5b800");
-        if (ringOuter) ringOuter.setAttribute("stroke", "#f5b800");
-        readout.style.color = "#f5b800";
-        readout.textContent = `WARN ${minDist.toFixed(1)}m`;
-      } else {
-        arc.setAttribute("stroke", "#22c55e");
-        if (ringOuter) ringOuter.setAttribute("stroke", "#22c55e");
-        if (ringInner) ringInner.setAttribute("stroke", "#f5b800");
-        readout.style.color = "#22c55e";
-        readout.textContent = `CLR >8m`;
+      if (!aebOn) {
+        banner.classList.remove("visible");
+        distReadout.textContent = minDist < warnDist ? `OBJ ${minDist.toFixed(1)}m` : "CLR >12m";
+        distReadout.style.color = minDist < stopDist ? "#ef4444" : minDist < warnDist ? "#f5b800" : "#22c55e";
+        assistTag.textContent = "AEB OFF";
+        assistTag.style.color = "#ef4444";
+        if (radarArc) radarArc.setAttribute("stroke", minDist < stopDist ? "#ef4444" : "#6b7280");
+        if (ring360) ring360.setAttribute("stroke", minDist < stopDist ? "#ef4444" : "#6b7280");
+        return false;
       }
 
-      if (engageBrake) {
+      if (shouldBrake) {
         banner.classList.add("visible");
+        distReadout.textContent = `STOP ${minDist.toFixed(1)}m`;
+        distReadout.style.color = "#ef4444";
+        assistTag.textContent = "BRAKING!";
+        assistTag.style.color = "#ef4444";
+        if (radarArc) radarArc.setAttribute("stroke", "#ef4444");
+        if (ring360) ring360.setAttribute("stroke", "#ef4444");
+      } else if (minDist < warnDist) {
+        banner.classList.remove("visible");
+        distReadout.textContent = `OBJ ${minDist.toFixed(1)}m`;
+        distReadout.style.color = "#f5b800";
+        assistTag.textContent = "CAUTION";
+        assistTag.style.color = "#f5b800";
+        if (radarArc) radarArc.setAttribute("stroke", "#f5b800");
+        if (ring360) ring360.setAttribute("stroke", "#f5b800");
       } else {
         banner.classList.remove("visible");
+        distReadout.textContent = "CLR >12m";
+        distReadout.style.color = "#22c55e";
+        assistTag.textContent = "AEB ON";
+        assistTag.style.color = "#9ca3af";
+        if (radarArc) radarArc.setAttribute("stroke", "#22c55e");
+        if (ring360) ring360.setAttribute("stroke", "#22c55e");
       }
 
-      return engageBrake;
+      return shouldBrake;
+    }
+
+    function drawPeopleDetectionOverlay() {
+      auxCamera.updateMatrixWorld();
+      auxCamera.updateProjectionMatrix();
+
+      const w = rearCamCanvas.width;
+      const h = rearCamCanvas.height;
+
+      for (const wk of siteObjects.workers) {
+        const dist = wk.mesh.position.distanceTo(playerState.pos);
+        if (dist > 26) continue;
+
+        const worldHead = wk.mesh.position.clone().add(new THREE.Vector3(0, 1.85, 0));
+        const worldFoot = wk.mesh.position.clone();
+        const pTop = worldHead.project(auxCamera);
+        const pBot = worldFoot.project(auxCamera);
+
+        if (pTop.z > 1 || pBot.z > 1) continue;
+
+        const sx = (pTop.x * 0.5 + 0.5) * w;
+        const syTop = (-pTop.y * 0.5 + 0.5) * h;
+        const syBot = (-pBot.y * 0.5 + 0.5) * h;
+
+        const boxH = Math.max(24, Math.min(130, Math.abs(syBot - syTop) * 1.15));
+        const boxW = Math.max(16, boxH * 0.52);
+        const bx = sx - boxW / 2;
+        const by = (syTop + syBot) / 2 - boxH / 2;
+
+        if (bx + boxW < 0 || bx > w || by + boxH < 0 || by > h) continue;
+
+        const isClose = dist < 9.5;
+        const boxColor = isClose ? "#ef4444" : "#facc15";
+
+        rearCamCtx.save();
+        rearCamCtx.strokeStyle = boxColor;
+        rearCamCtx.lineWidth = isClose ? 2.4 : 1.7;
+        rearCamCtx.strokeRect(bx, by, boxW, boxH);
+
+        // Label badge above bounding box
+        const label = isClose ? `PERSON ${dist.toFixed(0)}m!` : `WORKER ${dist.toFixed(0)}m`;
+        rearCamCtx.font = "bold 9px monospace";
+        const tw = rearCamCtx.measureText(label).width + 6;
+        rearCamCtx.fillStyle = boxColor;
+        rearCamCtx.fillRect(bx, Math.max(2, by - 12), tw, 11);
+        rearCamCtx.fillStyle = isClose ? "#ffffff" : "#111827";
+        rearCamCtx.fillText(label, bx + 3, Math.max(10, by - 3));
+        rearCamCtx.restore();
+      }
     }
 
     // --------------------------------------------------------------------------
-    // 11. AUTONOMOUS AI DUMPERS, WORKERS & DYNAMIC 3D OBJECTIVE BEACON
+    // 11. SITE ENTITIES SIMULATION (WORKERS, AI HAULERS, RACE & BEACON)
     // --------------------------------------------------------------------------
     function updateSiteEntities(dt, elapsed) {
-      for (const w of siteObjects.workers) {
-        const t = elapsed * w.speed + w.phase;
-        const nx = w.cx + Math.cos(t) * w.rx;
-        const nz = w.cz + Math.sin(t) * w.rz;
-        const dx = nx - w.mesh.position.x;
-        const dz = nz - w.mesh.position.z;
-        w.mesh.position.set(nx, Math.abs(Math.sin(elapsed * 8 + w.phase)) * 0.06, nz);
+      // 1. Animate Site Crew in High-Vis Vests
+      for (const wk of siteObjects.workers) {
+        const t = elapsed * wk.speed + wk.phase;
+        const nx = wk.cx + Math.cos(t) * wk.rx;
+        const nz = wk.cz + Math.sin(t) * wk.rz;
+        const dx = nx - wk.mesh.position.x;
+        const dz = nz - wk.mesh.position.z;
+        wk.mesh.position.set(nx, 0, nz);
         if (Math.hypot(dx, dz) > 0.001) {
-          w.mesh.rotation.y = Math.atan2(dx, dz);
+          wk.mesh.rotation.y = Math.atan2(dx, dz);
         }
+        wk.mesh.position.y = Math.abs(Math.sin(elapsed * 7 + wk.phase)) * 0.06;
       }
 
-      for (const truck of siteObjects.aiDumpers) {
-        if (truck.wpIndex === 0 && truck.load < truck.maxLoad * 0.65 && truck.waitTimer > 0) {
-          truck.waitTimer -= dt;
+      // 2. Animate Autonomous AI Haul Dumpers
+      for (const tr of siteObjects.aiDumpers) {
+        if (tr.waitTimer > 0 && tr.load < tr.maxLoad) {
+          tr.waitTimer -= dt;
           continue;
         }
 
-        const target = truck.waypoints[truck.wpIndex];
-        const dx = target.x - truck.root.position.x;
-        const dz = target.z - truck.root.position.z;
+        const targetWp = tr.waypoints[tr.wpIndex];
+        const dx = targetWp.x - tr.root.position.x;
+        const dz = targetWp.z - tr.root.position.z;
         const dist = Math.hypot(dx, dz);
 
-        const distToPlayer = truck.root.position.distanceTo(playerState.pos);
-        const aiSpeed = distToPlayer < 8.5 ? 0 : 7.2;
-
-        if (dist < 2.5) {
-          if (truck.wpIndex === 1 && truck.load > 0) {
-            const autoSale = Math.round(truck.load * MATERIALS[truck.materialType].valuePerTon * 0.7);
-            const slot = getActiveSlot();
-            slot.money += autoSale;
-            slot.totalTons = +(slot.totalTons + truck.load).toFixed(1);
-            persistSaves();
-            updateHUDNumbers();
-            spawnMaterialBurst(truck.root.position.clone().add(new THREE.Vector3(0, 2.2, 0)), MATERIALS[truck.materialType].color, 14);
-            showToast(`AUTONOMOUS HAULER SOLD LOAD: +$${autoSale}`);
-            truck.load = 0;
-            truck.loadMound.visible = false;
-            truck.bedPivot.rotation.x = -0.65;
-            setTimeout(() => { truck.bedPivot.rotation.x = 0; }, 1200);
+        if (dist < 2.2) {
+          tr.wpIndex = (tr.wpIndex + 1) % tr.waypoints.length;
+          // At loading zone (wpIndex 0), pause for player loading
+          if (tr.wpIndex === 0) {
+            tr.waitTimer = 18;
           }
-
-          truck.wpIndex = (truck.wpIndex + 1) % truck.waypoints.length;
-          if (truck.wpIndex === 0) {
-            truck.waitTimer = 22;
-          }
-        } else if (aiSpeed > 0) {
-          const desiredYaw = Math.atan2(dx, dz);
-          let diff = desiredYaw - truck.root.rotation.y;
-          while (diff > Math.PI) diff -= Math.PI * 2;
-          while (diff < -Math.PI) diff += Math.PI * 2;
-          truck.root.rotation.y += diff * Math.min(1, dt * 3.5);
-
-          truck.root.position.x += Math.sin(truck.root.rotation.y) * aiSpeed * dt;
-          truck.root.position.z += Math.cos(truck.root.rotation.y) * aiSpeed * dt;
-          truck.wheels.forEach((w) => { w.rotation.x += aiSpeed * dt * 1.1; });
-        }
-      }
-
-      // Position Glowing 3D Ground Beacon on Current Target Zone
-      if (siteObjects.beaconRing && playerState.machine) {
-        const mType = playerState.machine.type;
-        const hasLoad = playerState.payload > getMaxCapacity() * 0.4;
-        if (mType === "dumper") {
-          if (!hasLoad) {
-            siteObjects.beaconRing.position.set(siteObjects.hopperZone.x, 0.14, siteObjects.hopperZone.z);
-          } else {
-            siteObjects.beaconRing.position.set(siteObjects.crusherZone.x, 0.14, siteObjects.crusherZone.z + 9.5);
+          // At crusher drop point (wpIndex 2), autonomously sell any player-loaded ore
+          if (tr.wpIndex === 2 && tr.load > 0) {
+            const autoSale = Math.round(tr.load * MATERIALS[tr.materialType].valuePerTon * 0.45);
+            awardMoney(autoSale, tr.load, tr.materialType);
+            spawnMaterialBurst(siteObjects.crusherZone.clone().add(new THREE.Vector3(0, 3.5, 2)), MATERIALS[tr.materialType].color, 18);
+            showToast(`AUTONOMOUS HAULER SOLD LOAD +$${autoSale}!`);
+            tr.load = 0;
+            tr.loadMound.visible = false;
           }
         } else {
-          if (!hasLoad) {
-            // Point to nearest stockpile
-            let best = siteObjects.stockpiles[0];
-            let bestD = 999;
-            for (const p of siteObjects.stockpiles) {
-              const d = Math.hypot(playerState.pos.x - p.x, playerState.pos.z - p.z);
-              if (d < bestD) { bestD = d; best = p; }
-            }
-            siteObjects.beaconRing.position.set(best.x, 0.14, best.z);
-          } else {
-            // Point to nearest AI haul truck
-            const tr = siteObjects.aiDumpers[0];
-            siteObjects.beaconRing.position.set(tr.root.position.x, 0.14, tr.root.position.z);
-          }
+          // Yield if player machine is directly ahead
+          const distToPlayer = tr.root.position.distanceTo(playerState.pos);
+          const moveSpeed = distToPlayer < 8.5 ? 0 : 6.2;
+          const desiredYaw = Math.atan2(dx, dz);
+          tr.root.rotation.y = desiredYaw;
+          tr.root.position.x += Math.sin(desiredYaw) * moveSpeed * dt;
+          tr.root.position.z += Math.cos(desiredYaw) * moveSpeed * dt;
+          tr.wheels.forEach((w) => {
+            w.rotation.x += moveSpeed * dt * 1.1;
+          });
         }
-        const pulse = 1 + Math.sin(elapsed * 5) * 0.12;
-        siteObjects.beaconRing.scale.set(pulse, pulse, 1);
       }
 
-      // Animate 3D Rock/Dust Particles
+      // 3. Mission Dispatch Station Proximity Trigger
+      if (playerState.missionStationCooldown > 0) {
+        playerState.missionStationCooldown -= dt;
+      }
+      const dMission = Math.hypot(
+        playerState.pos.x - siteObjects.missionStationZone.x,
+        playerState.pos.z - (siteObjects.missionStationZone.z + 1.8)
+      );
+      if (dMission < 5.6 && !playerState.activeContract && playerState.missionStationCooldown <= 0 && playerState.playMode !== "race") {
+        playerState.activeContract = generateProceduralContract();
+        playerState.missionStationCooldown = 8;
+        audio.playCash();
+        updateMissionBanner();
+        showToast(`📋 NEW CONTRACT: ${playerState.activeContract.title} (+$${playerState.activeContract.reward})`);
+      }
+
+      // 4. Objective Waypoint Beacon & Race Mode 3D Arrow
+      if (playerState.playMode === "race" && !playerState.raceFinished) {
+        const cp = siteObjects.raceCheckpoints[playerState.raceCheckpointIdx];
+        if (cp && siteObjects.beaconRing) {
+          siteObjects.beaconRing.visible = true;
+          siteObjects.beaconRing.position.set(cp.x, 0.14 + Math.sin(elapsed * 5) * 0.04, cp.z);
+          siteObjects.beaconRing.material.color.setHex(0x22c55e);
+
+          if (siteObjects.raceArrowGroup) {
+            siteObjects.raceArrowGroup.visible = true;
+            siteObjects.raceArrowGroup.position.set(
+              playerState.pos.x,
+              playerState.pos.y + 4.4 + Math.sin(elapsed * 6) * 0.18,
+              playerState.pos.z
+            );
+            siteObjects.raceArrowGroup.lookAt(cp.x, playerState.pos.y + 4.4, cp.z);
+          }
+
+          if (Math.hypot(playerState.pos.x - cp.x, playerState.pos.z - cp.z) < 7.5) {
+            playerState.raceCheckpointIdx++;
+            audio.playTone(740, "sine", 0.14, 0.14);
+            if (playerState.raceCheckpointIdx >= siteObjects.raceCheckpoints.length) {
+              playerState.raceFinished = true;
+              siteObjects.raceArrowGroup.visible = false;
+              const slot = getActiveSlot();
+              const lapTime = +playerState.shiftTimer.toFixed(1);
+              if (!slot.bestRaceTime || lapTime < slot.bestRaceTime) {
+                slot.bestRaceTime = lapTime;
+              }
+              const prize = 850;
+              slot.money += prize;
+              persistSaves();
+              audio.playCash();
+              showToast(`🏁 FINISH! Time: ${lapTime}s • Won $${prize}!`);
+            }
+            updateMissionBanner();
+          }
+        }
+      } else {
+        if (siteObjects.raceArrowGroup) siteObjects.raceArrowGroup.visible = false;
+        if (siteObjects.beaconRing && playerState.machine) {
+          siteObjects.beaconRing.visible = true;
+          let targetPos = siteObjects.stockpiles[0];
+          if (playerState.machine.type === "dumper") {
+            targetPos = playerState.payload > 0.5
+              ? { x: siteObjects.crusherZone.x, z: siteObjects.crusherZone.z + 9.5 }
+              : { x: siteObjects.hopperZone.x, z: siteObjects.hopperZone.z };
+          } else if (playerState.payload > 0.5) {
+            const waitingTruck = siteObjects.aiDumpers[0];
+            targetPos = waitingTruck
+              ? { x: waitingTruck.root.position.x, z: waitingTruck.root.position.z }
+              : { x: siteObjects.crusherZone.x, z: siteObjects.crusherZone.z + 9.5 };
+          } else if (playerState.activeContract) {
+            const matchPile = siteObjects.stockpiles.find((p) => p.type === playerState.activeContract.materialType);
+            if (matchPile) targetPos = matchPile;
+          }
+          siteObjects.beaconRing.position.set(targetPos.x, 0.14, targetPos.z);
+          siteObjects.beaconRing.material.color.setHex(playerState.payload > 0.5 ? 0x22c55e : 0x38bdf8);
+        }
+      }
+
+      // 5. Update Flying Material Particles
       for (let i = siteObjects.particles.length - 1; i >= 0; i--) {
-        const p = siteObjects.particles[i];
-        p.life -= dt * 1.3;
-        p.vel.y -= 9.8 * dt;
-        p.mesh.position.addScaledVector(p.vel, dt);
-        p.mesh.rotation.x += dt * 4;
-        p.mesh.scale.setScalar(Math.max(0.01, p.life));
-        if (p.life <= 0 || p.mesh.position.y < 0) {
-          scene.remove(p.mesh);
+        const pt = siteObjects.particles[i];
+        pt.life -= dt * 1.4;
+        pt.vel.y -= 14 * dt;
+        pt.mesh.position.addScaledVector(pt.vel, dt);
+        if (pt.life <= 0 || pt.mesh.position.y < 0) {
+          scene.remove(pt.mesh);
           siteObjects.particles.splice(i, 1);
         }
       }
@@ -2787,165 +3466,217 @@
         }
       }
 
-      playerState.steerAngle += (steer * 0.55 - playerState.steerAngle) * Math.min(1, dt * 6);
-      const turnRate = m.type === "excavator" ? 1.45 : (playerState.speed / 8.5) * 1.65;
+      // Steering & Articulation
+      const targetSteer = steer * 0.42;
+      playerState.steerAngle += (targetSteer - playerState.steerAngle) * Math.min(1, dt * 7);
+
       if (m.type === "excavator") {
-        playerState.heading += steer * 1.15 * dt;
-      } else {
-        playerState.heading += playerState.steerAngle * turnRate * dt;
+        playerState.heading += playerState.steerAngle * dt * 1.65;
+      } else if (Math.abs(playerState.speed) > 0.15) {
+        const dirSign = playerState.speed >= 0 ? 1 : -1;
+        playerState.heading += playerState.steerAngle * dirSign * Math.min(1, Math.abs(playerState.speed) / 4) * dt * 1.9;
       }
 
+      // Move Machine & Enforce Quarry Perimeter Bounds
       playerState.pos.x += Math.sin(playerState.heading) * playerState.speed * dt;
       playerState.pos.z += Math.cos(playerState.heading) * playerState.speed * dt;
 
-      const radialDist = Math.hypot(playerState.pos.x, playerState.pos.z);
-      if (radialDist > 92) {
-        const clampScale = 92 / radialDist;
-        playerState.pos.x *= clampScale;
-        playerState.pos.z *= clampScale;
+      const distFromCenter = Math.hypot(playerState.pos.x, playerState.pos.z);
+      if (distFromCenter > 98) {
+        const pushAngle = Math.atan2(playerState.pos.x, playerState.pos.z);
+        playerState.pos.x = Math.sin(pushAngle) * 98;
+        playerState.pos.z = Math.cos(pushAngle) * 98;
         playerState.speed *= 0.4;
       }
 
-      const hydRate = 0.85 * hydMult * dt;
-      if (hydUp) playerState.boomAngle = Math.min(1, playerState.boomAngle + hydRate);
-      if (hydDown) playerState.boomAngle = Math.max(0, playerState.boomAngle - hydRate);
-
-      if (m.type === "excavator") {
-        if (hydIn) playerState.slewAngle += 1.45 * hydMult * dt;
-        if (hydOut) playerState.slewAngle -= 1.45 * hydMult * dt;
-      } else {
-        if (hydIn) playerState.bucketAngle = Math.max(0, playerState.bucketAngle - hydRate * 1.2);
-        if (hydOut) playerState.bucketAngle = Math.min(1, playerState.bucketAngle + hydRate * 1.2);
-      }
-
-      const cap = getMaxCapacity();
-
-      // Seamless Automatic Loading & Unloading Mechanics for All 3 Machines
-      if (m.type === "loader" || m.type === "excavator") {
-        // Scoop when bucket is lowered near stockpile
-        if (playerState.boomAngle < 0.45 && playerState.payload < cap) {
-          for (const pile of siteObjects.stockpiles) {
-            const d = Math.hypot(playerState.pos.x - pile.x, playerState.pos.z - pile.z);
-            if (d < pile.r + 4.2 && (Math.abs(playerState.speed) > 0.5 || hydDown || hydUp)) {
-              playerState.payload = Math.min(cap, playerState.payload + dt * 7.5 * hydMult);
-              playerState.payloadType = pile.type;
-              if (Math.random() < 0.25) {
-                spawnMaterialBurst(new THREE.Vector3(pile.x, 1.4, pile.z), MATERIALS[pile.type].color, 2);
-              }
-            }
-          }
-        }
-        // Auto-unload when raising boom or tilting bucket beside a Haul Truck or Crusher
-        if (playerState.payload >= cap * 0.5 && (playerState.boomAngle > 0.45 || playerState.bucketAngle > 0.6)) {
-          unloadToTruckOrCrusher();
-        }
-      } else if (m.type === "dumper") {
-        // Auto-fill under Silo Hopper when parked/slow inside loading ring
-        const dHopper = Math.hypot(playerState.pos.x - siteObjects.hopperZone.x, playerState.pos.z - siteObjects.hopperZone.z);
-        if (dHopper < 6.8 && playerState.payload < cap && Math.abs(playerState.speed) < 2.5) {
-          if (playerState.payload < 0.1) {
-            const types = ["granite", "iron", "gold"];
-            playerState.payloadType = types[Math.floor(Math.random() * types.length)];
-          }
-          playerState.payload = Math.min(cap, playerState.payload + dt * 11 * hydMult);
-          if (Math.random() < 0.3) {
-            spawnMaterialBurst(siteObjects.hopperZone.clone().add(new THREE.Vector3(0, 6.5, 0)), MATERIALS[playerState.payloadType].color, 2);
-          }
-          if (playerState.payload >= cap) {
-            audio.playScoop();
-            showToast(`FULL LOAD (${cap}t ${MATERIALS[playerState.payloadType].name})! Drive to North Crusher!`);
-          }
-        }
-
-        // Auto-tip at North Crusher Hopper
-        const dCrusher = Math.hypot(playerState.pos.x - siteObjects.crusherZone.x, playerState.pos.z - (siteObjects.crusherZone.z + 9.5));
-        if (dCrusher < 8.5 && playerState.payload > 0.5 && Math.abs(playerState.speed) < 3.0) {
-          triggerSmartAction();
-        }
-      }
-
-      // Apply Transforms
       m.root.position.copy(playerState.pos);
       m.root.rotation.y = playerState.heading;
 
+      // Wheel rotation & Cab controls animation
+      m.wheels.forEach((w) => {
+        w.rotation.x += playerState.speed * dt * 1.1;
+      });
       if (m.cab) {
-        m.cab.steeringPivot.rotation.z = -playerState.steerAngle * 2.4;
+        m.cab.steeringPivot.rotation.z = -playerState.steerAngle * 2.8;
         m.cab.joystickStick.rotation.x = 0.2 + (hydUp ? -0.25 : hydDown ? 0.25 : 0);
+        m.cab.joystickStick.rotation.z = hydIn ? 0.25 : hydOut ? -0.25 : 0;
       }
 
-      m.wheels.forEach((w) => {
-        w.rotation.x += playerState.speed * dt * 1.15;
-      });
+      // Machine-Specific Hydraulics & Articulation
+      const hydActive = Boolean(hydUp || hydDown || hydIn || hydOut);
+      if (m.type === "loader") {
+        m.frontPivot.rotation.y = playerState.steerAngle * 0.72;
+        if (hydUp) playerState.boomAngle = Math.min(1.05, playerState.boomAngle + dt * 0.85 * hydMult);
+        if (hydDown) playerState.boomAngle = Math.max(-0.18, playerState.boomAngle - dt * 0.85 * hydMult);
+        if (hydIn) playerState.bucketAngle = Math.max(-0.35, playerState.bucketAngle - dt * 1.2 * hydMult);
+        if (hydOut) playerState.bucketAngle = Math.min(1.1, playerState.bucketAngle + dt * 1.2 * hydMult);
 
+        m.boomPivot.rotation.x = -playerState.boomAngle;
+        m.bucketPivot.rotation.x = playerState.bucketAngle;
+
+        if (playerState.payload > 0 && playerState.bucketAngle > 0.72 && playerState.boomAngle > 0.42) {
+          unloadToTruckOrCrusher();
+        }
+      } else if (m.type === "excavator") {
+        if (hydUp) playerState.boomAngle = Math.min(0.85, playerState.boomAngle + dt * 0.75 * hydMult);
+        if (hydDown) playerState.boomAngle = Math.max(-0.35, playerState.boomAngle - dt * 0.75 * hydMult);
+        if (hydIn) playerState.slewAngle += dt * 1.25 * hydMult;
+        if (hydOut) playerState.slewAngle -= dt * 1.25 * hydMult;
+
+        m.housePivot.rotation.y = playerState.slewAngle;
+        m.boomPivot.rotation.x = -playerState.boomAngle;
+        m.stickPivot.rotation.x = playerState.boomAngle * 0.65;
+
+        if (playerState.payload > 0 && playerState.boomAngle > 0.55) {
+          unloadToTruckOrCrusher();
+        }
+      } else if (m.type === "dumper") {
+        if (hydUp || hydOut) playerState.boomAngle = Math.min(0.98, playerState.boomAngle + dt * 0.8 * hydMult);
+        if (hydDown || hydIn) playerState.boomAngle = Math.max(0, playerState.boomAngle - dt * 0.8 * hydMult);
+        m.bedPivot.rotation.x = -playerState.boomAngle;
+
+        // Auto-load under SW Yellow Hopper
+        const dHopper = Math.hypot(playerState.pos.x - siteObjects.hopperZone.x, playerState.pos.z - siteObjects.hopperZone.z);
+        const cap = getMaxCapacity();
+        if (dHopper < 6.8 && Math.abs(playerState.speed) < 1.2 && playerState.payload < cap) {
+          if (playerState.payload <= 0.05) {
+            const types = ["granite", "iron", "gold"];
+            playerState.payloadType = types[Math.floor(Math.random() * types.length)];
+          }
+          playerState.payload = Math.min(cap, playerState.payload + dt * 6.5);
+          if (Math.random() < 0.25) {
+            spawnMaterialBurst(siteObjects.hopperZone.clone().add(new THREE.Vector3(0, 5.2, 0)), MATERIALS[playerState.payloadType].color, 2);
+          }
+          if (playerState.payload >= cap) {
+            audio.playScoop();
+            showToast(`BED FULL (${cap.toFixed(1)}t ${MATERIALS[playerState.payloadType].name})! Drive to North Crusher!`);
+          }
+        }
+
+        // Auto-unload at North Crusher
+        const dCrusher = Math.hypot(playerState.pos.x - siteObjects.crusherZone.x, playerState.pos.z - (siteObjects.crusherZone.z + 9.5));
+        if (dCrusher < 9.5 && playerState.payload > 0.5 && (playerState.boomAngle > 0.6 || Math.abs(playerState.speed) < 1.0)) {
+          playerState.boomAngle = 0.95;
+          const payout = Math.round(playerState.payload * MATERIALS[playerState.payloadType].valuePerTon * 1.25 * playerState.streak);
+          awardMoney(payout, playerState.payload);
+          spawnMaterialBurst(siteObjects.crusherZone.clone().add(new THREE.Vector3(0, 3.5, 2.5)), MATERIALS[playerState.payloadType].color, 24);
+          showToast(`CRUSHER DELIVERY +$${payout}!`);
+          playerState.payload = 0;
+          setTimeout(() => { playerState.boomAngle = 0; }, 1400);
+        }
+      }
+
+      // Update Visual Payload Mound inside Bucket / Dump Bed
       if (m.loadMound) {
         m.loadMound.visible = playerState.payload > 0.2;
         if (m.loadMound.visible) {
           m.loadMound.material.color.setHex(MATERIALS[playerState.payloadType].color);
-          const ratio = Math.max(0.3, playerState.payload / cap);
-          m.loadMound.scale.y = 0.4 + ratio * 0.5;
         }
       }
 
-      if (m.type === "loader") {
-        m.frontPivot.rotation.y = playerState.steerAngle * 0.42;
-        m.boomPivot.rotation.x = -playerState.boomAngle * 0.72;
-        m.bucketPivot.rotation.x = playerState.boomAngle * 0.55 + playerState.bucketAngle * 0.85;
-      } else if (m.type === "excavator") {
-        m.housePivot.rotation.y = playerState.slewAngle;
-        m.boomPivot.rotation.x = -playerState.boomAngle * 0.55;
-        m.stickPivot.rotation.x = -0.2 + playerState.boomAngle * 0.45;
-      } else if (m.type === "dumper") {
-        m.bedPivot.rotation.x = -playerState.boomAngle * 0.78;
+      // Timers, Streak Decay & Rush Mode End Check
+      if (playerState.playMode !== "race" || !playerState.raceFinished) {
+        playerState.shiftTimer += dt;
       }
 
-      m.root.updateMatrixWorld(true);
-      const cabParent = m.type === "loader" ? m.frontPivot : m.type === "excavator" ? m.housePivot : m.root;
-
-      if (playerState.cameraMode === "cab") {
-        const eyeWorld = m.cabEyeLocal.clone().applyMatrix4(cabParent.matrixWorld);
-        const lookLocal = m.cabEyeLocal.clone().add(new THREE.Vector3(0, -0.32, 6.5));
-        const lookWorld = lookLocal.applyMatrix4(cabParent.matrixWorld);
-        playerCamera.position.lerp(eyeWorld, Math.min(1, dt * 18));
-        playerCamera.lookAt(lookWorld);
-      } else {
-        const chaseOffset = new THREE.Vector3(0, 5.2, -10.5).applyMatrix4(m.root.matrixWorld);
-        const chaseLook = new THREE.Vector3(0, 1.8, 5.0).applyMatrix4(m.root.matrixWorld);
-        playerCamera.position.lerp(chaseOffset, Math.min(1, dt * 8));
-        playerCamera.lookAt(chaseLook);
-      }
-
-      // Position Portrait Screen Camera: Stitched 360° Bird's-Eye View for Excavator, Rear Cam for Loader/Dumper
-      if (m.type === "excavator" && !playerState.auxCamAltMode) {
-        // 360° Surround Top-Down Bird's-Eye Camera centered above the Excavator House
-        const topPos = new THREE.Vector3(0, 17.5, 0).applyMatrix4(m.housePivot.matrixWorld);
-        const lookCenter = new THREE.Vector3(0, 0, 0).applyMatrix4(m.housePivot.matrixWorld);
-        // Align camera up-vector with excavator front heading so forward is always UP on the 360 screen
-        const forwardDir = new THREE.Vector3(0, 0, 1).applyMatrix4(m.housePivot.matrixWorld).sub(lookCenter).normalize();
-        auxCamera.up.copy(forwardDir);
-        auxCamera.position.copy(topPos);
-        auxCamera.lookAt(lookCenter);
-      } else {
-        auxCamera.up.set(0, 1, 0);
-        if (!playerState.auxCamAltMode) {
-          const rPos = m.rearCamLocal.clone().applyMatrix4(cabParent.matrixWorld);
-          const rLook = m.rearCamLookLocal.clone().applyMatrix4(cabParent.matrixWorld);
-          auxCamera.position.copy(rPos);
-          auxCamera.lookAt(rLook);
-        } else {
-          const wPos = new THREE.Vector3(2.8, 5.4, 2.5).applyMatrix4(cabParent.matrixWorld);
-          const wLook = new THREE.Vector3(0, 0.6, 5.5).applyMatrix4(cabParent.matrixWorld);
-          auxCamera.position.copy(wPos);
-          auxCamera.lookAt(wLook);
+      if (playerState.playMode === "rush1" || playerState.playMode === "rush3") {
+        playerState.rushRemaining -= dt;
+        if (playerState.rushRemaining <= 0) {
+          playerState.rushRemaining = 0;
+          const slot = getActiveSlot();
+          if (playerState.playMode === "rush1" && playerState.rushScoreTons > (slot.bestRush1Tons || 0)) {
+            slot.bestRush1Tons = playerState.rushScoreTons;
+          }
+          if (playerState.playMode === "rush3" && playerState.rushScoreTons > (slot.bestRush3Tons || 0)) {
+            slot.bestRush3Tons = playerState.rushScoreTons;
+          }
+          persistSaves();
+          showToast(`⏱️ TIME UP! Total Rush Haul: ${playerState.rushScoreTons.toFixed(1)}t!`);
+          playerState.playMode = "career";
+          updateMissionBanner();
         }
       }
 
-      audio.updateEngine(playerState.speed / maxFwd, hydUp || hydDown || hydIn || hydOut);
-
-      playerState.shiftTimer += dt;
       if (playerState.streakTimer > 0) {
         playerState.streakTimer -= dt;
         if (playerState.streakTimer <= 0) {
           playerState.streak = 1.0;
+        }
+      }
+
+      const isMenuOpen = !document.getElementById("main-modal").classList.contains("hidden");
+      audio.updateEngine(playerState.speed / maxFwd, hydActive, isMenuOpen);
+
+      // Gently recenter free-look when driving and not actively dragging
+      if (!playerState.isDraggingLook && Math.abs(playerState.speed) > 1.5) {
+        playerState.lookYaw *= Math.pow(0.25, dt);
+        playerState.lookPitch *= Math.pow(0.25, dt);
+      }
+
+      // Update Main Player Camera (Cab First-Person vs Chase Third-Person)
+      const activeYaw = playerState.heading + (m.type === "excavator" ? playerState.slewAngle : m.type === "loader" ? playerState.steerAngle * 0.72 : 0);
+
+      if (playerState.cameraMode === "cab") {
+        const cabAnchor = m.cab ? m.cab.cabGroup : m.root;
+        m.root.updateMatrixWorld(true);
+        const eyeWorld = playerState.cabEyeLocal ? m.cabEyeLocal.clone() : new THREE.Vector3(0, 2.8, 0.6);
+        if (m.type === "loader") {
+          m.frontPivot.localToWorld(eyeWorld);
+        } else if (m.type === "excavator") {
+          m.housePivot.localToWorld(eyeWorld);
+        } else {
+          m.root.localToWorld(eyeWorld);
+        }
+        playerCamera.position.copy(eyeWorld);
+
+        const viewYaw = activeYaw + playerState.lookYaw;
+        const lookTarget = new THREE.Vector3(
+          eyeWorld.x + Math.sin(viewYaw) * 14,
+          eyeWorld.y - 1.1 + playerState.lookPitch * 12,
+          eyeWorld.z + Math.cos(viewYaw) * 14
+        );
+        playerCamera.lookAt(lookTarget);
+      } else {
+        const camYaw = activeYaw + playerState.lookYaw;
+        const dist = playerState.chaseZoom;
+        const height = 5.4 + playerState.lookPitch * 6;
+        playerCamera.position.set(
+          playerState.pos.x - Math.sin(camYaw) * dist,
+          playerState.pos.y + height,
+          playerState.pos.z - Math.cos(camYaw) * dist
+        );
+        playerCamera.lookAt(playerState.pos.x, playerState.pos.y + 2.0, playerState.pos.z);
+      }
+
+      // Update Portrait Cab Monitor Camera (Stitched 360° Bird's-Eye for Excavator, Rear/Work Cam for Loader/Dumper)
+      if (m.type === "excavator" && !playerState.auxCamAltMode) {
+        auxCamera.fov = 75;
+        auxCamera.updateProjectionMatrix();
+        auxCamera.position.set(playerState.pos.x, 19.5, playerState.pos.z);
+        auxCamera.up.set(Math.sin(activeYaw), 0, Math.cos(activeYaw));
+        auxCamera.lookAt(playerState.pos.x, 0, playerState.pos.z);
+      } else {
+        auxCamera.fov = 68;
+        auxCamera.updateProjectionMatrix();
+        auxCamera.up.set(0, 1, 0);
+        if (playerState.auxCamAltMode) {
+          auxCamera.position.set(
+            playerState.pos.x + Math.sin(activeYaw) * 1.4,
+            3.3,
+            playerState.pos.z + Math.cos(activeYaw) * 1.4
+          );
+          auxCamera.lookAt(
+            playerState.pos.x + Math.sin(activeYaw) * 9.5,
+            0.5,
+            playerState.pos.z + Math.cos(activeYaw) * 9.5
+          );
+        } else {
+          const rearPos = m.rearCamLocal.clone();
+          const rearLook = m.rearCamLookLocal.clone();
+          m.root.localToWorld(rearPos);
+          m.root.localToWorld(rearLook);
+          auxCamera.position.copy(rearPos);
+          auxCamera.lookAt(rearLook);
         }
       }
     }
@@ -2992,6 +3723,10 @@
       miniCtx.fillStyle = "#f5b800";
       miniCtx.fillRect(cx + siteObjects.hopperZone.x * scale - 6, cy + siteObjects.hopperZone.z * scale - 6, 12, 12);
 
+      // Mission Station Radar Blip (Cyan Diamond)
+      miniCtx.fillStyle = "#38bdf8";
+      miniCtx.fillRect(cx + siteObjects.missionStationZone.x * scale - 6, cy + siteObjects.missionStationZone.z * scale - 6, 12, 12);
+
       miniCtx.fillStyle = "#38bdf8";
       for (const wk of siteObjects.workers) {
         miniCtx.beginPath();
@@ -3035,6 +3770,7 @@
         rearImageData.data.set(rearPixelBuffer.subarray(srcOffset, srcOffset + rowBytes), dstOffset);
       }
       rearCamCtx.putImageData(rearImageData, 0, 0);
+      drawPeopleDetectionOverlay();
     }
 
     // --------------------------------------------------------------------------
@@ -3068,10 +3804,22 @@
       document.getElementById("hud-payload-bar").style.width = pct + "%";
       document.getElementById("hud-material-type").textContent =
         playerState.payload > 0.1 ? MATERIALS[playerState.payloadType].name : "EMPTY";
-      document.getElementById("mission-progress").style.width = pct + "%";
 
-      const mins = String(Math.floor(playerState.shiftTimer / 60)).padStart(2, "0");
-      const secs = String(Math.floor(playerState.shiftTimer % 60)).padStart(2, "0");
+      if (playerState.playMode === "race") {
+        const racePct = Math.min(100, Math.round((playerState.raceCheckpointIdx / siteObjects.raceCheckpoints.length) * 100));
+        document.getElementById("mission-progress").style.width = racePct + "%";
+      } else if (playerState.activeContract) {
+        const cPct = Math.min(100, Math.round((playerState.activeContract.deliveredTons / playerState.activeContract.targetTons) * 100));
+        document.getElementById("mission-progress").style.width = cPct + "%";
+      } else {
+        document.getElementById("mission-progress").style.width = pct + "%";
+      }
+
+      const displaySeconds = (playerState.playMode === "rush1" || playerState.playMode === "rush3")
+        ? Math.max(0, playerState.rushRemaining)
+        : playerState.shiftTimer;
+      const mins = String(Math.floor(displaySeconds / 60)).padStart(2, "0");
+      const secs = String(Math.floor(displaySeconds % 60)).padStart(2, "0");
       document.getElementById("mission-timer").textContent = `${mins}:${secs}`;
     }
 
@@ -3096,7 +3844,10 @@
       const btn = document.getElementById("btn-start-shift");
       const currentType = playerState.machine?.type;
 
-      if (currentType && currentType === slot.selectedMachine && playerState.shiftTimer > 1) {
+      if (!playerState.hasStartedFirstShift) {
+        btn.textContent = "▶ ENTER CAB & START SHIFT";
+        btn.classList.remove("resume-style");
+      } else if (currentType && currentType === slot.selectedMachine && playerState.playMode === "career") {
         btn.textContent = "▶ RESUME SHIFT & APPLY UPGRADES";
         btn.classList.add("resume-style");
       } else if (currentType && currentType !== slot.selectedMachine) {
@@ -3104,14 +3855,24 @@
         btn.textContent = `🔄 DEPLOY ${names[slot.selectedMachine]}`;
         btn.classList.remove("resume-style");
       } else {
-        btn.textContent = "▶ ENTER CAB & START SHIFT";
+        btn.textContent = "▶ START CHALLENGE";
         btn.classList.remove("resume-style");
       }
     }
 
     function renderModalLists() {
       const slot = getActiveSlot();
+      recalculateOverallHighScores();
       document.getElementById("modal-money").textContent = "$" + slot.money.toLocaleString();
+
+      // Update Mode Cards with Overall Best Records
+      const hs = saveState.overallHighScores;
+      document.getElementById("rec-career").textContent = `Record: $${(hs.career.score || 0).toLocaleString()} (${hs.career.name})`;
+      document.getElementById("rec-rush1").textContent = `Record: ${(hs.rush1.score || 0).toFixed(1)}t (${hs.rush1.name})`;
+      document.getElementById("rec-rush3").textContent = `Record: ${(hs.rush3.score || 0).toFixed(1)}t (${hs.rush3.name})`;
+      document.getElementById("rec-race").textContent = hs.race.time
+        ? `Record: ${hs.race.time.toFixed(1)}s (${hs.race.name})`
+        : "Record: --.-s • Follow 3D Arrows";
 
       document.querySelectorAll(".machine-card").forEach((card) => {
         card.classList.toggle("selected", card.dataset.machine === slot.selectedMachine);
@@ -3156,6 +3917,7 @@
         upgContainer.appendChild(row);
       });
 
+      // Render Save Profiles with Rename Input for Active Profile
       const slotsContainer = document.getElementById("save-slots-list");
       slotsContainer.innerHTML = "";
       saveState.slots.forEach((s) => {
@@ -3163,23 +3925,89 @@
         const row = document.createElement("div");
         row.className = "slot-item" + (isActive ? " active-slot" : "");
         row.innerHTML = `
-          <div>
-            <div style="font-size:12px; font-weight:700; color:#fff;">${s.name}</div>
-            <div style="font-size:10px; color:#9ca3af;">$${s.money.toLocaleString()} • ${s.totalTons.toFixed(1)}t</div>
+          <div style="flex:1; min-width:0;">
+            ${isActive
+              ? `<div style="display:flex; gap:5px; align-items:center;">
+                  <input type="text" class="slot-name-input" value="${s.name.replace(/"/g, "&quot;")}" maxlength="22" placeholder="Enter your name..." aria-label="Player Save Name" style="flex:1; min-width:0; background:rgba(0,0,0,0.55); border:1.5px solid #22c55e; color:#fff; font-family:'Chakra Petch',sans-serif; font-weight:700; font-size:12px; padding:4px 8px; border-radius:7px; outline:none;" />
+                  <button type="button" class="btn-save-solid slot-confirm-btn" style="padding:4px 8px; font-size:10.5px; white-space:nowrap;">✓ OK</button>
+                </div>`
+              : `<div style="font-size:12px; font-weight:700; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${s.name}</div>`
+            }
+            <div style="font-size:10px; color:#9ca3af; margin-top:3px;">$${s.money.toLocaleString()} • ${s.totalTons.toFixed(1)}t${isActive ? ' • <span style="color:#4ade80; font-weight:600;">Active Profile</span>' : ''}</div>
           </div>
-          <div style="display:flex; gap:5px;">
-            <button class="btn-secondary">${isActive ? "ACTIVE" : "LOAD"}</button>
+          <div style="display:flex; gap:5px; align-items:center;">
+            ${isActive ? '' : `<button class="btn-secondary slot-load-btn">LOAD</button>`}
           </div>
         `;
-        row.querySelector("button").addEventListener("click", () => {
-          saveState.activeSlotId = s.id;
-          persistSaves();
-          renderModalLists();
-          updateHUDNumbers();
-          spawnPlayerMachine(getActiveSlot().selectedMachine, false);
-        });
+
+        if (isActive) {
+          const nameInput = row.querySelector(".slot-name-input");
+          const confirmBtn = row.querySelector(".slot-confirm-btn");
+          const confirmName = () => {
+            s.name = nameInput.value.trim() || "Operator";
+            nameInput.value = s.name;
+            persistSaves(true);
+            confirmBtn.textContent = "✓ SAVED";
+            confirmBtn.style.background = "#22c55e";
+            confirmBtn.style.color = "#08120c";
+            audio.playTone(760, "sine", 0.1, 0.1);
+            showToast(`✓ Operator name confirmed: ${s.name}`);
+            setTimeout(() => renderModalLists(), 650);
+          };
+
+          nameInput.addEventListener("input", () => {
+            confirmBtn.textContent = "✓ CONFIRM";
+            confirmBtn.style.background = "rgba(245, 184, 0, 0.25)";
+            confirmBtn.style.borderColor = "#f5b800";
+            confirmBtn.style.color = "#f5b800";
+          });
+          nameInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              nameInput.blur();
+              confirmName();
+            }
+          });
+          confirmBtn.addEventListener("click", confirmName);
+        } else {
+          row.querySelector(".slot-load-btn").addEventListener("click", () => {
+            saveState.activeSlotId = s.id;
+            playerState.hasStartedFirstShift = false;
+            persistSaves();
+            renderModalLists();
+            updateHUDNumbers();
+            spawnPlayerMachine(getActiveSlot().selectedMachine, false);
+          });
+        }
         slotsContainer.appendChild(row);
       });
+
+      // Render Shared Overall High Scores Across All Players
+      const lbContainer = document.getElementById("overall-leaderboard-list");
+      if (lbContainer) {
+        lbContainer.innerHTML = `
+          <div class="leaderboard-row">
+            <span class="lb-mode">🏗️ Career Top</span>
+            <span>${hs.career.name}</span>
+            <span class="lb-val">$${(hs.career.score || 0).toLocaleString()}</span>
+          </div>
+          <div class="leaderboard-row">
+            <span class="lb-mode">⏱️ 1-Min Rush</span>
+            <span>${hs.rush1.name}</span>
+            <span class="lb-val">${(hs.rush1.score || 0).toFixed(1)}t</span>
+          </div>
+          <div class="leaderboard-row">
+            <span class="lb-mode">🔥 3-Min Blitz</span>
+            <span>${hs.rush3.name}</span>
+            <span class="lb-val">${(hs.rush3.score || 0).toFixed(1)}t</span>
+          </div>
+          <div class="leaderboard-row">
+            <span class="lb-mode">🏁 Rally Race</span>
+            <span>${hs.race.name}</span>
+            <span class="lb-val">${hs.race.time ? hs.race.time.toFixed(1) + "s" : "--.-s"}</span>
+          </div>
+        `;
+      }
 
       syncStartShiftButtonLabel();
     }
@@ -3194,24 +4022,49 @@
       });
     });
 
+    document.querySelectorAll(".playmode-pill").forEach((pill) => {
+      pill.addEventListener("click", () => {
+        audio.unlock();
+        document.querySelectorAll(".playmode-pill").forEach((p) => p.classList.remove("selected"));
+        pill.classList.add("selected");
+        playerState.playMode = pill.dataset.playmode;
+        syncStartShiftButtonLabel();
+      });
+    });
+
+    document.getElementById("btn-save-now").addEventListener("click", () => {
+      audio.unlock();
+      persistSaves(true);
+      renderModalLists();
+      audio.playTone(760, "sine", 0.12, 0.12);
+      showToast(`💾 SAVED PROFILE: ${getActiveSlot().name}`);
+    });
+
     document.getElementById("btn-new-game").addEventListener("click", () => {
       const idx = saveState.slots.length + 1;
-      const newSlot = createDefaultSlot(`Quarry Shift #${idx}`);
+      const newSlot = createDefaultSlot(`Player #${idx}`);
       saveState.slots.push(newSlot);
       saveState.activeSlotId = newSlot.id;
+      playerState.hasStartedFirstShift = false;
       persistSaves();
       renderModalLists();
       updateHUDNumbers();
-      showToast(`Created ${newSlot.name}`);
+      showToast(`Created ${newSlot.name} — type your name & save!`);
     });
 
     document.getElementById("btn-start-shift").addEventListener("click", () => {
       audio.unlock();
       const slot = getActiveSlot();
-      const isSameMachine = playerState.machine && playerState.machine.type === slot.selectedMachine && playerState.shiftTimer > 1;
-      if (!isSameMachine) {
+      const isCareerResume =
+        playerState.hasStartedFirstShift &&
+        playerState.playMode === "career" &&
+        playerState.machine &&
+        playerState.machine.type === slot.selectedMachine;
+
+      if (!isCareerResume) {
         spawnPlayerMachine(slot.selectedMachine, false);
       }
+      playerState.hasStartedFirstShift = true;
       document.getElementById("main-modal").classList.add("hidden");
       updateHUDNumbers();
     });
@@ -3221,14 +4074,40 @@
       document.getElementById("main-modal").classList.remove("hidden");
     });
 
+    document.getElementById("btn-help").addEventListener("click", () => {
+      document.getElementById("controls-modal").classList.remove("hidden");
+    });
+
+    document.getElementById("btn-close-controls").addEventListener("click", () => {
+      document.getElementById("controls-modal").classList.add("hidden");
+    });
+
     function togglePlayerCamera() {
       playerState.cameraMode = playerState.cameraMode === "cab" ? "chase" : "cab";
       const btn = document.getElementById("btn-cam-toggle");
-      btn.textContent = playerState.cameraMode === "cab" ? "🎥 CAB" : "🎥 CHASE";
+      const txt = document.getElementById("cam-btn-text");
+      if (txt) txt.textContent = playerState.cameraMode === "cab" ? "CAB" : "CHASE";
       btn.classList.toggle("active", playerState.cameraMode === "cab");
     }
 
     document.getElementById("btn-cam-toggle").addEventListener("click", togglePlayerCamera);
+
+    const aebBtn = document.getElementById("btn-aeb-toggle");
+    function syncAebBtn() {
+      const enabled = saveState.aebEnabled !== false;
+      const txt = document.getElementById("aeb-btn-text");
+      if (txt) txt.textContent = enabled ? "AEB ON" : "AEB OFF";
+      aebBtn.classList.toggle("active", enabled);
+    }
+    syncAebBtn();
+    aebBtn.addEventListener("click", () => {
+      audio.unlock();
+      saveState.aebEnabled = saveState.aebEnabled === false ? true : false;
+      persistSaves();
+      syncAebBtn();
+      audio.playTone(saveState.aebEnabled ? 720 : 420, "sine", 0.1, 0.1);
+      showToast(saveState.aebEnabled ? "🛡️ Auto Collision Brake: ON" : "⚠️ Auto Collision Brake: OFF");
+    });
 
     // Tap Portrait Screen to toggle alternate camera mode
     document.getElementById("cab-monitor-frame").addEventListener("click", () => {
@@ -3239,7 +4118,12 @@
 
     const muteBtn = document.getElementById("btn-mute");
     function syncMuteBtn() {
-      muteBtn.textContent = saveState.muted ? "🔇" : "🔊";
+      const onIcon = document.getElementById("icon-sound-on");
+      const offIcon = document.getElementById("icon-sound-off");
+      if (onIcon && offIcon) {
+        onIcon.style.display = saveState.muted ? "none" : "block";
+        offIcon.style.display = saveState.muted ? "block" : "none";
+      }
     }
     syncMuteBtn();
     muteBtn.addEventListener("click", () => {

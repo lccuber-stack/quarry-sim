@@ -1456,7 +1456,7 @@
             <span>🖥️ INSTALL APP</span>
           </button>
           <button class="update-status-badge" id="btn-check-update" title="Tap to check server & reload latest version without recreating home screen icon">
-            <span id="update-badge-text">✓ LATEST v1.5.8 • CHECK</span>
+            <span id="update-badge-text">✓ LATEST v1.6.1 • CHECK</span>
           </button>
         </div>
       </div>
@@ -1618,7 +1618,7 @@
 
       <div class="modal-footer">
         <div style="font-size:11px; color:#9ca3af; line-height:1.4; flex:1; min-width:200px;">
-          <b>Drive:</b> WASD / Left Pad • <b>Hydraulics:</b> R/F/Q/E • <b>Look:</b> Drag • <span style="color:#6b7280;">v<span id="app-version-label">1.6.0</span></span>
+          <b>Drive:</b> WASD / Left Pad • <b>Hydraulics:</b> R/F/Q/E • <b>Look:</b> Drag • <span style="color:#6b7280;">v<span id="app-version-label">1.6.1</span></span>
         </div>
         <div class="modal-footer-right">
           <button class="btn-action" id="btn-start-shift">
@@ -1699,6 +1699,33 @@
     </div>
   </div>
 
+  <!-- INSTALL / PIN TO TASKBAR GUIDE MODAL -->
+  <div class="modal-backdrop hidden" id="install-guide-modal">
+    <div class="modal-card" style="max-width:440px;">
+      <div class="modal-header-row">
+        <span class="brand-badge">DESKTOP &amp; HOME SCREEN APP</span>
+        <button type="button" class="btn-secondary" id="btn-close-install-guide">✕ CLOSE</button>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px; margin:12px 0;">
+        <img id="install-preview-icon" alt="Quarry Sim App Icon" style="width:60px; height:60px; border-radius:14px; border:2px solid #f5b800; box-shadow:0 6px 18px rgba(0,0,0,0.5);" />
+        <div>
+          <h3 style="margin:0; font-family:'Chakra Petch',sans-serif; font-size:19px; color:#fff;">Install Quarry Sim</h3>
+          <div style="font-size:11.5px; color:#9ca3af; margin-top:2px;">Pin directly to Windows Taskbar or iPhone/iPad Home Screen</div>
+        </div>
+      </div>
+      <div class="ctrl-box" style="margin-bottom:10px; font-size:12px; line-height:1.5;">
+        <b>💻 Windows (Chrome / Edge):</b><br/>
+        1. Click the <b>⋮</b> menu in the top-right corner of Chrome.<br/>
+        2. Select <b>Cast, save, and share</b> → <b>Install Quarry Sim...</b> (or <b>Create shortcut...</b> and tick <b>Open as window</b>).<br/>
+        3. Right-click the new icon on your Desktop or Taskbar and choose <b>Pin to taskbar</b>.
+      </div>
+      <div class="ctrl-box" style="font-size:12px; line-height:1.5;">
+        <b>📱 iPhone &amp; iPad (Safari):</b><br/>
+        Tap the <b>Share</b> button and choose <b>Add to Home Screen</b>.
+      </div>
+    </div>
+  </div>
+
   <script>
     /**
      * ============================================================================
@@ -1706,19 +1733,54 @@
      * ============================================================================
      */
 
-    const APP_VERSION = "1.6.0";
+    const APP_VERSION = "1.6.1";
     const STORAGE_KEY = "quarry_sim_3d_saves_v1";
 
     // --------------------------------------------------------------------------
     // 1. PWA HOME SCREEN & WINDOWS CHROME DESKTOP ICON GENERATOR + MANIFEST
     // --------------------------------------------------------------------------
     let deferredInstallPrompt = null;
+    let generatedAppIconUrl = "";
+
+    function isRunningInStandaloneAppMode() {
+      try {
+        const displayStandalone =
+          window.matchMedia("(display-mode: standalone)").matches ||
+          window.matchMedia("(display-mode: fullscreen)").matches ||
+          window.matchMedia("(display-mode: minimal-ui)").matches ||
+          window.matchMedia("(display-mode: window-controls-overlay)").matches;
+        const iosStandalone = window.navigator.standalone === true;
+        const androidTwa = document.referrer.startsWith("android-app://");
+        const urlStandalone = new URLSearchParams(window.location.search).get("mode") === "standalone";
+        return Boolean(displayStandalone || iosStandalone || androidTwa || urlStandalone);
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function syncInstallAppButtonVisibility() {
+      const installBtn = document.getElementById("btn-install-app");
+      if (!installBtn) return;
+      if (isRunningInStandaloneAppMode()) {
+        installBtn.style.display = "none";
+      } else {
+        installBtn.style.display = "inline-flex";
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", syncInstallAppButtonVisibility);
+    ["standalone", "fullscreen", "minimal-ui"].forEach((mode) => {
+      try {
+        window.matchMedia(`(display-mode: ${mode})`).addEventListener("change", syncInstallAppButtonVisibility);
+      } catch (e) {}
+    });
 
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
       deferredInstallPrompt = e;
+      syncInstallAppButtonVisibility();
       const installBtn = document.getElementById("btn-install-app");
-      if (installBtn) {
+      if (installBtn && !isRunningInStandaloneAppMode()) {
         installBtn.style.background = "linear-gradient(135deg, #22c55e, #16a34a)";
         installBtn.style.color = "#08120c";
         installBtn.innerHTML = "<span>🖥️ INSTALL / PIN TO TASKBAR</span>";
@@ -1729,7 +1791,7 @@
       deferredInstallPrompt = null;
       const installBtn = document.getElementById("btn-install-app");
       if (installBtn) {
-        installBtn.innerHTML = "<span>✓ INSTALLED</span>";
+        installBtn.style.display = "none";
       }
       showToast("✓ Quarry Sim installed! Right-click its icon to Pin to Taskbar.");
     });
@@ -1897,6 +1959,7 @@
         ctx.restore();
 
         const pngDataUrl = iconCanvas.toDataURL("image/png");
+        generatedAppIconUrl = pngDataUrl;
 
         // Create crisp 192x192 PNG variant required by Windows Chrome PWA installer
         const icon192Canvas = document.createElement("canvas");
@@ -1928,12 +1991,14 @@
         });
 
         // Inject Web App Manifest with 192x192 + 512x512 PNG icons for Windows Chrome "Install App / Pin to Taskbar"
+        const baseAppUrl = window.location.href.split("#")[0].split("?")[0];
+        const standaloneStartUrl = baseAppUrl + "?mode=standalone";
         const manifestObj = {
           id: window.location.pathname || "/",
           name: "Quarry Sim",
           short_name: "Quarry Sim",
           description: "3D Heavy Machinery Quarry Simulator",
-          start_url: window.location.href.split("#")[0],
+          start_url: standaloneStartUrl,
           scope: "./",
           display: "standalone",
           orientation: "any",
@@ -1969,15 +2034,30 @@
 
     async function handleInstallAppClick() {
       if (deferredInstallPrompt) {
-        deferredInstallPrompt.prompt();
-        const choice = await deferredInstallPrompt.userChoice;
-        if (choice && choice.outcome === "accepted") {
-          showToast("✓ Installing Quarry Sim with custom icon...");
+        try {
+          deferredInstallPrompt.prompt();
+          const choice = await deferredInstallPrompt.userChoice;
+          if (choice && choice.outcome === "accepted") {
+            const installBtn = document.getElementById("btn-install-app");
+            if (installBtn) installBtn.style.display = "none";
+            showToast("✓ Installing Quarry Sim with custom icon...");
+          }
+          deferredInstallPrompt = null;
+          return;
+        } catch (err) {
+          console.warn("Native install prompt fallback:", err);
         }
-        deferredInstallPrompt = null;
-        return;
       }
-      showToast("Chrome Menu (⋮) → Cast, save, and share → Install Quarry Sim (or Create shortcut with Open as window)");
+      const guideModal = document.getElementById("install-guide-modal");
+      const previewImg = document.getElementById("install-preview-icon");
+      if (previewImg && generatedAppIconUrl) {
+        previewImg.src = generatedAppIconUrl;
+      }
+      if (guideModal) {
+        guideModal.classList.remove("hidden");
+      } else {
+        showToast("Chrome Menu (⋮) → Cast, save, and share → Install Quarry Sim");
+      }
     }
 
     async function checkForUpdates(manual = false) {
@@ -4632,8 +4712,17 @@
       if (!saveState.muted) audio.unlock();
     });
     document.getElementById("btn-install-app").addEventListener("click", handleInstallAppClick);
+    document.getElementById("btn-close-install-guide").addEventListener("click", () => {
+      document.getElementById("install-guide-modal").classList.add("hidden");
+    });
+    document.getElementById("install-guide-modal").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) {
+        document.getElementById("install-guide-modal").classList.add("hidden");
+      }
+    });
     document.getElementById("btn-check-update").addEventListener("click", () => checkForUpdates(true));
     document.getElementById("app-version-label").textContent = APP_VERSION;
+    syncInstallAppButtonVisibility();
 
     // --------------------------------------------------------------------------
     // 14B. DRAGGABLE & RESIZABLE PORTRAIT MONITOR + SITE RADAR WIDGETS
@@ -4938,6 +5027,7 @@
     }
 
     window.onload = function () {
+      syncInstallAppButtonVisibility();
       const slot = getActiveSlot();
       spawnPlayerMachine(slot.selectedMachine, false);
       renderModalLists();

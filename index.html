@@ -663,6 +663,25 @@
       letter-spacing: 0.3px;
       padding: 6px;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .hyd-btn.primary-action .primary-act-icon {
+      width: 26px;
+      height: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #111827;
+      color: #facc15;
+      border-radius: 8px;
+      padding: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+      flex-shrink: 0;
     }
 
     .hyd-btn.primary-action:active {
@@ -1440,7 +1459,12 @@
           <button class="hyd-btn" id="btn-hyd-down"><span class="hyd-icon">▼</span><span id="lbl-hyd-down">BOOM DN</span></button>
           <button class="hyd-btn" id="btn-hyd-tilt-out"><span class="hyd-icon rot-icon">↻</span><span id="lbl-hyd-out">DUMP</span></button>
         </div>
-        <button class="hyd-btn primary-action" id="btn-quick-action">⚡<br/>SCOOP /<br/>UNLOAD</button>
+        <button class="hyd-btn primary-action" id="btn-quick-action">
+          <span class="primary-act-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+          </span>
+          <span id="lbl-quick-action">SCOOP /<br/>UNLOAD</span>
+        </button>
       </div>
     </div>
   </div>
@@ -1456,7 +1480,7 @@
             <span>🖥️ INSTALL APP</span>
           </button>
           <button class="update-status-badge" id="btn-check-update" title="Tap to check server & reload latest version without recreating home screen icon">
-            <span id="update-badge-text">✓ LATEST v1.6.1 • CHECK</span>
+            <span id="update-badge-text">✓ LATEST v1.6.2 • CHECK</span>
           </button>
         </div>
       </div>
@@ -1618,7 +1642,7 @@
 
       <div class="modal-footer">
         <div style="font-size:11px; color:#9ca3af; line-height:1.4; flex:1; min-width:200px;">
-          <b>Drive:</b> WASD / Left Pad • <b>Hydraulics:</b> R/F/Q/E • <b>Look:</b> Drag • <span style="color:#6b7280;">v<span id="app-version-label">1.6.1</span></span>
+          <b>Drive:</b> WASD / Left Pad • <b>Hydraulics:</b> R/F/Q/E • <b>Look:</b> Drag • <span style="color:#6b7280;">v<span id="app-version-label">1.6.2</span></span>
         </div>
         <div class="modal-footer-right">
           <button class="btn-action" id="btn-start-shift">
@@ -1733,7 +1757,7 @@
      * ============================================================================
      */
 
-    const APP_VERSION = "1.6.1";
+    const APP_VERSION = "1.6.2";
     const STORAGE_KEY = "quarry_sim_3d_saves_v1";
 
     // --------------------------------------------------------------------------
@@ -2556,13 +2580,19 @@
 
       pileConfigs.forEach((cfg) => {
         const matInfo = MATERIALS[cfg.type];
-        const geo = new THREE.ConeGeometry(cfg.r, cfg.h, 18, 3);
+        const geo = new THREE.ConeGeometry(cfg.r, cfg.h, 24, 3);
         const pos = geo.attributes.position;
         for (let i = 0; i < pos.count; i++) {
+          const vx = pos.getX(i);
           const vy = pos.getY(i);
-          if (vy < cfg.h * 0.45) {
-            pos.setX(i, pos.getX(i) + (Math.sin(i * 1.9) * 0.55));
-            pos.setZ(i, pos.getZ(i) + (Math.cos(i * 2.3) * 0.55));
+          const vz = pos.getZ(i);
+          const radialDist = Math.hypot(vx, vz);
+          if (vy < cfg.h * 0.45 && radialDist > 0.05) {
+            const theta = Math.atan2(vz, vx);
+            const ripple = Math.sin(theta * 5 + cfg.x * 0.13) * 0.48 + Math.cos(theta * 3 - cfg.z * 0.17) * 0.36;
+            const scale = Math.max(0.75, (radialDist + ripple) / radialDist);
+            pos.setX(i, vx * scale);
+            pos.setZ(i, vz * scale);
           }
         }
         geo.computeVertexNormals();
@@ -3154,26 +3184,26 @@
       const dn = document.getElementById("lbl-hyd-down");
       const hIn = document.getElementById("lbl-hyd-in");
       const hOut = document.getElementById("lbl-hyd-out");
-      const act = document.getElementById("btn-quick-action");
+      const act = document.getElementById("lbl-quick-action") || document.getElementById("btn-quick-action");
 
       if (mType === "dumper") {
         up.textContent = "BED UP";
         dn.textContent = "BED DN";
         hIn.textContent = "LOCK";
         hOut.textContent = "TIP BED";
-        act.innerHTML = "⚡<br/>LOAD /<br/>DUMP";
+        act.innerHTML = "LOAD /<br/>DUMP";
       } else if (mType === "excavator") {
         up.textContent = "BOOM UP";
         dn.textContent = "BOOM DN";
         hIn.textContent = "SLEW L";
         hOut.textContent = "SLEW R";
-        act.innerHTML = "⚡<br/>DIG /<br/>UNLOAD";
+        act.innerHTML = "DIG /<br/>UNLOAD";
       } else {
         up.textContent = "BOOM UP";
         dn.textContent = "BOOM DN";
         hIn.textContent = "CURL IN";
         hOut.textContent = "DUMP";
-        act.innerHTML = "⚡<br/>SCOOP /<br/>UNLOAD";
+        act.innerHTML = "SCOOP /<br/>UNLOAD";
       }
     }
 
@@ -3281,7 +3311,7 @@
             ? saveState.invertChasePitch !== false
             : Boolean(saveState.invertCabPitch);
           const pitchSign = isInverted ? 1 : -1;
-          playerState.lookYaw = Math.max(-2.6, Math.min(2.6, playerState.lookYaw - dx * 0.0065));
+          playerState.lookYaw -= dx * 0.0065;
           playerState.lookPitch = Math.max(-0.45, Math.min(0.65, playerState.lookPitch + pitchSign * dy * 0.0045));
         }
       }
@@ -3319,7 +3349,7 @@
           ? saveState.invertChasePitch !== false
           : Boolean(saveState.invertCabPitch);
         const pitchSign = isInverted ? 1 : -1;
-        playerState.lookYaw = Math.max(-2.6, Math.min(2.6, playerState.lookYaw - dx * 0.006));
+        playerState.lookYaw -= dx * 0.006;
         playerState.lookPitch = Math.max(-0.45, Math.min(0.65, playerState.lookPitch + pitchSign * dy * 0.004));
       }
     });
@@ -4745,15 +4775,37 @@
         };
       }
 
+      function syncFloatingWidgetsToViewport() {
+        if (monitorEl && saveState.monitorLayout && typeof saveState.monitorLayout.left === "number") {
+          const rect = monitorEl.getBoundingClientRect();
+          const targetLeft = typeof saveState.monitorLayout.rightOffset === "number"
+            ? window.innerWidth - rect.width - saveState.monitorLayout.rightOffset
+            : saveState.monitorLayout.left;
+          const clamped = clampToViewport(monitorEl, targetLeft, saveState.monitorLayout.top || rect.top);
+          monitorEl.style.right = "auto";
+          monitorEl.style.left = clamped.left + "px";
+          monitorEl.style.top = clamped.top + "px";
+        }
+        if (radarEl && saveState.radarLayout && typeof saveState.radarLayout.left === "number") {
+          const rect = radarEl.getBoundingClientRect();
+          const targetLeft = typeof saveState.radarLayout.rightOffset === "number"
+            ? window.innerWidth - rect.width - saveState.radarLayout.rightOffset
+            : saveState.radarLayout.left;
+          const clamped = clampToViewport(radarEl, targetLeft, saveState.radarLayout.top || rect.top);
+          radarEl.style.position = "fixed";
+          radarEl.style.left = clamped.left + "px";
+          radarEl.style.top = clamped.top + "px";
+        }
+      }
+
+      window.syncFloatingWidgetsToViewport = syncFloatingWidgetsToViewport;
+
       if (monitorEl && saveState.monitorLayout) {
         const ml = saveState.monitorLayout;
         if (typeof ml.width === "number") monitorEl.style.width = ml.width + "px";
         if (typeof ml.height === "number") monitorEl.style.height = ml.height + "px";
         if (typeof ml.left === "number" && typeof ml.top === "number") {
-          monitorEl.style.right = "auto";
-          const clamped = clampToViewport(monitorEl, ml.left, ml.top);
-          monitorEl.style.left = clamped.left + "px";
-          monitorEl.style.top = clamped.top + "px";
+          syncFloatingWidgetsToViewport();
         }
       }
 
@@ -4764,10 +4816,7 @@
           radarEl.style.height = rl.size + "px";
         }
         if (typeof rl.left === "number" && typeof rl.top === "number") {
-          radarEl.style.position = "fixed";
-          const clamped = clampToViewport(radarEl, rl.left, rl.top);
-          radarEl.style.left = clamped.left + "px";
-          radarEl.style.top = clamped.top + "px";
+          syncFloatingWidgetsToViewport();
         }
       }
 
@@ -4796,7 +4845,12 @@
           if (!dragging) return;
           dragging = false;
           const r = monitorEl.getBoundingClientRect();
-          saveState.monitorLayout = { ...(saveState.monitorLayout || {}), left: Math.round(r.left), top: Math.round(r.top) };
+          saveState.monitorLayout = {
+            ...(saveState.monitorLayout || {}),
+            left: Math.round(r.left),
+            top: Math.round(r.top),
+            rightOffset: Math.max(8, Math.round(window.innerWidth - r.right))
+          };
           persistSaves();
         };
 
@@ -4927,7 +4981,12 @@
           rDrag = false;
           rResize = false;
           const r = radarEl.getBoundingClientRect();
-          saveState.radarLayout = { left: Math.round(r.left), top: Math.round(r.top), size: Math.round(r.width) };
+          saveState.radarLayout = {
+            left: Math.round(r.left),
+            top: Math.round(r.top),
+            rightOffset: Math.max(8, Math.round(window.innerWidth - r.right)),
+            size: Math.round(r.width)
+          };
           persistSaves();
         };
 
@@ -4988,6 +5047,9 @@
       playerCamera.aspect = window.innerWidth / window.innerHeight;
       playerCamera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
+      if (typeof window.syncFloatingWidgetsToViewport === "function") {
+        window.syncFloatingWidgetsToViewport();
+      }
     });
 
     let lastTime = performance.now();

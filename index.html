@@ -1301,6 +1301,11 @@
             <span class="label">COMBO</span>
             <span id="hud-streak" style="color:#38bdf8;">x1.0</span>
           </div>
+          <div class="divider-v" id="hud-fps-divider"></div>
+          <div class="stat-pill" id="hud-fps-pill">
+            <span class="label">FPS</span>
+            <span id="hud-fps" style="color:#22c55e;">60</span>
+          </div>
         </div>
 
         <!-- ACTIVE MACHINE MODE OBJECTIVE -->
@@ -1613,7 +1618,7 @@
 
       <div class="modal-footer">
         <div style="font-size:11px; color:#9ca3af; line-height:1.4; flex:1; min-width:200px;">
-          <b>Drive:</b> WASD / Left Pad • <b>Hydraulics:</b> R/F/Q/E • <b>Look:</b> Drag • <span style="color:#6b7280;">v<span id="app-version-label">1.5.9</span></span>
+          <b>Drive:</b> WASD / Left Pad • <b>Hydraulics:</b> R/F/Q/E • <b>Look:</b> Drag • <span style="color:#6b7280;">v<span id="app-version-label">1.6.0</span></span>
         </div>
         <div class="modal-footer-right">
           <button class="btn-action" id="btn-start-shift">
@@ -1644,6 +1649,10 @@
         <div class="cam-invert-row">
           <span><b>Chase View</b> (Outside Machine) Invert Vertical</span>
           <button type="button" class="btn-secondary buy-ready" id="btn-toggle-invert-chase">ON</button>
+        </div>
+        <div class="cam-invert-row" style="padding-top:6px; border-top:1px solid rgba(255,255,255,0.08);">
+          <span><b>Live FPS Counter</b> (Show Frame Rate in HUD)</span>
+          <button type="button" class="btn-secondary buy-ready" id="btn-toggle-fps">ON</button>
         </div>
       </div>
 
@@ -1697,7 +1706,7 @@
      * ============================================================================
      */
 
-    const APP_VERSION = "1.5.9";
+    const APP_VERSION = "1.6.0";
     const STORAGE_KEY = "quarry_sim_3d_saves_v1";
 
     // --------------------------------------------------------------------------
@@ -2052,6 +2061,7 @@
       schemaVersion: 4,
       muted: false,
       aebEnabled: true,
+      showFps: true,
       invertCabPitch: false,
       invertChasePitch: true,
       monitorLayout: null,
@@ -4203,8 +4213,12 @@
     function syncInvertButtonsUI() {
       const cabBtn = document.getElementById("btn-toggle-invert-cab");
       const chaseBtn = document.getElementById("btn-toggle-invert-chase");
+      const fpsBtn = document.getElementById("btn-toggle-fps");
+      const fpsPill = document.getElementById("hud-fps-pill");
+      const fpsDiv = document.getElementById("hud-fps-divider");
       const cabInv = Boolean(saveState.invertCabPitch);
       const chaseInv = saveState.invertChasePitch !== false;
+      const fpsVisible = saveState.showFps !== false;
 
       if (cabBtn) {
         cabBtn.textContent = cabInv ? "ON" : "OFF";
@@ -4214,6 +4228,12 @@
         chaseBtn.textContent = chaseInv ? "ON" : "OFF";
         chaseBtn.classList.toggle("buy-ready", chaseInv);
       }
+      if (fpsBtn) {
+        fpsBtn.textContent = fpsVisible ? "ON" : "OFF";
+        fpsBtn.classList.toggle("buy-ready", fpsVisible);
+      }
+      if (fpsPill) fpsPill.style.display = fpsVisible ? "flex" : "none";
+      if (fpsDiv) fpsDiv.style.display = fpsVisible ? "block" : "none";
     }
 
     function renderModalLists() {
@@ -4553,6 +4573,13 @@
       audio.playTone(680, "sine", 0.08, 0.08);
     });
 
+    document.getElementById("btn-toggle-fps").addEventListener("click", () => {
+      saveState.showFps = saveState.showFps === false ? true : false;
+      persistSaves();
+      syncInvertButtonsUI();
+      audio.playTone(680, "sine", 0.08, 0.08);
+    });
+
     function togglePlayerCamera() {
       playerState.cameraMode = playerState.cameraMode === "cab" ? "chase" : "cab";
       const btn = document.getElementById("btn-cam-toggle");
@@ -4876,12 +4903,26 @@
 
     let lastTime = performance.now();
     let frameCount = 0;
+    let fpsFrames = 0;
+    let fpsLastSample = performance.now();
 
     function animate(now) {
       requestAnimationFrame(animate);
       const dt = Math.min(0.05, (now - lastTime) / 1000);
       lastTime = now;
       const elapsed = now * 0.001;
+
+      fpsFrames++;
+      if (now - fpsLastSample >= 400) {
+        const currentFps = Math.min(120, Math.round((fpsFrames * 1000) / (now - fpsLastSample)));
+        const fpsEl = document.getElementById("hud-fps");
+        if (fpsEl) {
+          fpsEl.textContent = currentFps;
+          fpsEl.style.color = currentFps >= 45 ? "#22c55e" : currentFps >= 25 ? "#f5b800" : "#ef4444";
+        }
+        fpsFrames = 0;
+        fpsLastSample = now;
+      }
 
       updateSiteEntities(dt, elapsed);
       updatePlayerMachine(dt);

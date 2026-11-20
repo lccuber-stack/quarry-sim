@@ -1447,8 +1447,11 @@
         <h1 class="modal-title" style="margin:0;">QUARRY SIM</h1>
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
           <span style="font-family:'Chakra Petch'; font-weight:700; color:#22c55e; font-size:16px;" id="modal-money">$1,250</span>
+          <button class="btn-save-solid" id="btn-install-app" title="Install Quarry Sim on Windows Taskbar / Desktop" style="display:inline-flex; align-items:center; gap:5px;">
+            <span>🖥️ INSTALL APP</span>
+          </button>
           <button class="update-status-badge" id="btn-check-update" title="Tap to check server & reload latest version without recreating home screen icon">
-            <span id="update-badge-text">✓ LATEST v1.5.7 • CHECK</span>
+            <span id="update-badge-text">✓ LATEST v1.5.8 • CHECK</span>
           </button>
         </div>
       </div>
@@ -1610,7 +1613,7 @@
 
       <div class="modal-footer">
         <div style="font-size:11px; color:#9ca3af; line-height:1.4; flex:1; min-width:200px;">
-          <b>Drive:</b> WASD / Left Pad • <b>Hydraulics:</b> R/F/Q/E • <b>Look:</b> Drag • <span style="color:#6b7280;">v<span id="app-version-label">1.5.7</span></span>
+          <b>Drive:</b> WASD / Left Pad • <b>Hydraulics:</b> R/F/Q/E • <b>Look:</b> Drag • <span style="color:#6b7280;">v<span id="app-version-label">1.5.9</span></span>
         </div>
         <div class="modal-footer-right">
           <button class="btn-action" id="btn-start-shift">
@@ -1621,33 +1624,26 @@
     </div>
   </div>
 
-  <!-- CONTROLS QUICK REFERENCE & CAMERA INVERSION SETTINGS MODAL -->
+  <!-- CONTROLS QUICK REFERENCE MODAL -->
   <div class="modal-backdrop hidden" id="controls-modal">
     <div class="modal-card controls-help-card">
       <div class="modal-header-row">
         <span class="brand-badge">OPERATOR MANUAL</span>
         <button class="btn-secondary" id="btn-close-controls">✕ CLOSE</button>
       </div>
-      <h2 class="modal-title" style="font-size:21px; margin-top:8px;">CAMERA &amp; MACHINE CONTROLS</h2>
+      <h2 class="modal-title" style="font-size:22px; margin-top:8px;">MACHINE &amp; CAMERA CONTROLS</h2>
 
-      <!-- SEPARATE VERTICAL CAMERA INVERSION SWITCHES FOR CAB & CHASE VIEWS -->
       <div class="cam-invert-panel">
-        <div style="font-family:'Chakra Petch',sans-serif; font-size:11.5px; font-weight:700; color:#f5b800; letter-spacing:0.6px;">
-          🎥 VERTICAL CAMERA LOOK INVERSION (TOUCH &amp; MOUSE)
+        <div style="font-family:'Chakra Petch',sans-serif; font-size:11.5px; font-weight:700; color:var(--accent-cyan); letter-spacing:0.5px;">
+          🎥 CAMERA VERTICAL LOOK SETTINGS (TOUCH &amp; MOUSE)
         </div>
         <div class="cam-invert-row">
-          <div>
-            <b style="color:#fff;">Cab View (Inside Cabin)</b>
-            <div style="font-size:10.5px; color:#9ca3af;">Invert vertical drag inside operator seat</div>
-          </div>
-          <button type="button" class="btn-secondary" id="btn-toggle-invert-cab" style="min-width:92px;">OFF</button>
+          <span><b>Cab View</b> (Inside Cab) Invert Vertical</span>
+          <button type="button" class="btn-secondary" id="btn-toggle-invert-cab">OFF</button>
         </div>
         <div class="cam-invert-row">
-          <div>
-            <b style="color:#fff;">Chase View (Outside Camera)</b>
-            <div style="font-size:10.5px; color:#9ca3af;">Invert vertical drag in third-person view</div>
-          </div>
-          <button type="button" class="btn-secondary buy-ready" id="btn-toggle-invert-chase" style="min-width:92px;">ON</button>
+          <span><b>Chase View</b> (Outside Machine) Invert Vertical</span>
+          <button type="button" class="btn-secondary buy-ready" id="btn-toggle-invert-chase">ON</button>
         </div>
       </div>
 
@@ -1655,9 +1651,9 @@
         <div class="ctrl-box">
           <h4>📱 iPhone &amp; iPad (Touch)</h4>
           • <b>Left Joystick:</b> Drive &amp; Steer<br/>
-          • <b>Drag View:</b> Look around 360°<br/>
-          • <b>Drag Monitor / Radar:</b> Move &amp; resize freely (double-tap to reset)<br/>
-          • <b>Tap Monitor Screen:</b> Toggle Rear / Work / 360° Cam
+          • <b>Drag Anywhere on View:</b> Look around 360°<br/>
+          • <b>Right Buttons:</b> Boom, Slew, Bucket &amp; Hauler Bed<br/>
+          • <b>Drag Monitor / Radar:</b> Move &amp; resize freely
         </div>
         <div class="ctrl-box">
           <h4>💻 Desktop (Mouse &amp; Keys)</h4>
@@ -1668,7 +1664,7 @@
           • <b>Space:</b> Smart Scoop/Unload • <b>C:</b> Cab/Chase
         </div>
       </div>
-      <div style="font-size:11.5px; color:#cbd5e1; background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.3); padding:8px 11px; border-radius:10px;">
+      <div style="font-size:12px; color:#cbd5e1; background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.3); padding:9px 12px; border-radius:10px;">
         💡 <b>Pro Tip:</b> Drive into the glowing cyan <b>Mission Station</b> (southeast of center) to accept procedural delivery contracts for huge cash payouts!
       </div>
     </div>
@@ -1698,16 +1694,37 @@
     /**
      * ============================================================================
      * QUARRY SIM — HEAVY IRON 3D SIMULATOR
-     * Complete 3D WebGL Engine, Free-Look Camera, Procedural Missions & Race Mode
      * ============================================================================
      */
 
-    const APP_VERSION = "1.5.7";
+    const APP_VERSION = "1.5.9";
     const STORAGE_KEY = "quarry_sim_3d_saves_v1";
 
     // --------------------------------------------------------------------------
-    // 1. PWA HOME SCREEN ICON GENERATOR (CANVAS -> PNG DATA URL, NO EMBEDDED TEXT)
+    // 1. PWA HOME SCREEN & WINDOWS CHROME DESKTOP ICON GENERATOR + MANIFEST
     // --------------------------------------------------------------------------
+    let deferredInstallPrompt = null;
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      const installBtn = document.getElementById("btn-install-app");
+      if (installBtn) {
+        installBtn.style.background = "linear-gradient(135deg, #22c55e, #16a34a)";
+        installBtn.style.color = "#08120c";
+        installBtn.innerHTML = "<span>🖥️ INSTALL / PIN TO TASKBAR</span>";
+      }
+    });
+
+    window.addEventListener("appinstalled", () => {
+      deferredInstallPrompt = null;
+      const installBtn = document.getElementById("btn-install-app");
+      if (installBtn) {
+        installBtn.innerHTML = "<span>✓ INSTALLED</span>";
+      }
+      showToast("✓ Quarry Sim installed! Right-click its icon to Pin to Taskbar.");
+    });
+
     (function setupPWAAndIcons() {
       try {
         const iconCanvas = document.createElement("canvas");
@@ -1872,7 +1889,14 @@
 
         const pngDataUrl = iconCanvas.toDataURL("image/png");
 
-        document.querySelectorAll('link[rel="apple-touch-icon"], link[rel="apple-touch-icon-precomposed"], link[rel="icon"]').forEach((el) => el.remove());
+        // Create crisp 192x192 PNG variant required by Windows Chrome PWA installer
+        const icon192Canvas = document.createElement("canvas");
+        icon192Canvas.width = 192;
+        icon192Canvas.height = 192;
+        icon192Canvas.getContext("2d").drawImage(iconCanvas, 0, 0, 192, 192);
+        const png192Url = icon192Canvas.toDataURL("image/png");
+
+        document.querySelectorAll('link[rel="apple-touch-icon"], link[rel="apple-touch-icon-precomposed"], link[rel="icon"], link[rel="shortcut icon"], link[rel="manifest"]').forEach((el) => el.remove());
 
         ["apple-touch-icon", "apple-touch-icon-precomposed"].forEach((relName) => {
           const appleIcon = document.createElement("link");
@@ -1882,16 +1906,70 @@
           document.head.appendChild(appleIcon);
         });
 
-        const favIcon = document.createElement("link");
-        favIcon.rel = "icon";
-        favIcon.type = "image/png";
-        favIcon.sizes = "512x512";
-        favIcon.href = pngDataUrl;
-        document.head.appendChild(favIcon);
+        [
+          { size: "512x512", href: pngDataUrl },
+          { size: "192x192", href: png192Url }
+        ].forEach((ic) => {
+          const favIcon = document.createElement("link");
+          favIcon.rel = "icon";
+          favIcon.type = "image/png";
+          favIcon.sizes = ic.size;
+          favIcon.href = ic.href;
+          document.head.appendChild(favIcon);
+        });
+
+        // Inject Web App Manifest with 192x192 + 512x512 PNG icons for Windows Chrome "Install App / Pin to Taskbar"
+        const manifestObj = {
+          id: window.location.pathname || "/",
+          name: "Quarry Sim",
+          short_name: "Quarry Sim",
+          description: "3D Heavy Machinery Quarry Simulator",
+          start_url: window.location.href.split("#")[0],
+          scope: "./",
+          display: "standalone",
+          orientation: "any",
+          background_color: "#0f1215",
+          theme_color: "#14171a",
+          icons: [
+            { src: png192Url, sizes: "192x192", type: "image/png", purpose: "any" },
+            { src: pngDataUrl, sizes: "512x512", type: "image/png", purpose: "any maskable" }
+          ]
+        };
+
+        const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: "application/manifest+json" });
+        const manifestLink = document.createElement("link");
+        manifestLink.rel = "manifest";
+        manifestLink.href = URL.createObjectURL(manifestBlob);
+        document.head.appendChild(manifestLink);
+
+        // Register lightweight inline Service Worker over HTTPS/localhost so Chrome enables 1-click desktop app install
+        if ("serviceWorker" in navigator && (window.location.protocol === "https:" || window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+          const swCode = `
+            self.addEventListener('install', (e) => self.skipWaiting());
+            self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+            self.addEventListener('fetch', (e) => {});
+          `;
+          const swBlob = new Blob([swCode], { type: "application/javascript" });
+          const swUrl = URL.createObjectURL(swBlob);
+          navigator.serviceWorker.register(swUrl).catch(() => {});
+        }
       } catch (err) {
-        console.warn("PWA Icon generation skipped:", err);
+        console.warn("PWA Icon/Manifest generation skipped:", err);
       }
     })();
+
+    async function handleInstallAppClick() {
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        const choice = await deferredInstallPrompt.userChoice;
+        if (choice && choice.outcome === "accepted") {
+          showToast("✓ Installing Quarry Sim with custom icon...");
+        }
+        deferredInstallPrompt = null;
+        return;
+      }
+      showToast("Chrome Menu (⋮) → Cast, save, and share → Install Quarry Sim (or Create shortcut with Open as window)");
+    }
 
     async function checkForUpdates(manual = false) {
       const badge = document.getElementById("btn-check-update");
@@ -4526,7 +4604,7 @@
       syncMuteBtn();
       if (!saveState.muted) audio.unlock();
     });
-
+    document.getElementById("btn-install-app").addEventListener("click", handleInstallAppClick);
     document.getElementById("btn-check-update").addEventListener("click", () => checkForUpdates(true));
     document.getElementById("app-version-label").textContent = APP_VERSION;
 
